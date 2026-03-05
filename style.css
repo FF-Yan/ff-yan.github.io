@@ -48,6 +48,14 @@ ul {
 }
 
 /* ===========================
+   i18n Language Switching
+   =========================== */
+.i18n-zh { display: none; }
+
+.lang-zh .i18n-en { display: none; }
+.lang-zh .i18n-zh { display: revert; }
+
+/* ===========================
    Utility
    =========================== */
 .container {
@@ -111,7 +119,6 @@ ul {
   background-color: transparent;
   color: var(--clr-primary);
   border: 2px solid var(--clr-primary);
-  margin-left: 1rem;
 }
 
 .btn-secondary:hover {
@@ -169,6 +176,30 @@ ul {
   color: var(--clr-primary);
 }
 
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.lang-toggle {
+  background-color: transparent;
+  border: 1px solid var(--clr-primary);
+  color: var(--clr-primary);
+  border-radius: var(--radius);
+  padding: 0.3rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+  line-height: 1.4;
+}
+
+.lang-toggle:hover {
+  background-color: var(--clr-primary);
+  color: #0f172a;
+}
+
 .menu-toggle {
   display: none;
   background: none;
@@ -206,7 +237,34 @@ ul {
 .hero-subtitle {
   font-size: clamp(1rem, 2.5vw, 1.4rem);
   color: var(--clr-text-muted);
-  margin-bottom: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.hero-availability {
+  font-size: 1rem;
+  color: var(--clr-text-muted);
+  margin-bottom: 2rem;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ===========================
+   Page Hero (sub-pages)
+   =========================== */
+.page-hero {
+  padding: 7.5rem 0 3rem;
+  text-align: center;
+  background: radial-gradient(ellipse at 50% 40%, rgba(56, 189, 248, 0.06) 0%, transparent 70%);
+}
+
+.page-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
 }
 
 /* ===========================
@@ -240,6 +298,80 @@ ul {
 
 .about-text .btn {
   margin-top: 0.5rem;
+}
+
+/* ===========================
+   Education
+   =========================== */
+.education-card {
+  background-color: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius);
+  padding: 2rem;
+}
+
+.edu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.edu-header h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--clr-primary);
+}
+
+.edu-location {
+  color: var(--clr-text-muted);
+  font-size: 0.9rem;
+}
+
+.edu-dates {
+  color: var(--clr-text-muted);
+  font-size: 0.9rem;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.edu-degree {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.edu-details {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}
+
+.edu-badge {
+  background-color: rgba(56, 189, 248, 0.12);
+  color: var(--clr-primary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.3rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  display: inline-block;
+}
+
+.edu-coursework-label {
+  font-weight: 600;
+  color: var(--clr-text-muted);
+  margin-bottom: 0.35rem;
+  font-size: 0.9rem;
+}
+
+.edu-coursework-list {
+  color: var(--clr-text-muted);
+  font-size: 0.9rem;
+  line-height: 1.7;
 }
 
 /* ===========================
@@ -283,6 +415,14 @@ ul {
   font-size: 0.95rem;
 }
 
+.tools-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  justify-content: center;
+  margin-top: 0.25rem;
+}
+
 /* ===========================
    Projects
    =========================== */
@@ -310,17 +450,24 @@ ul {
 
 .project-header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.75rem;
 }
 
 .project-icon {
   font-size: 1.75rem;
+  flex-shrink: 0;
 }
 
 .project-header h3 {
   font-size: 1.15rem;
   font-weight: 700;
+}
+
+.project-role-date {
+  font-size: 0.82rem;
+  color: var(--clr-text-muted);
+  margin-top: 0.2rem;
 }
 
 .project-card p {
@@ -343,6 +490,7 @@ ul {
   padding: 0.2rem 0.65rem;
   border-radius: 999px;
   border: 1px solid rgba(56, 189, 248, 0.25);
+  display: inline-block;
 }
 
 .project-link {
@@ -350,6 +498,67 @@ ul {
   font-weight: 600;
   color: var(--clr-primary);
   margin-top: 0.25rem;
+}
+
+/* ===========================
+   Experience (Work / Leadership)
+   =========================== */
+.experience-card {
+  background-color: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.experience-card:last-child {
+  margin-bottom: 0;
+}
+
+.exp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.35rem;
+}
+
+.exp-info h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--clr-primary);
+}
+
+.exp-location {
+  color: var(--clr-text-muted);
+  font-size: 0.9rem;
+}
+
+.exp-dates {
+  color: var(--clr-text-muted);
+  font-size: 0.9rem;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.exp-role {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--clr-text-muted);
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+.exp-bullets {
+  list-style: disc;
+  padding-left: 1.25rem;
+}
+
+.exp-bullets li {
+  color: var(--clr-text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
 }
 
 /* ===========================
@@ -439,15 +648,9 @@ ul {
     margin: 0 auto;
   }
 
-  .btn-secondary {
-    margin-left: 0;
-    margin-top: 0.75rem;
-  }
-
-  .hero-content .btn {
-    display: block;
-    width: fit-content;
-    margin: 0 auto 0.75rem;
+  .hero-buttons {
+    flex-direction: column;
+    align-items: center;
   }
 }
 

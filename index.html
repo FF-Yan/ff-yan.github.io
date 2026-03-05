@@ -10,116 +10,180 @@
   <!-- Navigation -->
   <header class="navbar">
     <div class="nav-container">
-      <a href="#hero" class="nav-logo">Binxuan Yan</a>
+      <a href="index.html" class="nav-logo">Binxuan Yan</a>
       <nav>
         <ul class="nav-links">
-          <li><a href="#about">About</a></li>
-          <li><a href="#skills">Skills</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li>
+            <a href="index.html" data-page="index">
+              <span class="i18n-en">Home</span>
+              <span class="i18n-zh">主页</span>
+            </a>
+          </li>
+          <li>
+            <a href="about.html" data-page="about">
+              <span class="i18n-en">About</span>
+              <span class="i18n-zh">关于我</span>
+            </a>
+          </li>
+          <li>
+            <a href="projects.html" data-page="projects">
+              <span class="i18n-en">Projects</span>
+              <span class="i18n-zh">项目</span>
+            </a>
+          </li>
         </ul>
       </nav>
-      <button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
+      <div class="nav-actions">
+        <button class="lang-toggle" aria-label="Switch language">中文</button>
+        <button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
+      </div>
     </div>
   </header>
 
   <!-- Hero Section -->
   <section id="hero" class="hero">
     <div class="hero-content">
-      <h1>Hi, I'm <span class="highlight">Binxuan Yan</span></h1>
-      <p class="hero-subtitle">Software Developer &amp; Problem Solver</p>
-      <a href="#projects" class="btn btn-primary">View My Work</a>
-      <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+      <h1>
+        <span class="i18n-en">Hi, I'm <span class="highlight">Binxuan Yan</span></span>
+        <span class="i18n-zh">你好，我是<span class="highlight">严彬轩</span></span>
+      </h1>
+      <p class="hero-subtitle">
+        <span class="i18n-en">CS &amp; Game Development Student at Northeastern University</span>
+        <span class="i18n-zh">东北大学计算机科学与游戏开发专业学生</span>
+      </p>
+      <p class="hero-availability">
+        <span class="i18n-en">&#128197; Availability: July &mdash; December 2026</span>
+        <span class="i18n-zh">&#128197; 实习期间：2026年7月 &mdash; 12月</span>
+      </p>
+      <div class="hero-buttons">
+        <a href="projects.html" class="btn btn-primary">
+          <span class="i18n-en">View My Projects</span>
+          <span class="i18n-zh">查看项目</span>
+        </a>
+        <a href="about.html" class="btn btn-secondary">
+          <span class="i18n-en">About Me</span>
+          <span class="i18n-zh">了解我</span>
+        </a>
+      </div>
     </div>
   </section>
 
-  <!-- About Section -->
-  <section id="about" class="section">
+  <!-- Education Section -->
+  <section id="education" class="section section-alt">
     <div class="container">
-      <h2 class="section-title">About Me</h2>
-      <div class="about-grid">
-        <div class="about-avatar">
-          <div class="avatar-circle">BY</div>
+      <h2 class="section-title">
+        <span class="i18n-en">Education</span>
+        <span class="i18n-zh">教育经历</span>
+      </h2>
+      <div class="education-card reveal-target">
+        <div class="edu-header">
+          <div class="edu-info">
+            <h3>Northeastern University</h3>
+            <p class="edu-location">
+              <span class="i18n-en">Boston, MA</span>
+              <span class="i18n-zh">马萨诸塞州波士顿</span>
+            </p>
+          </div>
+          <div class="edu-dates">
+            <span class="i18n-en">Expected May 2028</span>
+            <span class="i18n-zh">预计2028年5月毕业</span>
+          </div>
         </div>
-        <div class="about-text">
-          <p>
-            Welcome to my personal website! I'm a passionate software developer who
-            enjoys building elegant solutions to complex problems. I love working
-            across the full stack and am always eager to learn new technologies.
+        <p class="edu-degree">
+          <span class="i18n-en">Bachelor of Science in Computer Science and Game Development</span>
+          <span class="i18n-zh">计算机科学与游戏开发 理学学士</span>
+        </p>
+        <div class="edu-details">
+          <span class="edu-badge">GPA: 3.89 / 4.00</span>
+          <span class="edu-badge">
+            <span class="i18n-en">Dean's List</span>
+            <span class="i18n-zh">院长嘉奖名单</span>
+          </span>
+        </div>
+        <div class="edu-coursework">
+          <p class="edu-coursework-label">
+            <span class="i18n-en">Relevant Coursework:</span>
+            <span class="i18n-zh">相关课程：</span>
           </p>
-          <p>
-            When I'm not coding, you can find me exploring open-source projects,
-            reading about emerging tech, or enjoying the outdoors.
+          <p class="edu-coursework-list i18n-en">
+            Game Design Capstone, Game Concept Development, Rapid Idea Prototyping Games,
+            Level Design and Game Architecture, Program Design and Implementation II,
+            Game Programming, Programming in C++, Game Studio, Math Fundamentals for Games,
+            Foundations of Game Design
           </p>
-          <a href="#contact" class="btn btn-primary">Let's Connect</a>
+          <p class="edu-coursework-list i18n-zh">
+            游戏设计顶点课程、游戏概念开发、游戏快速原型设计、关卡设计与游戏架构、程序设计与实现 II、
+            游戏编程、C++ 编程、游戏工作室、游戏数学基础、游戏设计基础
+          </p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Skills Section -->
-  <section id="skills" class="section section-alt">
+  <section id="skills" class="section">
     <div class="container">
-      <h2 class="section-title">Skills</h2>
+      <h2 class="section-title">
+        <span class="i18n-en">Skills</span>
+        <span class="i18n-zh">技能</span>
+      </h2>
       <div class="skills-grid">
-        <div class="skill-card">
+        <div class="skill-card reveal-target">
           <div class="skill-icon">💻</div>
-          <h3>Frontend</h3>
+          <h3>
+            <span class="i18n-en">Computer Languages</span>
+            <span class="i18n-zh">编程语言</span>
+          </h3>
           <ul>
-            <li>HTML &amp; CSS</li>
-            <li>JavaScript / TypeScript</li>
-            <li>React</li>
-          </ul>
-        </div>
-        <div class="skill-card">
-          <div class="skill-icon">⚙️</div>
-          <h3>Backend</h3>
-          <ul>
+            <li>Java</li>
+            <li>C#</li>
+            <li>C++</li>
             <li>Python</li>
-            <li>Node.js</li>
-            <li>REST APIs</li>
           </ul>
         </div>
-        <div class="skill-card">
-          <div class="skill-icon">🗄️</div>
-          <h3>Data &amp; Cloud</h3>
+        <div class="skill-card reveal-target">
+          <div class="skill-icon">🛠️</div>
+          <h3>
+            <span class="i18n-en">Tools</span>
+            <span class="i18n-zh">工具</span>
+          </h3>
+          <div class="tools-tags">
+            <span class="tag">Git / GitHub</span>
+            <span class="tag">Unity</span>
+            <span class="tag">Maya</span>
+            <span class="tag">Adobe Substance 3D</span>
+            <span class="tag">Adobe Photoshop</span>
+            <span class="tag">SketchUp</span>
+            <span class="tag">Affinity Photo</span>
+            <span class="tag">iMovie</span>
+            <span class="tag">Trello</span>
+            <span class="tag">Jira</span>
+            <span class="tag">Miro</span>
+            <span class="tag">Figma</span>
+            <span class="tag">Microsoft Office</span>
+            <span class="tag">Google Workspace</span>
+          </div>
+        </div>
+        <div class="skill-card reveal-target">
+          <div class="skill-icon">🌐</div>
+          <h3>
+            <span class="i18n-en">Languages</span>
+            <span class="i18n-zh">语言能力</span>
+          </h3>
           <ul>
-            <li>SQL / NoSQL</li>
-            <li>Git &amp; GitHub</li>
-            <li>Linux / CLI</li>
+            <li>
+              <span class="i18n-en">Mandarin &mdash; Native</span>
+              <span class="i18n-zh">普通话 &mdash; 母语</span>
+            </li>
+            <li>
+              <span class="i18n-en">Shanghainese &mdash; Native</span>
+              <span class="i18n-zh">沪语 &mdash; 母语</span>
+            </li>
+            <li>
+              <span class="i18n-en">Japanese &mdash; Beginner</span>
+              <span class="i18n-zh">日语 &mdash; 初级</span>
+            </li>
           </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Projects Section -->
-  <section id="projects" class="section">
-    <div class="container">
-      <h2 class="section-title">Projects</h2>
-      <div class="projects-grid">
-        <div class="project-card">
-          <div class="project-header">
-            <span class="project-icon">🌐</span>
-            <h3>Personal Website</h3>
-          </div>
-          <p>This very website — a clean, responsive personal site built with HTML, CSS, and JavaScript, hosted on GitHub Pages.</p>
-          <div class="project-tags">
-            <span class="tag">HTML</span>
-            <span class="tag">CSS</span>
-            <span class="tag">JavaScript</span>
-          </div>
-          <a href="https://github.com/FF-Yan/binxuanyan.github.io" class="project-link" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
-        </div>
-        <div class="project-card">
-          <div class="project-header">
-            <span class="project-icon">🚀</span>
-            <h3>Coming Soon</h3>
-          </div>
-          <p>More exciting projects are on the way. Stay tuned for updates!</p>
-          <div class="project-tags">
-            <span class="tag">In Progress</span>
-          </div>
         </div>
       </div>
     </div>
@@ -128,16 +192,22 @@
   <!-- Contact Section -->
   <section id="contact" class="section section-alt">
     <div class="container">
-      <h2 class="section-title">Contact</h2>
-      <p class="contact-intro">Have a question or want to work together? Feel free to reach out!</p>
-      <div class="contact-links">
+      <h2 class="section-title">
+        <span class="i18n-en">Contact</span>
+        <span class="i18n-zh">联系方式</span>
+      </h2>
+      <p class="contact-intro">
+        <span class="i18n-en">Have a question or want to work together? Feel free to reach out!</span>
+        <span class="i18n-zh">有任何问题或合作意向？欢迎随时联系！</span>
+      </p>
+      <div class="contact-links reveal-target">
         <a href="https://github.com/FF-Yan" class="contact-card" target="_blank" rel="noopener noreferrer">
           <span class="contact-icon">🐙</span>
           <span>GitHub</span>
         </a>
-        <a href="mailto:your-email@example.com" class="contact-card" aria-label="Send an email">
+        <a href="mailto:yan.binx@northeastern.edu" class="contact-card" aria-label="Send an email">
           <span class="contact-icon">✉️</span>
-          <span>Email</span>
+          <span>yan.binx@northeastern.edu</span>
         </a>
       </div>
     </div>
@@ -145,7 +215,11 @@
 
   <!-- Footer -->
   <footer class="footer">
-    <p>&copy; <span id="year"></span> Binxuan Yan. Built with ❤️ and hosted on GitHub Pages.</p>
+    <p>
+      &copy; <span id="year"></span>
+      <span class="i18n-en">Binxuan Yan. Built with ❤️ and hosted on GitHub Pages.</span>
+      <span class="i18n-zh">严彬轩。用 ❤️ 构建，托管于 GitHub Pages。</span>
+    </p>
   </footer>
 
   <script src="script.js"></script>
