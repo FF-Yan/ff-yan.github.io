@@ -1,22 +1,15 @@
 // ===========================
-// Language Toggle
+// Language Toggle — navigate to the equivalent page in the other language
 // ===========================
-const savedLang = localStorage.getItem('lang') || 'en';
-const isZhInitial = savedLang === 'zh';
-document.body.classList.toggle('lang-zh', isZhInitial);
-
 const langToggleBtn = document.querySelector('.lang-toggle');
 if (langToggleBtn) {
-  langToggleBtn.textContent = isZhInitial ? 'EN' : '中文';
   langToggleBtn.addEventListener('click', () => {
-    const isZh = document.body.classList.toggle('lang-zh');
-    localStorage.setItem('lang', isZh ? 'zh' : 'en');
-    langToggleBtn.textContent = isZh ? 'EN' : '中文';
+    window.location.href = langToggleBtn.dataset.langHref;
   });
 }
 
 // ===========================
-// Active Nav Link (multi-page)
+// Active Nav Link (multi-page, handles both EN and ZH variants)
 // ===========================
 const path = window.location.pathname;
 let currentPage = 'index';

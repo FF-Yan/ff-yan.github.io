@@ -48,14 +48,6 @@ ul {
 }
 
 /* ===========================
-   i18n Language Switching
-   =========================== */
-.i18n-zh { display: none; }
-
-.lang-zh .i18n-en { display: none; }
-.lang-zh .i18n-zh { display: revert; }
-
-/* ===========================
    Utility
    =========================== */
 .container {

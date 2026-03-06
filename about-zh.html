@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>严彬轩 | 关于我</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- 导航 -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index-zh.html" class="nav-logo">严彬轩</a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index-zh.html" data-page="index">主页</a></li>
+          <li><a href="about-zh.html" data-page="about">关于我</a></li>
+          <li><a href="projects-zh.html" data-page="projects">项目</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <button class="lang-toggle" data-lang-href="about.html" aria-label="Switch to English">EN</button>
+        <button class="menu-toggle" aria-label="切换导航" aria-expanded="false">&#9776;</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 页面标题 -->
+  <div class="page-hero">
+    <div class="container">
+      <h1 class="page-title">关于我</h1>
+    </div>
+  </div>
+
+  <!-- 个人简介 -->
+  <section class="section">
+    <div class="container">
+      <div class="about-grid reveal-target">
+        <div class="about-avatar">
+          <div class="avatar-circle">严彬</div>
+        </div>
+        <div class="about-text">
+          <p>
+            我是一名在东北大学（Northeastern University）就读的计算机科学与游戏开发专业学生，
+            GPA 3.89/4.00，荣登院长嘉奖名单。我热爱游戏开发，擅长使用 Unity 和 C# 制作游戏原型，
+            曾通过课程与团队项目完成多款可玩游戏 Demo。
+          </p>
+          <p>
+            我还曾在复旦大学智能医学研究所实习，负责医学研究的 Python 数据处理与自动化流水线开发。
+            此外，我在 ISWorldLife 担任助理项目经理，带领跨职能团队并为学生提供辅导支持。
+          </p>
+          <p>
+            课余时间，我喜欢玩电子游戏、听音乐、看电影与音乐剧、旅行、唱歌以及摄影。
+          </p>
+          <a href="mailto:yan.binx@northeastern.edu" class="btn btn-primary" style="margin-top:0.5rem;">联系我</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 工作经历 -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">工作经历</h2>
+      <div class="experience-card reveal-target">
+        <div class="exp-header">
+          <div class="exp-info">
+            <h3>复旦大学智能医学研究所</h3>
+            <p class="exp-location">中国上海</p>
+          </div>
+          <div class="exp-dates">2024年6月 &mdash; 2024年8月</div>
+        </div>
+        <p class="exp-role">实习生</p>
+        <ul class="exp-bullets">
+          <li>使用 Python 进行数据清洗与预处理，提升数据集质量，输出标准化研究数据</li>
+          <li>利用 Python 脚本自动化复杂数据转换流程，降低人工操作量并提升处理效率</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 领导经历 -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">领导经历</h2>
+      <div class="experience-card reveal-target">
+        <div class="exp-header">
+          <div class="exp-info">
+            <h3>ISWorldLife</h3>
+          </div>
+          <div class="exp-dates">2025年4月 &mdash; 至今</div>
+        </div>
+        <p class="exp-role">助理项目经理</p>
+        <ul class="exp-bullets">
+          <li>重新设计面试流程，优化导师招募效率，提升候选人体验</li>
+          <li>带领跨职能团队制定成本估算，支持数据驱动的决策与预算规划</li>
+          <li>讲授数学与物理基础课程，帮助学生理解知识、提升学习成效</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer class="footer">
+    <p>&copy; <span id="year"></span> 严彬轩。用 ❤️ 构建，托管于 GitHub Pages。</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
