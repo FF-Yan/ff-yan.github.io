@@ -3,137 +3,323 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>颜彬轩 | 个人网站</title>
+  <title>颜彬轩 | 游戏开发者</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- 导航 -->
+
+  <!-- ===== 导航栏 ===== -->
   <header class="navbar">
-    <div class="nav-container">
-      <a href="index-zh.html" class="nav-logo">颜彬轩</a>
-      <nav>
-        <ul class="nav-links">
-          <li><a href="index-zh.html" data-page="index">主页</a></li>
-          <li><a href="about-zh.html" data-page="about">关于我</a></li>
-          <li><a href="projects-zh.html" data-page="projects">项目</a></li>
-        </ul>
-      </nav>
-      <div class="nav-actions">
+    <div class="nav-inner">
+      <a href="index-zh.html" class="nav-logo">颜<span>彬轩</span></a>
+      <div class="nav-right">
         <button class="lang-toggle" data-lang-href="index.html" aria-label="Switch to English">EN</button>
-        <button class="menu-toggle" aria-label="切换导航" aria-expanded="false">&#9776;</button>
+        <button class="hamburger" aria-label="打开导航" aria-expanded="false" aria-controls="menuOverlay">
+          <span></span><span></span><span></span>
+        </button>
       </div>
     </div>
   </header>
 
-  <!-- 主视觉区 -->
+  <!-- ===== 菜单遮罩 ===== -->
+  <div class="menu-overlay" id="menuOverlay">
+    <div class="menu-backdrop"></div>
+    <div class="menu-panel">
+      <button class="menu-close" aria-label="关闭菜单">&times;</button>
+
+      <div class="menu-logo">颜<span>彬轩</span></div>
+      <div class="menu-tagline">// 游戏开发者 &amp; 计算机科学学生</div>
+
+      <nav class="menu-nav">
+        <a href="#hero"><span class="menu-num">01</span> 主页</a>
+        <a href="#featured"><span class="menu-num">02</span> 项目</a>
+        <a href="#about"><span class="menu-num">03</span> 关于我</a>
+        <a href="#skills"><span class="menu-num">04</span> 技能</a>
+        <a href="#contact"><span class="menu-num">05</span> 联系方式</a>
+        <a href="projects-zh.html"><span class="menu-num">06</span> 全部项目</a>
+      </nav>
+
+      <div class="menu-bottom">
+        <div class="menu-bottom-label">联系方式</div>
+        <div class="menu-contacts">
+          <a href="mailto:yan.binx@northeastern.edu">yan.binx@northeastern.edu</a>
+          <a href="mailto:biinxuand@gmail.com">biinxuand@gmail.com</a>
+          <a href="tel:+18575235523">+1 (857) 523-5523</a>
+          <a href="tel:+8613621623918">+86 136-2162-3918</a>
+        </div>
+        <div class="menu-lang-row">
+          <button class="lang-toggle" data-lang-href="index.html">EN</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 主视觉区 ===== -->
   <section id="hero" class="hero">
-    <div class="hero-content">
-      <h1>你好，我是<span class="highlight">颜彬轩</span></h1>
-      <p class="hero-subtitle">东北大学计算机科学与游戏开发专业学生</p>
-      <div class="hero-buttons">
-        <a href="projects-zh.html" class="btn btn-primary">查看项目</a>
-        <a href="about-zh.html" class="btn btn-secondary">了解我</a>
+    <div class="hero-inner">
+      <div class="hero-eyebrow">游戏开发者 &amp; 计算机科学学生</div>
+      <h1 class="hero-name">颜<br><span class="accent">彬轩</span></h1>
+      <p class="hero-desc">
+        专注于 Unity 和 C++ 的游戏系统开发、关卡设计与技术实现。
+        就读于东北大学，预计 2027 年 5 月毕业。
+      </p>
+      <div class="hero-cta">
+        <a href="#featured" class="btn btn-primary">查看我的作品 ↓</a>
+        <a href="#contact" class="btn btn-outline">联系我</a>
+      </div>
+      <div class="hero-meta">
+        <span class="hero-meta-item"><span class="hero-dot"></span> 欢迎实习 / Co-op 机会</span>
+        <span class="hero-meta-item">📍 美国·波士顿</span>
+        <span class="hero-meta-item">GPA 3.89 / 4.00</span>
       </div>
     </div>
   </section>
 
-  <!-- 教育经历 -->
-  <section id="education" class="section section-alt">
+  <!-- ===== 精选项目 ===== -->
+  <section id="featured" class="section section-alt">
     <div class="container">
-      <h2 class="section-title">教育经历</h2>
-      <div class="education-card reveal-target">
-        <div class="edu-header">
-          <div class="edu-info">
-            <h3>Northeastern University（东北大学）</h3>
-            <p class="edu-location">马萨诸塞州波士顿</p>
+      <div class="section-header reveal-target">
+        <div class="section-num">// 01 &mdash; 精选项目</div>
+        <h2 class="section-title">我做过什么</h2>
+      </div>
+
+      <div class="feat-grid">
+
+        <!-- Glass Ceiling -->
+        <div class="project-card reveal-target">
+          <div class="project-thumb thumb-gc">
+            <div class="project-thumb-inner">
+              <span class="thumb-icon">🎮</span>
+              <span class="thumb-label">Unity · C# · 恐怖解谜</span>
+            </div>
           </div>
-          <div class="edu-dates">预计2027年5月毕业</div>
+          <div class="project-body">
+            <div class="project-type">游戏开发 &mdash; 团队项目</div>
+            <h3>Glass Ceiling</h3>
+            <p class="project-role-date">游戏程序员 &middot; 2025年9月 &ndash; 12月</p>
+            <p class="project-desc">
+              使用 Unity 和 C# 完成核心游戏编程、UI 系统、机制设计与音效集成，
+              交付了一款完整可玩的恐怖解谜 Demo，经过多轮迭代测试与打磨。
+            </p>
+            <div class="project-tags">
+              <span class="tag">Unity</span>
+              <span class="tag">C#</span>
+              <span class="tag">游戏编程</span>
+              <span class="tag">UI系统</span>
+              <span class="tag">团队项目</span>
+            </div>
+            <div class="project-links">
+              <a href="https://aidan-moreau04.itch.io/glass-ceiling" class="project-link-ext" target="_blank" rel="noopener noreferrer">▶ 在 itch.io 游玩</a>
+            </div>
+          </div>
         </div>
-        <p class="edu-degree">计算机科学与游戏开发 理学学士</p>
-        <div class="edu-details">
-          <span class="edu-badge">GPA: 3.89 / 4.00</span>
-          <span class="edu-badge">院长嘉奖名单</span>
+
+        <!-- What Remains Of Me -->
+        <div class="project-card reveal-target">
+          <div class="project-thumb thumb-wrom">
+            <div class="project-thumb-inner">
+              <span class="thumb-icon">🌿</span>
+              <span class="thumb-label">Unity · C# · 关卡设计</span>
+            </div>
+          </div>
+          <div class="project-body">
+            <div class="project-type">游戏开发 &mdash; 团队项目</div>
+            <h3>What Remains Of Me</h3>
+            <p class="project-role-date">游戏开发者 &middot; 2025年9月 &ndash; 12月</p>
+            <p class="project-desc">
+              扩展现有系统以实现更流畅的功能集成，参与游戏编程、美术资产与关卡设计。
+              使用 Jira 追踪任务，编写 QA 测试脚本，保障团队协作质量。
+            </p>
+            <div class="project-tags">
+              <span class="tag">Unity</span>
+              <span class="tag">C#</span>
+              <span class="tag">关卡设计</span>
+              <span class="tag">Jira</span>
+              <span class="tag">QA</span>
+            </div>
+            <div class="project-links">
+              <a href="https://whatremainsofme.itch.io/what-remains-of-me" class="project-link-ext" target="_blank" rel="noopener noreferrer">▶ 在 itch.io 游玩</a>
+            </div>
+          </div>
         </div>
-        <div class="edu-coursework">
-          <p class="edu-coursework-label">相关课程：</p>
-          <p class="edu-coursework-list">
-            游戏设计顶点课程、游戏概念开发、游戏快速原型设计、关卡设计与游戏架构、程序设计与实现 II、
-            游戏编程、C++ 编程、游戏工作室、游戏数学基础、游戏设计基础
+
+        <!-- Luminous -->
+        <div class="project-card reveal-target">
+          <div class="project-thumb thumb-lum">
+            <div class="project-thumb-inner">
+              <span class="thumb-icon">📚</span>
+              <span class="thumb-label">教育 · 多媒体 · 领导力</span>
+            </div>
+          </div>
+          <div class="project-body">
+            <div class="project-type">教育项目 &mdash; 领导角色</div>
+            <h3>Luminous</h3>
+            <p class="project-role-date">联合负责人 &middot; 2022年9月 &ndash; 2023年5月</p>
+            <p class="project-desc">
+              联合带领团队为云南白水河小学开发有声书及线上音乐与英语课程，
+              扩展农村学生获取数字教育资源的渠道，提升学习体验。
+            </p>
+            <div class="project-tags">
+              <span class="tag tag-accent">教育</span>
+              <span class="tag tag-accent">多媒体</span>
+              <span class="tag tag-accent">领导力</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="text-align:center; margin-top:2.5rem;">
+        <a href="projects-zh.html" class="btn btn-outline">查看全部项目 →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 关于我 ===== -->
+  <section id="about" class="section">
+    <div class="container">
+      <div class="section-header reveal-target">
+        <div class="section-num">// 02 &mdash; 关于我</div>
+        <h2 class="section-title">我是谁</h2>
+      </div>
+
+      <div class="about-card reveal-target">
+        <div class="avatar">彬轩</div>
+        <div class="about-text">
+          <p>
+            我是东北大学计算机科学与游戏开发专业学生，GPA 3.89/4.00，荣登院长嘉奖名单。
+            我擅长使用 Unity 和 C# 开发游戏系统，从核心玩法到关卡设计，致力于将创意转化为
+            完整可玩的游戏体验。
           </p>
+          <p>
+            我在 ISWorldLife 担任助理项目经理，带领跨职能团队并提供辅导支持；
+            同时拥有复旦大学智能医学研究所的暑期研究实习经历。
+          </p>
+          <p>
+            课余爱好：恐怖 &amp; 动作游戏、音乐剧、摄影、旅行与唱歌。
+          </p>
+          <a href="about-zh.html" class="btn btn-outline btn-sm">查看完整简介 →</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 技能 -->
-  <section id="skills" class="section">
+  <!-- ===== 技能 ===== -->
+  <section id="skills" class="section section-alt">
     <div class="container">
-      <h2 class="section-title">技能</h2>
+      <div class="section-header reveal-target">
+        <div class="section-num">// 03 &mdash; 技能</div>
+        <h2 class="section-title">技术工具箱</h2>
+      </div>
+
       <div class="skills-grid">
         <div class="skill-card reveal-target">
-          <div class="skill-icon">💻</div>
-          <h3>编程语言</h3>
-          <ul>
-            <li>Java</li>
-            <li>C#</li>
+          <div class="skill-card-title">编程语言</div>
+          <ul class="skill-list">
+            <li>C#（Unity）</li>
             <li>C++</li>
+            <li>Java</li>
             <li>Python</li>
           </ul>
         </div>
+
         <div class="skill-card reveal-target">
-          <div class="skill-icon">🛠️</div>
-          <h3>工具</h3>
-          <div class="tools-tags">
-            <span class="tag">Git / GitHub</span>
+          <div class="skill-card-title">游戏开发工具</div>
+          <div class="tags-cloud">
             <span class="tag">Unity</span>
             <span class="tag">Maya</span>
-            <span class="tag">Adobe Substance 3D Painter</span>
-            <span class="tag">Adobe Photoshop</span>
+            <span class="tag">Substance 3D Painter</span>
             <span class="tag">SketchUp</span>
+            <span class="tag">Adobe Photoshop</span>
             <span class="tag">Affinity Photo</span>
-            <span class="tag">iMovie</span>
-            <span class="tag">Trello</span>
+          </div>
+        </div>
+
+        <div class="skill-card reveal-target">
+          <div class="skill-card-title">协作与流程</div>
+          <div class="tags-cloud">
+            <span class="tag">Git / GitHub</span>
             <span class="tag">Jira</span>
+            <span class="tag">Trello</span>
             <span class="tag">Miro</span>
             <span class="tag">Figma</span>
-            <span class="tag">Microsoft Office</span>
             <span class="tag">Google Workspace</span>
           </div>
         </div>
+
         <div class="skill-card reveal-target">
-          <div class="skill-icon">🌐</div>
-          <h3>语言能力</h3>
-          <ul>
-            <li>普通话 &mdash; 母语</li>
-            <li>英语 &mdash; 流利</li>
-            <li>日语 &mdash; 初级</li>
+          <div class="skill-card-title">语言能力</div>
+          <ul class="skill-list">
+            <li>普通话 — 母语</li>
+            <li>沪语 — 母语</li>
+            <li>英语 — 流利</li>
+            <li>日语 — 初级</li>
           </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 联系方式 -->
-  <section id="contact" class="section section-alt">
+  <!-- ===== 联系方式 ===== -->
+  <section id="contact" class="section">
     <div class="container">
-      <h2 class="section-title">联系方式</h2>
-      <p class="contact-intro">有任何问题或合作意向？欢迎随时联系！</p>
-      <div class="contact-links reveal-target">
-        <a href="https://github.com/FF-Yan" class="contact-card" target="_blank" rel="noopener noreferrer">
-          <span class="contact-icon">🐙</span>
-          <span>GitHub</span>
+      <div class="section-header reveal-target">
+        <div class="section-num">// 04 &mdash; 联系方式</div>
+        <h2 class="section-title">联系我</h2>
+      </div>
+      <p class="contact-intro reveal-target">有合作意向或想打个招呼？欢迎通过以下任何渠道联系我。</p>
+
+      <div class="contact-grid reveal-target">
+        <a href="mailto:yan.binx@northeastern.edu" class="contact-item">
+          <div class="contact-icon-wrap">✉️</div>
+          <div>
+            <div class="contact-label">学校邮箱</div>
+            <div class="contact-value">yan.binx@northeastern.edu</div>
+          </div>
         </a>
-        <a href="mailto:yan.binx@northeastern.edu" class="contact-card" aria-label="发送邮件">
-          <span class="contact-icon">✉️</span>
-          <span>yan.binx@northeastern.edu</span>
+        <a href="mailto:biinxuand@gmail.com" class="contact-item">
+          <div class="contact-icon-wrap">📧</div>
+          <div>
+            <div class="contact-label">个人邮箱</div>
+            <div class="contact-value">biinxuand@gmail.com</div>
+          </div>
+        </a>
+        <a href="tel:+18575235523" class="contact-item">
+          <div class="contact-icon-wrap">📱</div>
+          <div>
+            <div class="contact-label">美国电话</div>
+            <div class="contact-value">+1 (857) 523-5523</div>
+          </div>
+        </a>
+        <a href="tel:+8613621623918" class="contact-item">
+          <div class="contact-icon-wrap">📞</div>
+          <div>
+            <div class="contact-label">国内电话</div>
+            <div class="contact-value">+86 136-2162-3918</div>
+          </div>
+        </a>
+        <a href="https://github.com/FF-Yan" class="contact-item" target="_blank" rel="noopener noreferrer">
+          <div class="contact-icon-wrap">🐙</div>
+          <div>
+            <div class="contact-label">GitHub</div>
+            <div class="contact-value">FF-Yan</div>
+          </div>
         </a>
       </div>
     </div>
   </section>
 
-  <!-- 页脚 -->
+  <!-- ===== 页脚 ===== -->
   <footer class="footer">
-    <p>&copy; <span id="year"></span> 颜彬轩 托管于 GitHub Pages。</p>
+    <div class="footer-inner">
+      <div class="footer-name">颜彬轩</div>
+      <div class="footer-contacts">
+        <a href="mailto:yan.binx@northeastern.edu">yan.binx@northeastern.edu</a>
+        <a href="mailto:biinxuand@gmail.com">biinxuand@gmail.com</a>
+        <a href="https://github.com/FF-Yan" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+      <p class="footer-copy">&copy; <span id="year"></span> 颜彬轩 &mdash; 托管于 GitHub Pages。</p>
+    </div>
   </footer>
 
   <script src="script.js"></script>
