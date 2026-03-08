@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Glass Ceiling | 颜彬轩</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== 导航栏 ===== -->
+  <header class="navbar">
+    <div class="nav-inner">
+      <a href="index-zh.html" class="nav-logo">颜<span>彬轩</span></a>
+      <div class="nav-right">
+        <button class="lang-toggle" data-lang-href="glass-ceiling.html" aria-label="Switch to English">EN</button>
+        <button class="hamburger" aria-label="打开导航" aria-expanded="false" aria-controls="menuOverlay">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== 菜单遮罩 ===== -->
+  <div class="menu-overlay" id="menuOverlay">
+    <div class="menu-backdrop"></div>
+    <div class="menu-panel">
+      <button class="menu-close" aria-label="关闭菜单">&times;</button>
+
+      <div class="menu-logo">颜<span>彬轩</span></div>
+      <div class="menu-tagline">// 游戏开发者 &amp; 计算机科学学生</div>
+
+      <nav class="menu-nav">
+        <a href="index-zh.html"><span class="menu-num">01</span> 主页</a>
+        <a href="projects-zh.html"><span class="menu-num">02</span> 项目</a>
+        <a href="about-zh.html"><span class="menu-num">03</span> 关于我</a>
+        <a href="index-zh.html#contact"><span class="menu-num">04</span> 联系方式</a>
+      </nav>
+
+      <div class="menu-bottom">
+        <div class="menu-bottom-label">联系方式</div>
+        <div class="menu-contacts">
+          <a href="mailto:yan.binx@northeastern.edu">yan.binx@northeastern.edu</a>
+          <a href="mailto:biinxuand@gmail.com">biinxuand@gmail.com</a>
+          <a href="tel:+18575235523">+1 (857) 523-5523</a>
+          <a href="tel:+8613621623918">+86 136-2162-3918</a>
+        </div>
+        <div class="menu-lang-row">
+          <button class="lang-toggle" data-lang-href="glass-ceiling.html">EN</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 页面标题 ===== -->
+  <div class="page-hero">
+    <div class="container">
+      <div class="page-eyebrow">// 游戏项目 &mdash; 恐怖解谜</div>
+      <h1 class="page-title">Glass Ceiling</h1>
+    </div>
+  </div>
+
+  <!-- ===== 详情内容 ===== -->
+  <section class="section">
+    <div class="container">
+
+      <div class="game-back reveal-target">
+        <a href="projects-zh.html">← 返回项目列表</a>
+      </div>
+
+      <!-- 概述 -->
+      <div class="game-overview reveal-target">
+        <div class="game-overview-thumb thumb-gc">
+          <div class="project-thumb-inner">
+            <span class="thumb-icon">🎮</span>
+            <span class="thumb-label">Unity · C# · 恐怖解谜</span>
+          </div>
+        </div>
+        <div class="game-info">
+          <h2>项目概述</h2>
+          <p>
+            <strong>Glass Ceiling</strong> 是一款在东北大学学期项目中与团队共同开发的恐怖解谜游戏。
+            玩家在充满张力的大气环境中解谜，同时躲避危险——经过多轮迭代测试与打磨，
+            最终交付完整可玩的 Demo。
+          </p>
+          <p>
+            <strong>角色：</strong>游戏程序员 &nbsp;&middot;&nbsp;
+            <strong>周期：</strong>2025年9月 &ndash; 12月
+          </p>
+          <div class="project-tags" style="margin-bottom:0.5rem;">
+            <span class="tag">Unity</span>
+            <span class="tag">C#</span>
+            <span class="tag">恐怖解谜</span>
+            <span class="tag">UI系统</span>
+            <span class="tag">音效</span>
+            <span class="tag">团队项目</span>
+          </div>
+          <div class="game-links">
+            <a href="https://aidan-moreau04.itch.io/glass-ceiling" class="btn btn-primary" target="_blank" rel="noopener noreferrer">▶ 在 itch.io 游玩</a>
+            <a href="projects-zh.html" class="btn btn-outline">← 全部项目</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 贡献 -->
+      <div class="game-section reveal-target">
+        <h2>// 我的贡献</h2>
+        <ul>
+          <li>使用 Unity 和 C# 完成核心游戏机制编程，包括玩家交互、物品操作与状态机设计。</li>
+          <li>从零搭建 UI 系统：HUD 元素、菜单界面及游戏内反馈面板。</li>
+          <li>集成音效系统：环境音效、响应式音效及位置音频，营造恐怖氛围。</li>
+          <li>参与多轮迭代游玩测试，收集反馈并在各里程碑节点推进修复与优化。</li>
+          <li>与美术、设计等成员协作，确保游戏玩法与创意方向保持一致。</li>
+        </ul>
+      </div>
+
+      <!-- 技术栈 -->
+      <div class="game-section reveal-target">
+        <h2>// 技术栈</h2>
+        <div class="project-tags">
+          <span class="tag">Unity 2022</span>
+          <span class="tag">C#</span>
+          <span class="tag">Unity UI Toolkit</span>
+          <span class="tag">Unity Audio Mixer</span>
+          <span class="tag">GitHub</span>
+          <span class="tag">Jira</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== 页脚 ===== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-name">颜彬轩</div>
+      <div class="footer-contacts">
+        <a href="mailto:yan.binx@northeastern.edu">yan.binx@northeastern.edu</a>
+        <a href="mailto:biinxuand@gmail.com">biinxuand@gmail.com</a>
+        <a href="https://github.com/FF-Yan" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+      <p class="footer-copy">&copy; <span id="year"></span> 颜彬轩 &mdash; 托管于 GitHub Pages。</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

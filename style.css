@@ -1,4 +1,9 @@
 /* ===========================
+   Pixel Font Import
+   =========================== */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+/* ===========================
    CSS Reset & Base
    =========================== */
 *, *::before, *::after {
@@ -21,10 +26,11 @@
   --border-s:  rgba(0, 212, 255, 0.4);
   --glow:      0 0 22px rgba(0, 212, 255, 0.18);
   --shadow:    0 8px 40px rgba(0, 0, 0, 0.65);
-  --radius:    5px;
+  --radius:    3px;
   --nav-h:     62px;
   --max-w:     1100px;
   --t:         0.25s ease;
+  --pixel-font: 'Press Start 2P', 'Courier New', monospace;
 }
 
 html { scroll-behavior: smooth; }
@@ -34,6 +40,39 @@ body {
   background: var(--bg);
   color: var(--text);
   line-height: 1.7;
+}
+
+/* Subtle scanlines overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 3px,
+    rgba(0, 0, 0, 0.04) 3px,
+    rgba(0, 0, 0, 0.04) 4px
+  );
+  pointer-events: none;
+  z-index: 9990;
+}
+
+/* ===========================
+   Page Transition Overlay
+   =========================== */
+.page-transition {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 10000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.28s ease;
+}
+.page-transition.fade-active {
+  opacity: 1;
+  pointer-events: all;
 }
 
 a { color: var(--primary); text-decoration: none; transition: color var(--t); }
@@ -55,12 +94,12 @@ ul { list-style: none; }
 .section-header { margin-bottom: 3rem; }
 
 .section-num {
-  font-family: 'Courier New', monospace;
-  font-size: 0.72rem;
+  font-family: var(--pixel-font);
+  font-size: 0.55rem;
   color: var(--primary);
-  letter-spacing: 0.2em;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.75rem;
   opacity: 0.75;
 }
 
@@ -269,10 +308,11 @@ ul { list-style: none; }
 .menu-logo span { color: var(--primary); }
 
 .menu-tagline {
-  font-family: 'Courier New', monospace;
-  font-size: 0.75rem;
+  font-family: var(--pixel-font);
+  font-size: 0.52rem;
   color: var(--muted);
   margin-bottom: 2.5rem;
+  line-height: 1.9;
 }
 
 .menu-nav {
@@ -295,8 +335,8 @@ ul { list-style: none; }
 .menu-nav a:hover { color: var(--primary); padding-left: 0.4rem; }
 
 .menu-num {
-  font-family: 'Courier New', monospace;
-  font-size: 0.65rem;
+  font-family: var(--pixel-font);
+  font-size: 0.48rem;
   color: var(--primary);
   opacity: 0.65;
   margin-top: 0.15rem;
@@ -381,12 +421,12 @@ ul { list-style: none; }
 }
 
 .hero-eyebrow {
-  font-family: 'Courier New', monospace;
-  font-size: 0.82rem;
+  font-family: var(--pixel-font);
+  font-size: 0.58rem;
   color: var(--primary);
-  letter-spacing: 0.2em;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  margin-bottom: 0.9rem;
+  margin-bottom: 1.2rem;
   opacity: 0.8;
 }
 
@@ -399,6 +439,20 @@ ul { list-style: none; }
   letter-spacing: -0.02em;
 }
 .hero-name .accent { color: var(--primary); }
+
+/* Blinking cursor after hero name */
+.hero-name::after {
+  content: '_';
+  color: var(--primary);
+  animation: blink-cursor 1s step-end infinite;
+  font-size: 0.55em;
+  vertical-align: bottom;
+  margin-left: 0.06em;
+}
+@keyframes blink-cursor {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
 
 .hero-desc {
   font-size: clamp(0.95rem, 2.2vw, 1.2rem);
@@ -531,11 +585,12 @@ ul { list-style: none; }
   gap: 0.6rem;
 }
 .project-type {
-  font-family: 'Courier New', monospace;
-  font-size: 0.68rem;
+  font-family: var(--pixel-font);
+  font-size: 0.5rem;
   text-transform: uppercase;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.12em;
   color: var(--primary);
+  line-height: 1.8;
 }
 .project-card h3 {
   font-size: 1.15rem;
@@ -591,6 +646,18 @@ ul { list-style: none; }
 }
 .project-link-ext:hover { color: #fff; }
 
+/* Non-clickable project card — subtle hover only */
+.card-no-link {
+  cursor: default;
+}
+.card-no-link:hover {
+  transform: none;
+  box-shadow: none;
+  border-color: rgba(0, 212, 255, 0.22);
+}
+.card-no-link:hover::before,
+.card-no-link:hover::after { opacity: 0; }
+
 /* ===========================
    About (index card + standalone)
    =========================== */
@@ -641,19 +708,19 @@ ul { list-style: none; }
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 1.5rem;
-  transition: border-color var(--t), box-shadow var(--t);
+  transition: border-color var(--t);
 }
 .skill-card:hover {
-  border-color: var(--border-s);
-  box-shadow: var(--glow);
+  border-color: rgba(0, 212, 255, 0.22);
 }
 .skill-card-title {
-  font-family: 'Courier New', monospace;
-  font-size: 0.68rem;
+  font-family: var(--pixel-font);
+  font-size: 0.5rem;
   text-transform: uppercase;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.12em;
   color: var(--primary);
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
+  line-height: 1.9;
 }
 .skill-list { display: flex; flex-direction: column; gap: 0.4rem; }
 .skill-list li {
@@ -828,13 +895,14 @@ ul { list-style: none; }
   background: linear-gradient(90deg, transparent, var(--border-s), transparent);
 }
 .page-eyebrow {
-  font-family: 'Courier New', monospace;
-  font-size: 0.72rem;
+  font-family: var(--pixel-font);
+  font-size: 0.52rem;
   color: var(--primary);
-  letter-spacing: 0.2em;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.75rem;
   opacity: 0.75;
+  line-height: 1.9;
 }
 .page-title {
   font-size: clamp(2rem, 6vw, 4rem);
@@ -895,3 +963,140 @@ ul { list-style: none; }
   .feat-grid { grid-template-columns: 1fr; }
   .contact-grid { grid-template-columns: 1fr; }
 }
+
+/* ===========================
+   Pixel-style Details button
+   =========================== */
+.btn-pixel {
+  font-family: var(--pixel-font);
+  font-size: 0.52rem;
+  letter-spacing: 0.06em;
+  line-height: 1.6;
+  background: transparent;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+  padding: 0.6rem 1.1rem;
+  border-radius: 0;
+  cursor: pointer;
+  transition: background var(--t), color var(--t), box-shadow var(--t);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.btn-pixel:hover {
+  background: var(--primary);
+  color: var(--bg);
+  box-shadow: var(--glow);
+}
+
+/* ===========================
+   Game Detail Page
+   =========================== */
+.game-overview {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  align-items: start;
+  margin-bottom: 3rem;
+}
+
+.game-overview-thumb {
+  height: 260px;
+  border-radius: var(--radius);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border-s);
+}
+.game-overview-thumb::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(0,212,255,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,0.06) 1px, transparent 1px);
+  background-size: 22px 22px;
+  z-index: 1;
+}
+.game-overview-thumb .project-thumb-inner {
+  position: absolute; inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  z-index: 2;
+}
+.game-overview-thumb .thumb-icon { font-size: 4rem; }
+
+.game-info h2 {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 0.75rem;
+}
+.game-info p {
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.75;
+  margin-bottom: 1rem;
+}
+.game-info .game-links {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+.game-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+}
+.game-section h2 {
+  font-family: var(--pixel-font);
+  font-size: 0.6rem;
+  color: var(--primary);
+  letter-spacing: 0.15em;
+  margin-bottom: 1.25rem;
+  line-height: 2;
+}
+.game-section ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  list-style: none;
+}
+.game-section ul li {
+  font-size: 0.9rem;
+  color: var(--muted);
+  display: flex;
+  gap: 0.65rem;
+  line-height: 1.7;
+}
+.game-section ul li::before {
+  content: '▸';
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+.game-back {
+  margin-bottom: 2rem;
+}
+.game-back a {
+  font-size: 0.82rem;
+  color: var(--muted);
+  transition: color var(--t);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.game-back a:hover { color: var(--primary); }
+
+@media (max-width: 700px) {
+  .game-overview {
+    grid-template-columns: 1fr;
+  }
+}
+

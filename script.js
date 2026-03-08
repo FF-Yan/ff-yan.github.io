@@ -15,6 +15,33 @@ if (langBtn) {
 }
 
 // ===========================
+// Page Transition Overlay
+// ===========================
+const transitionOverlay = document.createElement('div');
+transitionOverlay.className = 'page-transition';
+document.body.appendChild(transitionOverlay);
+
+// Fade in on page load
+transitionOverlay.classList.add('fade-active');
+requestAnimationFrame(() => {
+  requestAnimationFrame(() => {
+    transitionOverlay.classList.remove('fade-active');
+  });
+});
+
+// Fade out before navigation
+document.addEventListener('click', e => {
+  const link = e.target.closest('a[href]');
+  if (!link) return;
+  const href = link.getAttribute('href');
+  if (!href || href.startsWith('#') || href.startsWith('mailto:') ||
+      href.startsWith('tel:') || link.target === '_blank') return;
+  e.preventDefault();
+  transitionOverlay.classList.add('fade-active');
+  setTimeout(() => { window.location.href = href; }, 280);
+});
+
+// ===========================
 // Hamburger Menu Overlay
 // ===========================
 const hamburger    = document.querySelector('.hamburger');
