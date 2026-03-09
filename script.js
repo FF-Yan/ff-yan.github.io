@@ -123,6 +123,7 @@ document.querySelectorAll('.screenshot-gallery').forEach(gallery => {
   let current   = 0;
 
   function goTo(idx) {
+    // Wrap index to handle both PREV (negative) and NEXT directions
     current = ((idx % total) + total) % total;
     slides.style.transform = `translateX(-${current * 100}%)`;
     dotEls.forEach((d, i) => d.classList.toggle('active', i === current));

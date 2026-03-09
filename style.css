@@ -1038,7 +1038,7 @@ ul { list-style: none; }
   overflow: hidden;
   border: 1px solid var(--border-s);
 }
-/* Remove the old grid pattern ::before — real image fills it */
+/* Old grid ::before removed — real images now fill the thumbnail */
 .game-overview-thumb .project-thumb-inner {
   position: absolute; inset: 0;
   display: flex;
