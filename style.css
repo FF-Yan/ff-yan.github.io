@@ -42,7 +42,7 @@ body {
   line-height: 1.7;
 }
 
-/* Subtle scanlines overlay */
+/* Scanlines overlay */
 body::after {
   content: '';
   position: fixed;
@@ -50,9 +50,9 @@ body::after {
   background: repeating-linear-gradient(
     0deg,
     transparent 0px,
-    transparent 3px,
-    rgba(0, 0, 0, 0.04) 3px,
-    rgba(0, 0, 0, 0.04) 4px
+    transparent 2px,
+    rgba(0, 0, 0, 0.07) 2px,
+    rgba(0, 0, 0, 0.07) 3px
   );
   pointer-events: none;
   z-index: 9990;
@@ -349,12 +349,13 @@ ul { list-style: none; }
   border-top: 1px solid var(--border);
 }
 .menu-bottom-label {
-  font-family: 'Courier New', monospace;
-  font-size: 0.65rem;
-  letter-spacing: 0.15em;
+  font-family: var(--pixel-font);
+  font-size: 0.48rem;
+  letter-spacing: 0.12em;
   color: var(--muted);
   text-transform: uppercase;
   margin-bottom: 0.75rem;
+  line-height: 1.9;
 }
 .menu-contacts {
   display: flex;
@@ -387,17 +388,17 @@ ul { list-style: none; }
   overflow: hidden;
 }
 
-/* Subtle grid pattern */
+/* Pixel grid pattern */
 .hero::before {
   content: '';
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(0,212,255,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,212,255,0.04) 1px, transparent 1px);
-  background-size: 60px 60px;
-  mask-image: radial-gradient(ellipse at 50% 50%, black 20%, transparent 70%);
-  -webkit-mask-image: radial-gradient(ellipse at 50% 50%, black 20%, transparent 70%);
+    linear-gradient(rgba(0,212,255,0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,0.07) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(ellipse at 50% 50%, black 25%, transparent 72%);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 50%, black 25%, transparent 72%);
   pointer-events: none;
 }
 
@@ -564,11 +565,35 @@ ul { list-style: none; }
 }
 .thumb-icon { font-size: 2.75rem; }
 .thumb-label {
-  font-family: 'Courier New', monospace;
-  font-size: 0.7rem;
-  color: rgba(255,255,255,0.45);
-  letter-spacing: 0.12em;
+  font-family: var(--pixel-font);
+  font-size: 0.46rem;
+  color: rgba(255,255,255,0.8);
+  letter-spacing: 0.1em;
   text-transform: uppercase;
+  line-height: 1.8;
+}
+
+/* Real screenshot image inside thumb */
+.thumb-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Overlay for image-backed thumbnails */
+.thumb-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 0.65rem 1rem;
+  background: linear-gradient(transparent 25%, rgba(0,0,0,0.80));
+  z-index: 2;
 }
 
 .thumb-gc   { background: linear-gradient(135deg, #1a0a2e 0%, #2b1565 55%, #0d0a1a 100%); }
@@ -685,6 +710,14 @@ ul { list-style: none; }
   border: 3px solid rgba(0,212,255,0.3);
   box-shadow: 0 0 30px rgba(0,212,255,0.12);
   flex-shrink: 0;
+  overflow: hidden;
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .about-text p {
@@ -781,12 +814,13 @@ ul { list-style: none; }
   flex-shrink: 0;
 }
 .contact-label {
-  font-family: 'Courier New', monospace;
-  font-size: 0.64rem;
+  font-family: var(--pixel-font);
+  font-size: 0.44rem;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   color: var(--muted);
-  margin-bottom: 0.15rem;
+  margin-bottom: 0.25rem;
+  line-height: 1.9;
 }
 .contact-value {
   font-size: 0.85rem;
@@ -984,11 +1018,7 @@ ul { list-style: none; }
   align-items: center;
   gap: 0.4rem;
 }
-.btn-pixel:hover {
-  background: var(--primary);
-  color: var(--bg);
-  box-shadow: var(--glow);
-}
+/* btn-pixel:hover defined later with pixel-flicker animation */
 
 /* ===========================
    Game Detail Page
@@ -1002,21 +1032,13 @@ ul { list-style: none; }
 }
 
 .game-overview-thumb {
-  height: 260px;
+  height: 280px;
   border-radius: var(--radius);
   position: relative;
   overflow: hidden;
   border: 1px solid var(--border-s);
 }
-.game-overview-thumb::before {
-  content: '';
-  position: absolute; inset: 0;
-  background-image:
-    linear-gradient(rgba(0,212,255,0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,212,255,0.06) 1px, transparent 1px);
-  background-size: 22px 22px;
-  z-index: 1;
-}
+/* Remove the old grid pattern ::before — real image fills it */
 .game-overview-thumb .project-thumb-inner {
   position: absolute; inset: 0;
   display: flex;
@@ -1098,5 +1120,126 @@ ul { list-style: none; }
   .game-overview {
     grid-template-columns: 1fr;
   }
+}
+
+/* ===========================
+   Screenshot Gallery
+   =========================== */
+.screenshot-gallery {
+  position: relative;
+  border: 1px solid var(--border-s);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  background: var(--surface);
+}
+
+.gallery-slides {
+  display: flex;
+  transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.gallery-slide {
+  min-width: 100%;
+  position: relative;
+  line-height: 0;
+}
+
+.gallery-slide img {
+  width: 100%;
+  height: 340px;
+  object-fit: cover;
+  display: block;
+}
+
+.gallery-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 4;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 0.65rem;
+  pointer-events: none;
+}
+
+.gallery-btn {
+  font-family: var(--pixel-font);
+  font-size: 0.46rem;
+  background: rgba(0, 0, 0, 0.72);
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  padding: 0.55rem 0.8rem;
+  cursor: pointer;
+  pointer-events: all;
+  transition: background var(--t), color var(--t);
+  line-height: 1.6;
+  letter-spacing: 0.06em;
+}
+.gallery-btn:hover {
+  background: var(--primary);
+  color: var(--bg);
+}
+
+.gallery-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.55rem 1rem;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+}
+
+.gallery-dots {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.gallery-dot {
+  width: 6px; height: 6px;
+  background: var(--border-s);
+  cursor: pointer;
+  transition: background var(--t);
+  border-radius: 1px;
+}
+.gallery-dot.active { background: var(--primary); }
+
+.gallery-caption {
+  font-family: var(--pixel-font);
+  font-size: 0.44rem;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  line-height: 1.8;
+}
+
+/* ===========================
+   Typewriter cursor
+   =========================== */
+.typewriter-active::after {
+  content: '|';
+  color: var(--primary);
+  animation: tw-blink 0.65s step-end infinite;
+  margin-left: 1px;
+}
+@keyframes tw-blink {
+  50% { opacity: 0; }
+}
+
+/* ===========================
+   Pixel flicker on btn-pixel hover
+   =========================== */
+.btn-pixel:hover {
+  background: var(--primary);
+  color: var(--bg);
+  box-shadow: var(--glow);
+  animation: px-flicker 0.12s step-end 2;
+}
+@keyframes px-flicker {
+  50% { opacity: 0.88; }
+}
+
+@media (max-width: 600px) {
+  .gallery-slide img { height: 220px; }
 }
 

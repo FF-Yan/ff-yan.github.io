@@ -26,6 +26,8 @@ transitionOverlay.classList.add('fade-active');
 requestAnimationFrame(() => {
   requestAnimationFrame(() => {
     transitionOverlay.classList.remove('fade-active');
+    // Start typewriter after fade-in
+    setTimeout(startTypewriter, 300);
   });
 });
 
@@ -40,6 +42,28 @@ document.addEventListener('click', e => {
   transitionOverlay.classList.add('fade-active');
   setTimeout(() => { window.location.href = href; }, 280);
 });
+
+// ===========================
+// Typewriter Effect (hero eyebrow)
+// ===========================
+function startTypewriter() {
+  const el = document.querySelector('.hero-eyebrow');
+  if (!el) return;
+  const text = el.textContent.trim();
+  el.textContent = '';
+  el.classList.add('typewriter-active');
+  let i = 0;
+  const speed = 38; // ms per character
+  function type() {
+    if (i < text.length) {
+      el.textContent += text[i++];
+      setTimeout(type, speed);
+    } else {
+      el.classList.remove('typewriter-active');
+    }
+  }
+  type();
+}
 
 // ===========================
 // Hamburger Menu Overlay
@@ -87,6 +111,30 @@ if (hamburger && menuOverlay) {
     if (e.key === 'Escape') closeMenu();
   });
 }
+
+// ===========================
+// Screenshot Galleries
+// ===========================
+document.querySelectorAll('.screenshot-gallery').forEach(gallery => {
+  const slides  = gallery.querySelector('.gallery-slides');
+  const dotEls  = gallery.querySelectorAll('.gallery-dot');
+  const btnEls  = gallery.querySelectorAll('.gallery-btn');
+  const total   = gallery.querySelectorAll('.gallery-slide').length;
+  let current   = 0;
+
+  function goTo(idx) {
+    current = ((idx % total) + total) % total;
+    slides.style.transform = `translateX(-${current * 100}%)`;
+    dotEls.forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+
+  btnEls.forEach(btn => {
+    btn.addEventListener('click', () => goTo(current + parseInt(btn.dataset.dir, 10)));
+  });
+  dotEls.forEach((dot, i) => {
+    dot.addEventListener('click', () => goTo(i));
+  });
+});
 
 // ===========================
 // Scroll-reveal animation
