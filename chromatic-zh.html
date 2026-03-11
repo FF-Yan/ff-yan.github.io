@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chromatic | 颜彬轩</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== 导航栏 ===== -->
+  <header class="navbar">
+    <div class="nav-inner">
+      <a href="index-zh.html" class="nav-logo">颜<span>彬轩</span></a>
+      <div class="nav-right">
+        <button class="lang-toggle" data-lang-href="chromatic.html" aria-label="Switch to English">EN</button>
+        <button class="hamburger" aria-label="打开导航" aria-expanded="false" aria-controls="menuOverlay">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== 菜单遮罩 ===== -->
+  <div class="menu-overlay" id="menuOverlay">
+    <div class="menu-backdrop"></div>
+    <div class="menu-panel">
+      <button class="menu-close" aria-label="关闭菜单">&times;</button>
+
+      <div class="menu-logo">颜<span>彬轩</span></div>
+      <div class="menu-tagline">// 游戏开发者 &amp; 计算机科学学生</div>
+
+      <nav class="menu-nav">
+        <a href="index-zh.html"><span class="menu-num">01</span> 主页</a>
+        <a href="projects-zh.html"><span class="menu-num">02</span> 项目</a>
+        <a href="about-zh.html"><span class="menu-num">03</span> 关于我</a>
+        <a href="index-zh.html#contact"><span class="menu-num">04</span> 联系方式</a>
+      </nav>
+
+      <div class="menu-bottom">
+        <div class="menu-bottom-label">联系方式</div>
+        <div class="menu-contacts">
+          <a href="mailto:yan.binx@northeastern.edu">yan.binx@northeastern.edu</a>
+          <a href="mailto:biinxuand@gmail.com">biinxuand@gmail.com</a>
+          <a href="tel:+18575235523">+1 (857) 523-5523</a>
+          <a href="tel:+8613621623918">+86 136-2162-3918</a>
+        </div>
+        <div class="menu-lang-row">
+          <button class="lang-toggle" data-lang-href="chromatic.html">EN</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 页面标题 ===== -->
+  <div class="page-hero">
+    <div class="container">
+      <div class="page-eyebrow">// 游戏项目 &mdash; 解谜平台跳跃</div>
+      <h1 class="page-title">Chromatic</h1>
+    </div>
+  </div>
+
+  <!-- ===== 详情内容 ===== -->
+  <section class="section">
+    <div class="container">
+
+      <div class="game-back reveal-target">
+        <a href="projects-zh.html">← 返回项目列表</a>
+      </div>
+
+      <!-- 概述 -->
+      <div class="game-overview reveal-target">
+        <div class="game-overview-thumb thumb-chroma">
+          <img src="Images/ChromaticInGame.jpg" alt="Chromatic - 游戏内截图" class="thumb-img">
+          <div class="thumb-overlay">
+            <span class="thumb-label">Unity · C# · 解谜平台跳跃</span>
+          </div>
+        </div>
+        <div class="game-info">
+          <h2>项目概述</h2>
+          <p>
+            <strong>Chromatic</strong> 是一款 2D 解谜平台跳跃游戏，玩家通过击败 Boss 与环境解谜，
+            将灰度世界逐步恢复为彩色。核心机制是对物体施加颜色，改变其物理属性，
+            从而解锁新的路径与解谜方案。
+          </p>
+          <p>
+            <strong>角色：</strong>游戏程序员 &nbsp;&middot;&nbsp;
+            <strong>周期：</strong>2025年9月 &ndash; 至今
+          </p>
+          <div class="project-tags" style="margin-bottom:0.5rem;">
+            <span class="tag">Unity</span>
+            <span class="tag">C#</span>
+            <span class="tag">解谜平台跳跃</span>
+            <span class="tag">Boss AI</span>
+            <span class="tag">游戏系统</span>
+            <span class="tag">团队项目</span>
+          </div>
+          <div class="game-links">
+            <a href="projects-zh.html" class="btn btn-outline">← 全部项目</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 截图 -->
+      <div class="screenshot-gallery reveal-target">
+        <div class="gallery-slides">
+          <div class="gallery-slide">
+            <img src="Images/ChromaticInGame.jpg" alt="Chromatic – 游戏内截图">
+          </div>
+        </div>
+        <div class="gallery-nav">
+          <button class="gallery-btn" data-dir="-1">◀ 上一张</button>
+          <button class="gallery-btn" data-dir="1">下一张 ▶</button>
+        </div>
+        <div class="gallery-footer">
+          <div class="gallery-dots">
+            <div class="gallery-dot active" data-idx="0"></div>
+          </div>
+          <div class="gallery-caption">// 游戏截图</div>
+        </div>
+      </div>
+
+      <!-- 贡献 -->
+      <div class="game-section reveal-target">
+        <h2>// 我的职责</h2>
+        <ul>
+          <li>使用 Unity（C#）开发核心玩法系统，构建颜色交互机制，让玩家行为动态改变物体属性、世界物理与通行方式。</li>
+          <li>围绕“机制 + 场景逻辑”设计并实现解谜型 Boss 体验，弱化传统数值战斗，强调观察与解法。</li>
+          <li>实现模块化 Boss AI 架构（FSM + 可复用模块），支持预警式攻击与多阶段行为切换。</li>
+          <li>开发颜色解锁进度系统，使世界状态与谜题配置随能力获取动态变化。</li>
+          <li>在四人团队中使用 GitHub 协作，维护可复用核心系统并支持不同 Boss/关卡的差异化行为。</li>
+        </ul>
+      </div>
+
+      <!-- 技术栈 -->
+      <div class="game-section reveal-target">
+        <h2>// 技术栈</h2>
+        <div class="project-tags">
+          <span class="tag">Unity</span>
+          <span class="tag">C#</span>
+          <span class="tag">FSM AI</span>
+          <span class="tag">模块化架构</span>
+          <span class="tag">GitHub</span>
+          <span class="tag">团队协作</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== 页脚 ===== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-name">颜彬轩</div>
+      <div class="footer-contacts">
+        <a href="mailto:yan.binx@northeastern.edu">yan.binx@northeastern.edu</a>
+        <a href="mailto:biinxuand@gmail.com">biinxuand@gmail.com</a>
+        <a href="https://github.com/FF-Yan" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+      <p class="footer-copy">&copy; <span id="year"></span> 颜彬轩 &mdash; 托管于 GitHub Pages。</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

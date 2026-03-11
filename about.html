@@ -7,63 +7,128 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Navigation -->
+
+  <!-- ===== Navbar ===== -->
   <header class="navbar">
-    <div class="nav-container">
-      <a href="index.html" class="nav-logo">Binxuan Yan</a>
-      <nav>
-        <ul class="nav-links">
-          <li><a href="index.html" data-page="index">Home</a></li>
-          <li><a href="about.html" data-page="about">About</a></li>
-          <li><a href="projects.html" data-page="projects">Projects</a></li>
-        </ul>
-      </nav>
-      <div class="nav-actions">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">Binxuan <span>Yan</span></a>
+      <div class="nav-right">
         <button class="lang-toggle" data-lang-href="about-zh.html" aria-label="切换到中文">中文</button>
-        <button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
+        <button class="hamburger" aria-label="Open navigation" aria-expanded="false" aria-controls="menuOverlay">
+          <span></span><span></span><span></span>
+        </button>
       </div>
     </div>
   </header>
 
-  <!-- Page Header -->
+  <!-- ===== Menu Overlay ===== -->
+  <div class="menu-overlay" id="menuOverlay">
+    <div class="menu-backdrop"></div>
+    <div class="menu-panel">
+      <button class="menu-close" aria-label="Close menu">&times;</button>
+
+      <div class="menu-logo">Binxuan <span>Yan</span></div>
+      <div class="menu-tagline">// Game Developer &amp; CS Student</div>
+
+      <nav class="menu-nav">
+        <a href="index.html"><span class="menu-num">01</span> Home</a>
+        <a href="projects.html"><span class="menu-num">02</span> Projects</a>
+        <a href="about.html"><span class="menu-num">03</span> About</a>
+        <a href="index.html#contact"><span class="menu-num">04</span> Contact</a>
+      </nav>
+
+      <div class="menu-bottom">
+        <div class="menu-bottom-label">Contact</div>
+        <div class="menu-contacts">
+          <a href="mailto:yan.binx@northeastern.edu">yan.binx@northeastern.edu</a>
+          <a href="mailto:biinxuand@gmail.com">biinxuand@gmail.com</a>
+          <a href="tel:+18575235523">+1 (857) 523-5523</a>
+          <a href="tel:+8613621623918">+86 136-2162-3918</a>
+        </div>
+        <div class="menu-lang-row">
+          <button class="lang-toggle" data-lang-href="about-zh.html">中文</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Page Hero ===== -->
   <div class="page-hero">
     <div class="container">
+      <div class="page-eyebrow">// Who I Am</div>
       <h1 class="page-title">About Me</h1>
     </div>
   </div>
 
-  <!-- Bio Section -->
+  <!-- ===== Bio ===== -->
   <section class="section">
     <div class="container">
-      <div class="about-grid reveal-target">
-        <div class="about-avatar">
-          <div class="avatar-circle">BY</div>
-        </div>
+      <div class="about-card reveal-target">
+        <div class="avatar"><img src="Images/Portrait.png" alt="Binxuan Yan" class="avatar-img"></div>
         <div class="about-text">
           <p>
-            I'm a Computer Science and Game Development student at Northeastern University,
+            I'm a Computer Science &amp; Game Development student at Northeastern University,
             maintaining a 3.89/4.00 GPA and recognized on the Dean's List. I'm passionate about
             game development with hands-on experience using Unity and C#, having shipped playable
             demos through coursework and team projects.
           </p>
           <p>
-            Beyond academics, I enjoy leading cross-functional teams and mentoring students through
-            my role at ISWorldLife.
+            I focus on building solid gameplay systems — from AI state machines to UI flows — and
+            enjoy the challenge of making complex interactions feel natural and fun.
+            Beyond development, I bring leadership and cross-functional collaboration skills
+            from my role at ISWorldLife.
           </p>
           <p>
-            Outside of work, I enjoy video games, music, movies, musical theatre, traveling,
-            singing, and photography.
+            Outside of code, I enjoy horror &amp; action games, musicals, photography,
+            traveling, and singing.
           </p>
-          <a href="mailto:yan.binx@northeastern.edu" class="btn btn-primary" style="margin-top:0.5rem;">Get In Touch</a>
+          <a href="mailto:yan.binx@northeastern.edu" class="btn btn-primary btn-sm">Get In Touch →</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Work Experience Section -->
+  <!-- ===== Education ===== -->
   <section class="section section-alt">
     <div class="container">
-      <h2 class="section-title">Work Experience</h2>
+      <div class="section-header reveal-target">
+        <div class="section-num">// Education</div>
+        <h2 class="section-title">Education</h2>
+      </div>
+      <div class="education-card reveal-target">
+        <div class="edu-header">
+          <div>
+            <h3>Northeastern University</h3>
+            <p class="edu-location">Boston, MA</p>
+          </div>
+          <div class="edu-dates">Expected May 2027</div>
+        </div>
+        <p class="edu-degree">Bachelor of Science in Computer Science and Game Development</p>
+        <div class="edu-details">
+          <span class="edu-badge">GPA: 3.89 / 4.00</span>
+          <span class="edu-badge">Dean's List</span>
+        </div>
+        <div>
+          <p class="edu-coursework-label">Relevant Coursework:</p>
+          <p class="edu-coursework-list">
+            Game Design Capstone, Game Concept Development, Rapid Idea Prototyping Games,
+            Level Design and Game Architecture, Program Design and Implementation II,
+            Game Programming, Programming in C++, Game Studio, Math Fundamentals for Games,
+            Foundations of Game Design
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Work Experience ===== -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header reveal-target">
+        <div class="section-num">// Experience</div>
+        <h2 class="section-title">Work Experience</h2>
+      </div>
+
       <div class="experience-card reveal-target">
         <div class="exp-header">
           <div class="exp-info">
@@ -72,7 +137,7 @@
           </div>
           <div class="exp-dates">June 2024 &mdash; August 2024</div>
         </div>
-        <p class="exp-role">Intern</p>
+        <p class="exp-role">Research Intern</p>
         <ul class="exp-bullets">
           <li>Enhanced dataset quality in Python through cleaning and preprocessing, producing standardized research inputs</li>
           <li>Automated complex data transformation workflows using Python scripts, reducing manual effort and improving processing efficiency</li>
@@ -82,10 +147,14 @@
     </div>
   </section>
 
-  <!-- Leadership Section -->
-  <section class="section">
+  <!-- ===== Leadership ===== -->
+  <section class="section section-alt">
     <div class="container">
-      <h2 class="section-title">Leadership</h2>
+      <div class="section-header reveal-target">
+        <div class="section-num">// Leadership</div>
+        <h2 class="section-title">Leadership</h2>
+      </div>
+
       <div class="experience-card reveal-target">
         <div class="exp-header">
           <div class="exp-info">
@@ -95,17 +164,25 @@
         </div>
         <p class="exp-role">Assistant Project Manager</p>
         <ul class="exp-bullets">
-          <li>Streamline tutor hiring by redesigning the interview process, improving candidate experience and efficiency</li>
-          <li>Lead cross-functional teams to develop cost estimates supporting data-driven recommendations and budgeting</li>
-          <li>Deliver foundational instruction in mathematics and physics, supporting student comprehension and study progress</li>
+          <li>Streamlined tutor hiring by redesigning the interview process, improving candidate experience and efficiency</li>
+          <li>Led cross-functional teams to develop cost estimates supporting data-driven recommendations and budgeting</li>
+          <li>Delivered foundational instruction in mathematics and physics, supporting student comprehension and study progress</li>
         </ul>
       </div>
     </div>
   </section>
 
-  <!-- Footer -->
+  <!-- ===== Footer ===== -->
   <footer class="footer">
-    <p>&copy; <span id="year"></span> Binxuan Yan  Hosted on GitHub Pages.</p>
+    <div class="footer-inner">
+      <div class="footer-name">Binxuan Yan</div>
+      <div class="footer-contacts">
+        <a href="mailto:yan.binx@northeastern.edu">yan.binx@northeastern.edu</a>
+        <a href="mailto:biinxuand@gmail.com">biinxuand@gmail.com</a>
+        <a href="https://github.com/FF-Yan" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+      <p class="footer-copy">&copy; <span id="year"></span> Binxuan Yan &mdash; Hosted on GitHub Pages.</p>
+    </div>
   </footer>
 
   <script src="script.js"></script>

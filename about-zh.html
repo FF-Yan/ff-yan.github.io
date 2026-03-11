@@ -7,60 +7,122 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- 导航 -->
+
+  <!-- ===== 导航栏 ===== -->
   <header class="navbar">
-    <div class="nav-container">
-      <a href="index-zh.html" class="nav-logo">颜彬轩</a>
-      <nav>
-        <ul class="nav-links">
-          <li><a href="index-zh.html" data-page="index">主页</a></li>
-          <li><a href="about-zh.html" data-page="about">关于我</a></li>
-          <li><a href="projects-zh.html" data-page="projects">项目</a></li>
-        </ul>
-      </nav>
-      <div class="nav-actions">
+    <div class="nav-inner">
+      <a href="index-zh.html" class="nav-logo">颜<span>彬轩</span></a>
+      <div class="nav-right">
         <button class="lang-toggle" data-lang-href="about.html" aria-label="Switch to English">EN</button>
-        <button class="menu-toggle" aria-label="切换导航" aria-expanded="false">&#9776;</button>
+        <button class="hamburger" aria-label="打开导航" aria-expanded="false" aria-controls="menuOverlay">
+          <span></span><span></span><span></span>
+        </button>
       </div>
     </div>
   </header>
 
-  <!-- 页面标题 -->
+  <!-- ===== 菜单遮罩 ===== -->
+  <div class="menu-overlay" id="menuOverlay">
+    <div class="menu-backdrop"></div>
+    <div class="menu-panel">
+      <button class="menu-close" aria-label="关闭菜单">&times;</button>
+
+      <div class="menu-logo">颜<span>彬轩</span></div>
+      <div class="menu-tagline">// 游戏开发者 &amp; 计算机科学学生</div>
+
+      <nav class="menu-nav">
+        <a href="index-zh.html"><span class="menu-num">01</span> 主页</a>
+        <a href="projects-zh.html"><span class="menu-num">02</span> 项目</a>
+        <a href="about-zh.html"><span class="menu-num">03</span> 关于我</a>
+        <a href="index-zh.html#contact"><span class="menu-num">04</span> 联系方式</a>
+      </nav>
+
+      <div class="menu-bottom">
+        <div class="menu-bottom-label">联系方式</div>
+        <div class="menu-contacts">
+          <a href="mailto:yan.binx@northeastern.edu">yan.binx@northeastern.edu</a>
+          <a href="mailto:biinxuand@gmail.com">biinxuand@gmail.com</a>
+          <a href="tel:+18575235523">+1 (857) 523-5523</a>
+          <a href="tel:+8613621623918">+86 136-2162-3918</a>
+        </div>
+        <div class="menu-lang-row">
+          <button class="lang-toggle" data-lang-href="about.html">EN</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 页面标题 ===== -->
   <div class="page-hero">
     <div class="container">
+      <div class="page-eyebrow">// 我是谁</div>
       <h1 class="page-title">关于我</h1>
     </div>
   </div>
 
-  <!-- 个人简介 -->
+  <!-- ===== 个人简介 ===== -->
   <section class="section">
     <div class="container">
-      <div class="about-grid reveal-target">
-        <div class="about-avatar">
-          <div class="avatar-circle">彬轩</div>
-        </div>
+      <div class="about-card reveal-target">
+        <div class="avatar"><img src="Images/Portrait.png" alt="颜彬轩" class="avatar-img"></div>
         <div class="about-text">
           <p>
-            我是一名在东北大学（Northeastern University）就读的计算机科学与游戏开发专业学生，
-            GPA 3.89/4.00，荣登院长嘉奖名单。我热爱游戏开发，擅长使用 Unity 和 C# 制作游戏原型，
-            曾通过课程与团队项目完成多款可玩游戏 Demo。
+            我是东北大学计算机科学与游戏开发专业学生，GPA 3.89/4.00，荣登院长嘉奖名单。
+            我热爱游戏开发，擅长使用 Unity 和 C# 构建游戏系统，从 AI 状态机到 UI 流程，
+            致力于让复杂的交互变得自然流畅、有趣好玩。
           </p>
           <p>
-            此外，我在 ISWorldLife 担任助理项目经理，带领跨职能团队并为学生提供辅导支持。
+            除技术开发外，我在 ISWorldLife 担任助理项目经理，带领跨职能团队并提供学生辅导支持；
+            同时拥有复旦大学智能医学研究所的暑期研究实习经历。
           </p>
           <p>
-            课余时间，我喜欢玩电子游戏、听音乐、看电影与音乐剧、旅行、唱歌以及摄影。
+            课余爱好：恐怖 &amp; 动作游戏、音乐剧、摄影、旅行与唱歌。
           </p>
-          <a href="mailto:yan.binx@northeastern.edu" class="btn btn-primary" style="margin-top:0.5rem;">联系我</a>
+          <a href="mailto:yan.binx@northeastern.edu" class="btn btn-primary btn-sm">联系我 →</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 工作经历 -->
+  <!-- ===== 教育经历 ===== -->
   <section class="section section-alt">
     <div class="container">
-      <h2 class="section-title">工作经历</h2>
+      <div class="section-header reveal-target">
+        <div class="section-num">// 教育</div>
+        <h2 class="section-title">教育经历</h2>
+      </div>
+      <div class="education-card reveal-target">
+        <div class="edu-header">
+          <div>
+            <h3>Northeastern University（东北大学）</h3>
+            <p class="edu-location">美国马萨诸塞州波士顿</p>
+          </div>
+          <div class="edu-dates">预计2027年5月毕业</div>
+        </div>
+        <p class="edu-degree">计算机科学与游戏开发 理学学士</p>
+        <div class="edu-details">
+          <span class="edu-badge">GPA: 3.89 / 4.00</span>
+          <span class="edu-badge">院长嘉奖名单</span>
+        </div>
+        <div>
+          <p class="edu-coursework-label">相关课程：</p>
+          <p class="edu-coursework-list">
+            游戏设计顶点课程、游戏概念开发、游戏快速原型设计、关卡设计与游戏架构、
+            程序设计与实现 II、游戏编程、C++ 编程、游戏工作室、游戏数学基础、游戏设计基础
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 工作经历 ===== -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header reveal-target">
+        <div class="section-num">// 经历</div>
+        <h2 class="section-title">工作经历</h2>
+      </div>
+
       <div class="experience-card reveal-target">
         <div class="exp-header">
           <div class="exp-info">
@@ -69,7 +131,7 @@
           </div>
           <div class="exp-dates">2024年6月 &mdash; 2024年8月</div>
         </div>
-        <p class="exp-role">实习生</p>
+        <p class="exp-role">研究实习生</p>
         <ul class="exp-bullets">
           <li>使用 Python 进行数据清洗与预处理，提升数据集质量，输出标准化研究数据</li>
           <li>利用 Python 脚本自动化复杂数据转换流程，降低人工操作量并提升处理效率</li>
@@ -79,10 +141,14 @@
     </div>
   </section>
 
-  <!-- 领导经历 -->
-  <section class="section">
+  <!-- ===== 领导经历 ===== -->
+  <section class="section section-alt">
     <div class="container">
-      <h2 class="section-title">领导经历</h2>
+      <div class="section-header reveal-target">
+        <div class="section-num">// 领导力</div>
+        <h2 class="section-title">领导经历</h2>
+      </div>
+
       <div class="experience-card reveal-target">
         <div class="exp-header">
           <div class="exp-info">
@@ -100,9 +166,17 @@
     </div>
   </section>
 
-  <!-- 页脚 -->
+  <!-- ===== 页脚 ===== -->
   <footer class="footer">
-    <p>&copy; <span id="year"></span> 颜彬轩 托管于 GitHub Pages。</p>
+    <div class="footer-inner">
+      <div class="footer-name">颜彬轩</div>
+      <div class="footer-contacts">
+        <a href="mailto:yan.binx@northeastern.edu">yan.binx@northeastern.edu</a>
+        <a href="mailto:biinxuand@gmail.com">biinxuand@gmail.com</a>
+        <a href="https://github.com/FF-Yan" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+      <p class="footer-copy">&copy; <span id="year"></span> 颜彬轩 &mdash; 托管于 GitHub Pages。</p>
+    </div>
   </footer>
 
   <script src="script.js"></script>

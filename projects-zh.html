@@ -7,119 +7,222 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- 导航 -->
+
+  <!-- ===== 导航栏 ===== -->
   <header class="navbar">
-    <div class="nav-container">
-      <a href="index-zh.html" class="nav-logo">颜彬轩</a>
-      <nav>
-        <ul class="nav-links">
-          <li><a href="index-zh.html" data-page="index">主页</a></li>
-          <li><a href="about-zh.html" data-page="about">关于我</a></li>
-          <li><a href="projects-zh.html" data-page="projects">项目</a></li>
-        </ul>
-      </nav>
-      <div class="nav-actions">
+    <div class="nav-inner">
+      <a href="index-zh.html" class="nav-logo">颜<span>彬轩</span></a>
+      <div class="nav-right">
         <button class="lang-toggle" data-lang-href="projects.html" aria-label="Switch to English">EN</button>
-        <button class="menu-toggle" aria-label="切换导航" aria-expanded="false">&#9776;</button>
+        <button class="hamburger" aria-label="打开导航" aria-expanded="false" aria-controls="menuOverlay">
+          <span></span><span></span><span></span>
+        </button>
       </div>
     </div>
   </header>
 
-  <!-- 页面标题 -->
+  <!-- ===== 菜单遮罩 ===== -->
+  <div class="menu-overlay" id="menuOverlay">
+    <div class="menu-backdrop"></div>
+    <div class="menu-panel">
+      <button class="menu-close" aria-label="关闭菜单">&times;</button>
+
+      <div class="menu-logo">颜<span>彬轩</span></div>
+      <div class="menu-tagline">// 游戏开发者 &amp; 计算机科学学生</div>
+
+      <nav class="menu-nav">
+        <a href="index-zh.html"><span class="menu-num">01</span> 主页</a>
+        <a href="projects-zh.html"><span class="menu-num">02</span> 项目</a>
+        <a href="about-zh.html"><span class="menu-num">03</span> 关于我</a>
+        <a href="index-zh.html#contact"><span class="menu-num">04</span> 联系方式</a>
+      </nav>
+
+      <div class="menu-bottom">
+        <div class="menu-bottom-label">联系方式</div>
+        <div class="menu-contacts">
+          <a href="mailto:yan.binx@northeastern.edu">yan.binx@northeastern.edu</a>
+          <a href="mailto:biinxuand@gmail.com">biinxuand@gmail.com</a>
+          <a href="tel:+18575235523">+1 (857) 523-5523</a>
+          <a href="tel:+8613621623918">+86 136-2162-3918</a>
+        </div>
+        <div class="menu-lang-row">
+          <button class="lang-toggle" data-lang-href="projects.html">EN</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 页面标题 ===== -->
   <div class="page-hero">
     <div class="container">
+      <div class="page-eyebrow">// 作品集</div>
       <h1 class="page-title">项目经历</h1>
     </div>
   </div>
 
-  <!-- 项目列表 -->
+  <!-- ===== 项目列表 ===== -->
   <section class="section">
     <div class="container">
-      <div class="projects-grid">
+      <div class="feat-grid">
+
+        <!-- Chromatic -->
+        <div class="project-card reveal-target">
+          <div class="project-thumb thumb-chroma">
+            <img src="Images/ChromaticInGame.jpg" alt="Chromatic" class="thumb-img">
+            <div class="thumb-overlay">
+              <span class="thumb-label">Unity · C# · 解谜平台跳跃</span>
+            </div>
+          </div>
+          <div class="project-body">
+            <div class="project-type">游戏开发 &mdash; 团队项目</div>
+            <h3>Chromatic</h3>
+            <p class="project-role-date">游戏程序员 &middot; 2025年9月 &ndash; 至今</p>
+            <p class="project-desc">
+              使用 Unity 和 C# 开发核心游戏系统，包括基于颜色的交互机制（动态改变物体物理属性与关卡通行方式）、
+              可复用组件架构（多系统共享核心逻辑同时保持独立行为），以及颜色解锁进度系统（影响世界状态与谜题配置）。
+              与四人团队通过 GitHub 协作开发。
+            </p>
+            <div class="project-tags">
+              <span class="tag">Unity</span>
+              <span class="tag">C#</span>
+              <span class="tag">解谜平台跳跃</span>
+              <span class="tag">Boss AI</span>
+              <span class="tag">GitHub</span>
+            </div>
+            <div class="project-links">
+              <a href="chromatic-zh.html" class="btn-pixel">▶ 深入了解</a>
+            </div>
+          </div>
+        </div>
 
         <!-- Glass Ceiling -->
         <div class="project-card reveal-target">
-          <div class="project-header">
-            <span class="project-icon">🎮</span>
-            <div>
-              <h3>Glass Ceiling</h3>
-              <p class="project-role-date">游戏开发者 &middot; 2025年9月 &ndash; 2025年12月</p>
+          <div class="project-thumb thumb-gc">
+            <img src="Images/GlassCeilingMenu.png" alt="Glass Ceiling" class="thumb-img">
+            <div class="thumb-overlay">
+              <span class="thumb-label">Unity · C# · 恐怖解谜</span>
             </div>
           </div>
-          <p>使用 Unity 和 C# 开发了一款可玩游戏 Demo，完成功能完整的原型供测试与验证。
-          负责核心游戏编程、UI 系统、机制设计与音效实现，交付了完全集成的交互功能。
-          通过迭代测试优化玩家交互，提升游戏可玩性与整体用户体验。</p>
-          <div class="project-tags">
-            <span class="tag">Unity</span>
-            <span class="tag">C#</span>
-            <span class="tag">游戏开发</span>
+          <div class="project-body">
+            <div class="project-type">游戏开发 &mdash; 团队项目</div>
+            <h3>Glass Ceiling</h3>
+            <p class="project-role-date">游戏程序员 &middot; 2025年9月 &ndash; 12月</p>
+            <p class="project-desc">
+              使用 Unity 和 C# 完成核心游戏编程、UI 系统、机制设计与音效集成，
+              交付了一款完整可玩的恐怖解谜 Demo，经过多轮迭代测试与打磨，
+              不断优化玩家交互体验与整体可玩性。
+            </p>
+            <div class="project-tags">
+              <span class="tag">Unity</span>
+              <span class="tag">C#</span>
+              <span class="tag">恐怖解谜</span>
+              <span class="tag">UI系统</span>
+            </div>
+            <div class="project-links">
+              <a href="glass-ceiling-zh.html" class="btn-pixel">▶ 深入了解</a>
+              <a href="https://aidan-moreau04.itch.io/glass-ceiling" class="project-link-ext" target="_blank" rel="noopener noreferrer">▶ 在 itch.io 游玩</a>
+            </div>
           </div>
         </div>
 
         <!-- What Remains Of Me -->
         <div class="project-card reveal-target">
-          <div class="project-header">
-            <span class="project-icon">🎮</span>
-            <div>
-              <h3>What Remains Of Me</h3>
-              <p class="project-role-date">游戏开发者 &middot; 2025年9月 &ndash; 2025年12月</p>
+          <div class="project-thumb thumb-wrom">
+            <img src="Images/WROMMenu.png" alt="What Remains Of Me" class="thumb-img">
+            <div class="thumb-overlay">
+              <span class="thumb-label">Unity · C# · 关卡设计</span>
             </div>
           </div>
-          <p>通过扩展现有系统，使用 Unity 和 C# 增强游戏功能，实现更流畅的功能集成。
-          参与游戏编程、美术资产制作与关卡设计。使用 Jira 追踪开发任务，编写 QA 测试脚本，
-          确保功能正常运行及团队协作顺畅。</p>
-          <div class="project-tags">
-            <span class="tag">Unity</span>
-            <span class="tag">C#</span>
-            <span class="tag">Jira</span>
-            <span class="tag">QA</span>
+          <div class="project-body">
+            <div class="project-type">游戏开发 &mdash; 团队项目</div>
+            <h3>What Remains Of Me</h3>
+            <p class="project-role-date">游戏开发者 &middot; 2025年9月 &ndash; 12月</p>
+            <p class="project-desc">
+              扩展现有系统以实现更流畅的功能集成，参与游戏编程、美术资产制作与关卡设计。
+              使用 Jira 追踪开发任务，编写 QA 测试脚本，确保功能正常运行及团队协作顺畅。
+            </p>
+            <div class="project-tags">
+              <span class="tag">Unity</span>
+              <span class="tag">C#</span>
+              <span class="tag">关卡设计</span>
+              <span class="tag">Jira</span>
+            </div>
+            <div class="project-links">
+              <a href="what-remains-of-me-zh.html" class="btn-pixel">▶ 深入了解</a>
+              <a href="https://whatremainsofme.itch.io/what-remains-of-me" class="project-link-ext" target="_blank" rel="noopener noreferrer">▶ 在 itch.io 游玩</a>
+            </div>
           </div>
         </div>
 
         <!-- Luminous -->
-        <div class="project-card reveal-target">
-          <div class="project-header">
-            <span class="project-icon">📚</span>
-            <div>
-              <h3>Luminous</h3>
-              <p class="project-role-date">联合负责人 &middot; 2022年9月 &ndash; 2023年5月</p>
+        <div class="project-card card-no-link reveal-target">
+          <div class="project-thumb thumb-lum">
+            <div class="project-thumb-inner">
+              <span class="thumb-icon">📚</span>
+              <span class="thumb-label">教育 · 多媒体 · 领导力</span>
             </div>
           </div>
-          <p>联合带领团队开发有声书及在线音乐与英语教学课程，为云南白水河小学扩展数字教育资源的获取渠道。
-          制作与编辑多媒体教育材料，注重细节与创意，提升学生学习体验。与跨职能团队协作，
-          规划内容、解决交付难题并保持一致性。</p>
-          <div class="project-tags">
-            <span class="tag">教育</span>
-            <span class="tag">多媒体</span>
-            <span class="tag">领导力</span>
+          <div class="project-body">
+            <div class="project-type">教育项目 &mdash; 领导角色</div>
+            <h3>Luminous</h3>
+            <p class="project-role-date">联合负责人 &middot; 2022年9月 &ndash; 2023年5月</p>
+            <p class="project-desc">
+              联合带领团队为云南白水河小学开发有声书及线上音乐与英语课程，
+              扩展农村学生获取数字教育资源的渠道。制作与编辑多媒体教育材料，
+              与跨职能团队协作规划内容、解决交付难题并保持一致质量。
+            </p>
+            <div class="project-tags">
+              <span class="tag tag-accent">教育</span>
+              <span class="tag tag-accent">多媒体</span>
+              <span class="tag tag-accent">领导力</span>
+            </div>
           </div>
         </div>
 
         <!-- Personal Website -->
         <div class="project-card reveal-target">
-          <div class="project-header">
-            <span class="project-icon">🌐</span>
-            <div>
-              <h3>个人网站</h3>
+          <div class="project-thumb thumb-web">
+            <div class="project-thumb-inner">
+              <span class="thumb-icon">🌐</span>
+              <span class="thumb-label">HTML · CSS · JavaScript</span>
             </div>
           </div>
-          <p>这个网站本身——一个简洁、响应式、支持双语的个人网站，
-          使用 HTML、CSS 和 JavaScript 构建，托管于 GitHub Pages。</p>
-          <div class="project-tags">
-            <span class="tag">HTML</span>
-            <span class="tag">CSS</span>
-            <span class="tag">JavaScript</span>
+          <div class="project-body">
+            <div class="project-type">网页开发 &mdash; 独立项目</div>
+            <h3>个人作品集网站</h3>
+            <p class="project-role-date">开发者 &middot; 2025年 &ndash; 至今</p>
+            <p class="project-desc">
+              这个网站本身——一个简洁、响应式、支持中英双语的个人作品集，
+              使用 HTML、CSS 和原生 JavaScript 构建，以游戏开发者视觉风格为设计理念，
+              托管于 GitHub Pages。
+            </p>
+            <div class="project-tags">
+              <span class="tag">HTML</span>
+              <span class="tag">CSS</span>
+              <span class="tag">JavaScript</span>
+              <span class="tag">GitHub Pages</span>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/FF-Yan/ff-yan.github.io/" class="project-link-ext" target="_blank" rel="noopener noreferrer">⟶ 在 GitHub 上查看</a>
+            </div>
           </div>
-          <a href="https://github.com/FF-Yan/ff-yan.github.io/" class="project-link" target="_blank" rel="noopener noreferrer">在 GitHub 上查看 →</a>
         </div>
 
       </div>
     </div>
   </section>
 
-  <!-- 页脚 -->
+  <!-- ===== 页脚 ===== -->
   <footer class="footer">
-    <p>&copy; <span id="year"></span> 颜彬轩 托管于 GitHub Pages。</p>
+    <div class="footer-inner">
+      <div class="footer-name">颜彬轩</div>
+      <div class="footer-contacts">
+        <a href="mailto:yan.binx@northeastern.edu">yan.binx@northeastern.edu</a>
+        <a href="mailto:biinxuand@gmail.com">biinxuand@gmail.com</a>
+        <a href="https://github.com/FF-Yan" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+      <p class="footer-copy">&copy; <span id="year"></span> 颜彬轩 &mdash; 托管于 GitHub Pages。</p>
+    </div>
   </footer>
 
   <script src="script.js"></script>

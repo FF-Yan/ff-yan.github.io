@@ -3,139 +3,327 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Binxuan Yan | Personal Website</title>
+  <title>Binxuan Yan | Game Developer</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Navigation -->
+
+  <!-- ===== Navbar ===== -->
   <header class="navbar">
-    <div class="nav-container">
-      <a href="index.html" class="nav-logo">Binxuan Yan</a>
-      <nav>
-        <ul class="nav-links">
-          <li><a href="index.html" data-page="index">Home</a></li>
-          <li><a href="about.html" data-page="about">About</a></li>
-          <li><a href="projects.html" data-page="projects">Projects</a></li>
-        </ul>
-      </nav>
-      <div class="nav-actions">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">Binxuan <span>Yan</span></a>
+      <div class="nav-right">
         <button class="lang-toggle" data-lang-href="index-zh.html" aria-label="切换到中文">中文</button>
-        <button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
+        <button class="hamburger" aria-label="Open navigation" aria-expanded="false" aria-controls="menuOverlay">
+          <span></span><span></span><span></span>
+        </button>
       </div>
     </div>
   </header>
 
-  <!-- Hero Section -->
+  <!-- ===== Menu Overlay ===== -->
+  <div class="menu-overlay" id="menuOverlay">
+    <div class="menu-backdrop"></div>
+    <div class="menu-panel">
+      <button class="menu-close" aria-label="Close menu">&times;</button>
+
+      <div class="menu-logo">Binxuan <span>Yan</span></div>
+      <div class="menu-tagline">// Game Developer &amp; CS Student</div>
+
+      <nav class="menu-nav">
+        <a href="#hero"><span class="menu-num">01</span> Home</a>
+        <a href="#featured"><span class="menu-num">02</span> Projects</a>
+        <a href="#about"><span class="menu-num">03</span> About</a>
+        <a href="#skills"><span class="menu-num">04</span> Skills</a>
+        <a href="#contact"><span class="menu-num">05</span> Contact</a>
+      </nav>
+
+      <div class="menu-bottom">
+        <div class="menu-bottom-label">Contact</div>
+        <div class="menu-contacts">
+          <a href="mailto:yan.binx@northeastern.edu">yan.binx@northeastern.edu</a>
+          <a href="mailto:biinxuand@gmail.com">biinxuand@gmail.com</a>
+          <a href="tel:+18575235523">+1 (857) 523-5523</a>
+          <a href="tel:+8613621623918">+86 136-2162-3918</a>
+        </div>
+        <div class="menu-lang-row">
+          <button class="lang-toggle" data-lang-href="index-zh.html">中文</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Hero ===== -->
   <section id="hero" class="hero">
-    <div class="hero-content">
-      <h1>Hi, I'm <span class="highlight">Binxuan Yan</span></h1>
-      <p class="hero-subtitle">CS &amp; Game Development Student at Northeastern University</p>
-      <div class="hero-buttons">
-        <a href="projects.html" class="btn btn-primary">View My Projects</a>
-        <a href="about.html" class="btn btn-secondary">About Me</a>
+    <div class="hero-inner">
+      <div class="hero-eyebrow">Game Developer &amp; CS Student</div>
+      <h1 class="hero-name">Binxuan<br><span class="accent">Yan</span></h1>
+      <p class="hero-desc">
+        Focused on gameplay systems, level design, and technical problem-solving in Unity and C++.
+        Currently at Northeastern University — Expected December 2027.
+      </p>
+      <div class="hero-cta">
+        <a href="#featured" class="btn btn-primary">View My Work ↓</a>
+        <a href="#contact" class="btn btn-outline">Get In Touch</a>
+      </div>
+      <div class="hero-meta">
+        <span class="hero-meta-item">📍 Boston, MA</span>
       </div>
     </div>
   </section>
 
-  <!-- Education Section -->
-  <section id="education" class="section section-alt">
+  <!-- ===== Featured Projects ===== -->
+  <section id="featured" class="section section-alt">
     <div class="container">
-      <h2 class="section-title">Education</h2>
-      <div class="education-card reveal-target">
-        <div class="edu-header">
-          <div class="edu-info">
-            <h3>Northeastern University</h3>
-            <p class="edu-location">Boston, MA</p>
+      <div class="section-header reveal-target">
+        <div class="section-num">// 01 &mdash; Featured Projects</div>
+        <h2 class="section-title">What I've Built</h2>
+      </div>
+
+      <div class="feat-grid">
+
+        <!-- Chromatic -->
+        <div class="project-card reveal-target">
+          <div class="project-thumb thumb-chroma">
+            <img src="Images/ChromaticInGame.jpg" alt="Chromatic" class="thumb-img">
+            <div class="thumb-overlay">
+              <span class="thumb-label">Unity · C# · Puzzle Platformer</span>
+            </div>
           </div>
-          <div class="edu-dates">Expected May 2027</div>
+          <div class="project-body">
+            <div class="project-type">Game Dev &mdash; Team Project</div>
+            <h3>Chromatic</h3>
+            <p class="project-role-date">Gameplay Programmer &middot; Sep 2025 &ndash; Present</p>
+            <p class="project-desc">
+              2D puzzle-platformer where players restore color to a grayscale world. Built
+              color-based interaction mechanics, reusable component architecture, and color
+              unlock progression affecting world state and puzzle configurations.
+            </p>
+            <div class="project-tags">
+              <span class="tag">Unity</span>
+              <span class="tag">C#</span>
+              <span class="tag">Puzzle Platformer</span>
+            </div>
+            <div class="project-links">
+              <a href="chromatic.html" class="btn-pixel">▶ Details</a>
+            </div>
+          </div>
         </div>
-        <p class="edu-degree">Bachelor of Science in Computer Science and Game Development</p>
-        <div class="edu-details">
-          <span class="edu-badge">GPA: 3.89 / 4.00</span>
-          <span class="edu-badge">Dean's List</span>
+
+        <!-- Glass Ceiling -->
+        <div class="project-card reveal-target">
+          <div class="project-thumb thumb-gc">
+            <img src="Images/GlassCeilingMenu.png" alt="Glass Ceiling" class="thumb-img">
+            <div class="thumb-overlay">
+              <span class="thumb-label">Unity · C# · Horror Puzzle</span>
+            </div>
+          </div>
+          <div class="project-body">
+            <div class="project-type">Game Dev &mdash; Team Project</div>
+            <h3>Glass Ceiling</h3>
+            <p class="project-role-date">Gameplay Programmer &middot; Sep &ndash; Dec 2025</p>
+            <p class="project-desc">
+              Developed core gameplay programming, UI system, mechanics, and audio
+              integration using Unity &amp; C#. Delivered a fully playable horror-puzzle demo
+              with iterative playtesting and polish.
+            </p>
+            <div class="project-tags">
+              <span class="tag">Unity</span>
+              <span class="tag">C#</span>
+              <span class="tag">Horror Puzzle</span>
+            </div>
+            <div class="project-links">
+              <a href="glass-ceiling.html" class="btn-pixel">▶ Details</a>
+              <a href="https://aidan-moreau04.itch.io/glass-ceiling" class="project-link-ext" target="_blank" rel="noopener noreferrer">▶ Play on itch.io</a>
+            </div>
+          </div>
         </div>
-        <div class="edu-coursework">
-          <p class="edu-coursework-label">Relevant Coursework:</p>
-          <p class="edu-coursework-list">
-            Game Design Capstone, Game Concept Development, Rapid Idea Prototyping Games,
-            Level Design and Game Architecture, Program Design and Implementation II,
-            Game Programming, Programming in C++, Game Studio, Math Fundamentals for Games,
-            Foundations of Game Design
+
+        <!-- What Remains Of Me -->
+        <div class="project-card reveal-target">
+          <div class="project-thumb thumb-wrom">
+            <img src="Images/WROMMenu.png" alt="What Remains Of Me" class="thumb-img">
+            <div class="thumb-overlay">
+              <span class="thumb-label">Unity · C# · Level Design</span>
+            </div>
+          </div>
+          <div class="project-body">
+            <div class="project-type">Game Dev &mdash; Team Project</div>
+            <h3>What Remains Of Me</h3>
+            <p class="project-role-date">Game Developer &middot; Sep &ndash; Dec 2025</p>
+            <p class="project-desc">
+              Extended existing gameplay systems for smoother feature integration. Contributed
+              to level design, art assets, and QA scripting. Tracked tasks with Jira to ensure
+              consistent team delivery.
+            </p>
+            <div class="project-tags">
+              <span class="tag">Unity</span>
+              <span class="tag">C#</span>
+              <span class="tag">Level Design</span>
+              <span class="tag">Jira</span>
+            </div>
+            <div class="project-links">
+              <a href="what-remains-of-me.html" class="btn-pixel">▶ Details</a>
+              <a href="https://whatremainsofme.itch.io/what-remains-of-me" class="project-link-ext" target="_blank" rel="noopener noreferrer">▶ Play on itch.io</a>
+            </div>
+          </div>
+        </div>
+
+      <div style="text-align:center; margin-top:2.5rem;">
+        <a href="projects.html" class="btn btn-outline">See All Projects →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== About ===== -->
+  <section id="about" class="section">
+    <div class="container">
+      <div class="section-header reveal-target">
+        <div class="section-num">// 02 &mdash; About</div>
+        <h2 class="section-title">Who I Am</h2>
+      </div>
+
+      <div class="about-card reveal-target">
+        <div class="avatar"><img src="Images/Portrait.png" alt="Binxuan Yan" class="avatar-img"></div>
+        <div class="about-text">
+          <p>
+            I'm a Computer Science &amp; Game Development student at Northeastern University,
+            maintaining a 3.89 GPA and recognized on the Dean's List. I build games with
+            Unity and C# — from core systems to level design — and love the process of
+            turning a concept into a playable, polished experience.
           </p>
+          <p>
+            Beyond coursework, I bring leadership experience as Assistant Project Manager at
+            ISWorldLife and research experience from a summer internship at Fudan University's
+            Intelligent Medical Institute.
+          </p>
+          <p>
+            Outside of tech, I enjoy horror &amp; action games, musicals, photography,
+            singing, and traveling.
+          </p>
+          <a href="about.html" class="btn btn-outline btn-sm">Full Profile →</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Skills Section -->
-  <section id="skills" class="section">
+  <!-- ===== Skills ===== -->
+  <section id="skills" class="section section-alt">
     <div class="container">
-      <h2 class="section-title">Skills</h2>
+      <div class="section-header reveal-target">
+        <div class="section-num">// 03 &mdash; Skills</div>
+        <h2 class="section-title">Technical Toolkit</h2>
+      </div>
+
       <div class="skills-grid">
         <div class="skill-card reveal-target">
-          <div class="skill-icon">💻</div>
-          <h3>Computer Languages</h3>
-          <ul>
-            <li>Java</li>
-            <li>C#</li>
+          <div class="skill-card-title">Programming Languages</div>
+          <ul class="skill-list">
+            <li>C# (Unity)</li>
             <li>C++</li>
+            <li>Java</li>
             <li>Python</li>
           </ul>
         </div>
+
         <div class="skill-card reveal-target">
-          <div class="skill-icon">🛠️</div>
-          <h3>Tools</h3>
-          <div class="tools-tags">
-            <span class="tag">Git / GitHub</span>
+          <div class="skill-card-title">Game Dev Tools</div>
+          <div class="tags-cloud">
             <span class="tag">Unity</span>
             <span class="tag">Maya</span>
-            <span class="tag">Adobe Substance 3D Painter</span>
-            <span class="tag">Adobe Photoshop</span>
+            <span class="tag">Substance 3D Painter</span>
             <span class="tag">SketchUp</span>
+            <span class="tag">Adobe Photoshop</span>
             <span class="tag">Affinity Photo</span>
-            <span class="tag">iMovie</span>
-            <span class="tag">Trello</span>
+          </div>
+        </div>
+
+        <div class="skill-card reveal-target">
+          <div class="skill-card-title">Workflow &amp; Collab</div>
+          <div class="tags-cloud">
+            <span class="tag">Git / GitHub</span>
             <span class="tag">Jira</span>
+            <span class="tag">Trello</span>
             <span class="tag">Miro</span>
             <span class="tag">Figma</span>
-            <span class="tag">Microsoft Office</span>
             <span class="tag">Google Workspace</span>
           </div>
         </div>
+
         <div class="skill-card reveal-target">
-          <div class="skill-icon">🌐</div>
-          <h3>Languages</h3>
-          <ul>
-            <li>Mandarin &mdash; Native</li>
-            <li>Shanghainese &mdash; Native</li>
-            <li>Japanese &mdash; Beginner</li>
+          <div class="skill-card-title">Languages</div>
+          <ul class="skill-list">
+            <li>Mandarin — Native</li>
+            <li>English — Fluent</li>
+            <li>Japanese — Beginner</li>
           </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Contact Section -->
-  <section id="contact" class="section section-alt">
+  <!-- ===== Contact ===== -->
+  <section id="contact" class="section">
     <div class="container">
-      <h2 class="section-title">Contact</h2>
-      <p class="contact-intro">Have a question or want to work together? Feel free to reach out!</p>
-      <div class="contact-links reveal-target">
-        <a href="https://github.com/FF-Yan" class="contact-card" target="_blank" rel="noopener noreferrer">
-          <span class="contact-icon">🐙</span>
-          <span>GitHub</span>
+      <div class="section-header reveal-target">
+        <div class="section-num">// 04 &mdash; Contact</div>
+        <h2 class="section-title">Get In Touch</h2>
+      </div>
+      <p class="contact-intro reveal-target">
+        Looking to collaborate, hire, or just say hi? Reach out through any of these channels.
+      </p>
+
+      <div class="contact-grid reveal-target">
+        <a href="mailto:yan.binx@northeastern.edu" class="contact-item">
+          <div class="contact-icon-wrap">✉️</div>
+          <div>
+            <div class="contact-label">School Email</div>
+            <div class="contact-value">yan.binx@northeastern.edu</div>
+          </div>
         </a>
-        <a href="mailto:yan.binx@northeastern.edu" class="contact-card" aria-label="Send an email">
-          <span class="contact-icon">✉️</span>
-          <span>yan.binx@northeastern.edu</span>
+        <a href="mailto:biinxuand@gmail.com" class="contact-item">
+          <div class="contact-icon-wrap">📧</div>
+          <div>
+            <div class="contact-label">Personal Email</div>
+            <div class="contact-value">biinxuand@gmail.com</div>
+          </div>
+        </a>
+        <a href="tel:+18575235523" class="contact-item">
+          <div class="contact-icon-wrap">📱</div>
+          <div>
+            <div class="contact-label">US Phone</div>
+            <div class="contact-value">+1 (857) 523-5523</div>
+          </div>
+        </a>
+        <a href="tel:+8613621623918" class="contact-item">
+          <div class="contact-icon-wrap">📞</div>
+          <div>
+            <div class="contact-label">CN Phone</div>
+            <div class="contact-value">+86 136-2162-3918</div>
+          </div>
+        </a>
+        <a href="https://github.com/FF-Yan" class="contact-item" target="_blank" rel="noopener noreferrer">
+          <div class="contact-icon-wrap">🐙</div>
+          <div>
+            <div class="contact-label">GitHub</div>
+            <div class="contact-value">FF-Yan</div>
+          </div>
         </a>
       </div>
     </div>
   </section>
 
-  <!-- Footer -->
+  <!-- ===== Footer ===== -->
   <footer class="footer">
-    <p>&copy; <span id="year"></span> Binxuan Yan  Hosted on GitHub Pages.</p>
+    <div class="footer-inner">
+      <div class="footer-name">Binxuan Yan</div>
+      <div class="footer-contacts">
+        <a href="mailto:yan.binx@northeastern.edu">yan.binx@northeastern.edu</a>
+        <a href="mailto:biinxuand@gmail.com">biinxuand@gmail.com</a>
+        <a href="https://github.com/FF-Yan" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+      <p class="footer-copy">&copy; <span id="year"></span> Binxuan Yan &mdash; Hosted on GitHub Pages.</p>
+    </div>
   </footer>
 
   <script src="script.js"></script>
