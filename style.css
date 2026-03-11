@@ -596,10 +596,11 @@ ul { list-style: none; }
   z-index: 2;
 }
 
-.thumb-gc   { background: linear-gradient(135deg, #1a0a2e 0%, #2b1565 55%, #0d0a1a 100%); }
-.thumb-wrom { background: linear-gradient(135deg, #0a1a0d 0%, #14532d 55%, #0a0a14 100%); }
-.thumb-lum  { background: linear-gradient(135deg, #001a2e 0%, #0c3d5a 55%, #001018 100%); }
-.thumb-web  { background: linear-gradient(135deg, #16163a 0%, #3b2878 55%, #0a0a1a 100%); }
+.thumb-gc     { background: linear-gradient(135deg, #1a0a2e 0%, #2b1565 55%, #0d0a1a 100%); }
+.thumb-wrom   { background: linear-gradient(135deg, #0a1a0d 0%, #14532d 55%, #0a0a14 100%); }
+.thumb-lum    { background: linear-gradient(135deg, #001a2e 0%, #0c3d5a 55%, #001018 100%); }
+.thumb-web    { background: linear-gradient(135deg, #16163a 0%, #3b2878 55%, #0a0a1a 100%); }
+.thumb-chroma { background: linear-gradient(135deg, #0d0a1a 0%, #6b21a8 35%, #be185d 65%, #0891b2 100%); }
 
 /* Project body */
 .project-body {
