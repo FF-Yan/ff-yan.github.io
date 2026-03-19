@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chromatic | Binxuan Yan</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>What Remains Of Me | Binxuan Yan</title>
+  <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
 
@@ -13,7 +13,7 @@
     <div class="nav-inner">
       <a href="/" class="nav-logo">Binxuan <span>Yan</span></a>
       <div class="nav-right">
-        <button class="lang-toggle" data-lang-href="/chromatic-zh" aria-label="切换到中文">中文</button>
+        <button class="lang-toggle" data-lang-href="/zh/projects/what-remains-of-me" aria-label="切换到中文">中文</button>
         <button class="hamburger" aria-label="Open navigation" aria-expanded="false" aria-controls="menuOverlay">
           <span></span><span></span><span></span>
         </button>
@@ -46,7 +46,7 @@
           <a href="tel:+8613621623918">+86 136-2162-3918</a>
         </div>
         <div class="menu-lang-row">
-          <button class="lang-toggle" data-lang-href="/chromatic-zh">中文</button>
+          <button class="lang-toggle" data-lang-href="/zh/projects/what-remains-of-me">中文</button>
         </div>
       </div>
     </div>
@@ -55,8 +55,8 @@
   <!-- ===== Page Hero ===== -->
   <div class="page-hero">
     <div class="container">
-      <div class="page-eyebrow">// Game Project &mdash; Puzzle Platformer</div>
-      <h1 class="page-title">Chromatic (In Progress)</h1>
+      <div class="page-eyebrow">// Game Project &mdash; Level Design</div>
+      <h1 class="page-title">What Remains Of Me</h1>
     </div>
   </div>
 
@@ -70,33 +70,34 @@
 
       <!-- Overview -->
       <div class="game-overview reveal-target">
-        <div class="game-overview-thumb thumb-chroma">
-          <img src="Images/ChromaticInGame.jpg" alt="Chromatic - In-Game" class="thumb-img">
-          <div class="thumb-overlay">
-            <span class="thumb-label">Unity · C# · Puzzle Platformer</span>
-          </div>
+        <div class="game-overview-thumb thumb-wrom">
+          <img src="/Images/WROMMenu.png" alt="What Remains Of Me - Main Menu" class="thumb-img">
         </div>
         <div class="game-info">
           <h2>Overview</h2>
           <p>
-            <strong>Chromatic</strong> is a 2D puzzle-platformer where players restore color to a
-            grayscale world by defeating bosses and solving environmental puzzles. The core
-            mechanic lets players apply colors to objects, changing their physical properties
-            and unlocking new traversal and puzzle solutions.
+            <strong>What Remains Of Me</strong> is a cross-semester, narrative-driven game
+            developed by an entire class at Northeastern University. The project focused on
+            extending existing gameplay systems,
+            shaping the world through level design, and ensuring quality through rigorous QA.
+            Our group focus was revising <strong>Level 3</strong> and adding a
+            clearer gameplay flow, making progression and player guidance more reasonable.
+            My primary contribution was on the coding side of those updates.
           </p>
           <p>
-            <strong>Role:</strong> Gameplay Programmer &nbsp;&middot;&nbsp;
-            <strong>Period:</strong> Jan 2026 &ndash; Present
+            <strong>Role:</strong> Game Developer &nbsp;&middot;&nbsp;
+            <strong>Period:</strong> Sep &ndash; Dec 2025
           </p>
           <div class="project-tags" style="margin-bottom:0.5rem;">
             <span class="tag">Unity</span>
             <span class="tag">C#</span>
-            <span class="tag">Puzzle Platformer</span>
-            <span class="tag">Game Systems</span>
-            <span class="tag">Team Project</span>
+            <span class="tag">Level Design</span>
+            <span class="tag">Art Assets</span>
+            <span class="tag">Jira</span>
+            <span class="tag">QA</span>
           </div>
           <div class="game-links">
-            <a href="https://github.com/Hbadmus/Chromatic" class="btn btn-primary" target="_blank" rel="noopener noreferrer">⟶ View on GitHub</a>
+            <a href="https://whatremainsofme.itch.io/what-remains-of-me" class="btn btn-primary" target="_blank" rel="noopener noreferrer">▶ Play on itch.io</a>
             <a href="/projects" class="btn btn-outline">← All Projects</a>
           </div>
         </div>
@@ -106,7 +107,19 @@
       <div class="screenshot-gallery reveal-target">
         <div class="gallery-slides">
           <div class="gallery-slide">
-            <img src="Images/ChromaticInGame.jpg" alt="Chromatic – In-Game">
+            <img src="/Images/WROMMenu.png" alt="What Remains Of Me – Main Menu">
+          </div>
+          <div class="gallery-slide">
+            <img src="/Images/WROMInGame.png" alt="What Remains Of Me – In-Game">
+          </div>
+          <div class="gallery-slide">
+            <img src="/Images/WROMInGame2.png" alt="What Remains Of Me – In-Game Scene 2">
+          </div>
+          <div class="gallery-slide">
+            <img src="/Images/WROMInGame3.png" alt="What Remains Of Me – In-Game Scene 3">
+          </div>
+          <div class="gallery-slide">
+            <img src="/Images/WROMInGame4.jpg" alt="What Remains Of Me – In-Game Scene 4">
           </div>
         </div>
         <div class="gallery-nav">
@@ -116,6 +129,10 @@
         <div class="gallery-footer">
           <div class="gallery-dots">
             <div class="gallery-dot active" data-idx="0"></div>
+            <div class="gallery-dot" data-idx="1"></div>
+            <div class="gallery-dot" data-idx="2"></div>
+            <div class="gallery-dot" data-idx="3"></div>
+            <div class="gallery-dot" data-idx="4"></div>
           </div>
           <div class="gallery-caption">// Screenshots</div>
         </div>
@@ -125,11 +142,12 @@
       <div class="game-section reveal-target">
         <h2>// My Contributions</h2>
         <ul>
-          <li>Built core gameplay systems in Unity (C#), including color-based interaction mechanics that modify object properties, world physics, and traversal.</li>
-          <li>Designed puzzle-driven boss encounters centered on mechanics and environment logic instead of traditional combat loops.</li>
-          <li>Imported and implemented art assets and UI elements, integrating them into gameplay flow to improve visual consistency and user interaction.</li>
-          <li>Developed color unlock progression that transforms world state and updates puzzle configurations dynamically.</li>
-          <li>Collaborated in a 4-person team using GitHub, maintaining reusable systems that support unique per-level and per-boss behavior.</li>
+          <li>Implemented key code changes for the Level 3 rework, including progression logic and event sequencing.</li>
+          <li>Built and integrated an added gameplay flow that made player objectives and transitions more coherent.</li>
+          <li>Created and refined art assets to visually support the game's narrative tone.</li>
+          <li>Collaborated with teammates on iteration and balancing, then shipped fixes quickly through Unity C# workflow.</li>
+          <li>Wrote QA scripts to systematically test game functionality and catch regressions across builds.</li>
+          <li>Used Jira to track tasks, manage sprint goals, and coordinate deliverables with the team.</li>
         </ul>
       </div>
 
@@ -137,12 +155,12 @@
       <div class="game-section reveal-target">
         <h2>// Technical Stack</h2>
         <div class="project-tags">
-          <span class="tag">Unity</span>
+          <span class="tag">Unity 2022</span>
           <span class="tag">C#</span>
-          <span class="tag">FSM AI</span>
-          <span class="tag">Modular Architecture</span>
+          <span class="tag">ProBuilder</span>
           <span class="tag">GitHub</span>
-          <span class="tag">Team Collaboration</span>
+          <span class="tag">Jira</span>
+          <span class="tag">Adobe Photoshop</span>
         </div>
       </div>
 
@@ -162,6 +180,6 @@
     </div>
   </footer>
 
-  <script src="script.js"></script>
+  <script src="/script.js"></script>
 </body>
 </html>

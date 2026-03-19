@@ -1,4 +1,18 @@
 // ===========================
+// Normalize URL (remove .html)
+// ===========================
+(function normalizeHtmlUrl() {
+  const { pathname, search, hash } = window.location;
+  if (!pathname.endsWith('.html')) return;
+
+  const cleanPath = pathname === '/index.html'
+    ? '/'
+    : pathname.replace(/\.html$/, '');
+
+  window.location.replace(cleanPath + search + hash);
+})();
+
+// ===========================
 // Footer year
 // ===========================
 const yearEl = document.getElementById('year');
