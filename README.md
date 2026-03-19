@@ -3,7 +3,7 @@
 Welcome to my personal website!
 
 You can view the website here:
-https://ff-yan.github.io
+[binxuanyan.dev](https://binxuanyan.dev)
 
 ## About
 
