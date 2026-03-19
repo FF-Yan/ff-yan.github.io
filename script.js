@@ -49,6 +49,15 @@ requestAnimationFrame(() => {
 });
 
 // Fade out before navigation
+function scrollToAnchorWithoutHash(anchorHref) {
+  const id = anchorHref.slice(1);
+  const target = id ? document.getElementById(id) : null;
+  if (!target) return false;
+  target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  history.replaceState(null, '', window.location.pathname + window.location.search);
+  return true;
+}
+
 document.addEventListener('click', e => {
   const link = e.target.closest('a[href]');
   if (!link) return;
@@ -57,14 +66,8 @@ document.addEventListener('click', e => {
 
   // In-page anchor scroll without writing #hash to URL.
   if (href.startsWith('#')) {
-    const id = href.slice(1);
-    const target = id ? document.getElementById(id) : null;
-    if (!target) return;
+    if (!scrollToAnchorWithoutHash(href)) return;
     e.preventDefault();
-    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    if (window.location.hash) {
-      history.replaceState(null, '', window.location.pathname + window.location.search);
-    }
     return;
   }
 
@@ -72,6 +75,12 @@ document.addEventListener('click', e => {
   e.preventDefault();
   transitionOverlay.classList.add('fade-active');
   setTimeout(() => { window.location.href = href; }, 280);
+}, true);
+
+// Fallback: if hash appears (e.g., browser behavior), scroll and clear it immediately.
+window.addEventListener('hashchange', () => {
+  if (!window.location.hash) return;
+  scrollToAnchorWithoutHash(window.location.hash);
 });
 
 // ===========================
