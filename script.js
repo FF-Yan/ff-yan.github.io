@@ -53,8 +53,22 @@ document.addEventListener('click', e => {
   const link = e.target.closest('a[href]');
   if (!link) return;
   const href = link.getAttribute('href');
-  if (!href || href.startsWith('#') || href.startsWith('mailto:') ||
-      href.startsWith('tel:') || link.target === '_blank') return;
+  if (!href) return;
+
+  // In-page anchor scroll without writing #hash to URL.
+  if (href.startsWith('#')) {
+    const id = href.slice(1);
+    const target = id ? document.getElementById(id) : null;
+    if (!target) return;
+    e.preventDefault();
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (window.location.hash) {
+      history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
+    return;
+  }
+
+  if (href.startsWith('mailto:') || href.startsWith('tel:') || link.target === '_blank') return;
   e.preventDefault();
   transitionOverlay.classList.add('fade-active');
   setTimeout(() => { window.location.href = href; }, 280);
