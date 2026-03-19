@@ -31,9 +31,12 @@ if (langBtn) {
 // ===========================
 // Page Transition Overlay
 // ===========================
-const transitionOverlay = document.createElement('div');
-transitionOverlay.className = 'page-transition';
-document.body.appendChild(transitionOverlay);
+let transitionOverlay = document.querySelector('.page-transition');
+if (!transitionOverlay) {
+  transitionOverlay = document.createElement('div');
+  transitionOverlay.className = 'page-transition';
+  document.body.appendChild(transitionOverlay);
+}
 
 // Fade in on page load
 transitionOverlay.classList.add('fade-active');
@@ -106,6 +109,15 @@ function closeMenu() {
   }
   document.body.style.overflow = '';
 }
+
+function resetTransientUiState() {
+  // Fix BFCache restore case: page may come back with black transition still active.
+  if (transitionOverlay) transitionOverlay.classList.remove('fade-active');
+  closeMenu();
+  document.body.style.overflow = '';
+}
+
+window.addEventListener('pageshow', resetTransientUiState);
 
 if (hamburger && menuOverlay) {
   hamburger.addEventListener('click', () => {
