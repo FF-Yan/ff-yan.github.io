@@ -601,7 +601,7 @@ ul { list-style: none; }
 }
 
 /* Collapse to 1 column later (so 3 columns stay longer) */
-@container (max-width: 680px) {
+@container (max-width: 500px) {
   .home-featured-grid {
     grid-template-columns: 1fr;
   }
