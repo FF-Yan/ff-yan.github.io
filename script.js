@@ -50,13 +50,13 @@ async function loadSharedComponents() {
     await loadInto(navbarHost, navbarUrl);
     const toggle = navbarHost.querySelector('.lang-toggle');
     if (toggle) {
-      if (document.body.dataset.is404 === 'true') {
-        toggle.style.display = 'none';
-        toggle.removeAttribute('data-lang-href');
+      const currentTop = getTopLevelMenuPath(window.location.pathname, isZh);
+      const is404Like = document.body.dataset.is404 === 'true' || currentTop === null;
+      if (is404Like) {
+        toggle.remove();
       } else {
         const fallback = isZh ? '/' : '/zh/';
         toggle.dataset.langHref = document.body.dataset.langHref || fallback;
-        toggle.style.display = '';
       }
     }
     if (navVariant !== 'main') {
