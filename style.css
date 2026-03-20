@@ -565,7 +565,7 @@ ul { list-style: none; }
   min-width: 0;
 }
 
-@container (max-width: 600px) {
+@container (max-width: 500px) {
   .home-featured-grid {
     grid-template-columns: 1fr;
   }
