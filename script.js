@@ -40,6 +40,7 @@ async function loadSharedComponents() {
       const fallback = isZh ? '/' : '/zh/';
       toggle.dataset.langHref = document.body.dataset.langHref || fallback;
     }
+    applyCurrentPageStateToMenu(navbarHost, isZh);
   }
 
   if (footerHost) {
@@ -50,6 +51,51 @@ async function loadSharedComponents() {
 function syncYear() {
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
+}
+
+function normalizePath(path) {
+  if (!path) return '/';
+  let p = path;
+  if (p.includes('://')) p = new URL(p).pathname;
+  p = p.replace(/\/index\.html$/, '/');
+  p = p.replace(/\.html$/, '');
+  if (!p.startsWith('/')) p = `/${p}`;
+  if (p !== '/' && p.endsWith('/')) p = p.slice(0, -1);
+  return p || '/';
+}
+
+function getTopLevelMenuPath(pathname, isZh) {
+  const p = normalizePath(pathname);
+  if (isZh) {
+    if (p.startsWith('/zh/projects')) return '/zh/projects';
+    if (p.startsWith('/zh/about')) return '/zh/about';
+    return '/zh';
+  }
+  if (p.startsWith('/projects')) return '/projects';
+  if (p.startsWith('/about')) return '/about';
+  return '/';
+}
+
+function applyCurrentPageStateToMenu(navbarHost, isZh) {
+  const menuLinks = navbarHost.querySelectorAll('.menu-nav a[href]');
+  if (!menuLinks.length) return;
+
+  const currentTop = getTopLevelMenuPath(window.location.pathname, isZh);
+  menuLinks.forEach(link => {
+    const href = link.getAttribute('href') || '';
+    const targetTop = getTopLevelMenuPath(href, isZh);
+    const isCurrent = targetTop === currentTop;
+    link.classList.toggle('is-current', isCurrent);
+    if (isCurrent) {
+      link.setAttribute('aria-current', 'page');
+      link.setAttribute('aria-disabled', 'true');
+      link.dataset.disabledNav = 'true';
+    } else {
+      link.removeAttribute('aria-current');
+      link.removeAttribute('aria-disabled');
+      delete link.dataset.disabledNav;
+    }
+  });
 }
 
 document.addEventListener('click', e => {
@@ -92,6 +138,10 @@ function scrollToAnchorWithoutHash(anchorHref) {
 document.addEventListener('click', e => {
   const link = e.target.closest('a[href]');
   if (!link) return;
+  if (link.dataset.disabledNav === 'true' || link.getAttribute('aria-disabled') === 'true') {
+    e.preventDefault();
+    return;
+  }
   const href = link.getAttribute('href');
   if (!href) return;
 

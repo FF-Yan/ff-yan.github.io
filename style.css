@@ -330,9 +330,36 @@ ul { list-style: none; }
   display: flex;
   align-items: center;
   gap: 0.7rem;
+  position: relative;
   transition: all var(--t);
 }
 .menu-nav a:hover { color: var(--primary); padding-left: 0.4rem; }
+
+.menu-nav a.is-current,
+.menu-nav a[aria-current='page'] {
+  color: var(--primary);
+  padding-left: 0.8rem;
+  border-bottom-color: rgba(0, 212, 255, 0.45);
+  cursor: default;
+}
+
+.menu-nav a.is-current::before,
+.menu-nav a[aria-current='page']::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 1.1em;
+  border-radius: 2px;
+  background: var(--primary);
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.45);
+}
+
+.menu-nav a[aria-disabled='true'] {
+  pointer-events: none;
+}
 
 .menu-num {
   display: none;
