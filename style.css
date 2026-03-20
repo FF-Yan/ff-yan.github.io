@@ -183,12 +183,12 @@ ul { list-style: none; }
 
 .nav-inner {
   width: 100%;
-  max-width: var(--max-w);
+  max-width: none;
   margin: 0 auto;
   padding: 0 1.5rem;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
 }
 
 .nav-logo {
@@ -196,7 +196,7 @@ ul { list-style: none; }
   font-weight: 800;
   color: var(--text);
   letter-spacing: 0.01em;
-  margin-right: auto;
+  margin-right: 0;
 }
 .nav-logo span { color: var(--primary); }
 
@@ -204,7 +204,7 @@ ul { list-style: none; }
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  margin-left: auto;
+  margin-left: 0;
 }
 
 .lang-toggle {
@@ -546,12 +546,24 @@ ul { list-style: none; }
   gap: 1.5rem;
 }
 
-/* Main page featured projects: only 3 columns or 1 column (no 2+1 layout) */
-.home-featured-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+/* Main page featured projects: 3 columns when possible, otherwise 1 column */
+#featured .container {
+  container-type: inline-size;
 }
 
-@media (max-width: 1100px) {
+.home-featured-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.home-featured-grid .project-card,
+.home-featured-grid .project-body,
+.home-featured-grid .project-desc {
+  min-width: 0;
+}
+
+@container (max-width: 900px) {
   .home-featured-grid {
     grid-template-columns: 1fr;
   }
