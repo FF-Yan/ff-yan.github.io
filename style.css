@@ -335,6 +335,7 @@ ul { list-style: none; }
 .menu-nav a:hover { color: var(--primary); padding-left: 0.4rem; }
 
 .menu-num {
+  display: none;
   font-family: var(--pixel-font);
   font-size: 0.48rem;
   color: var(--primary);
