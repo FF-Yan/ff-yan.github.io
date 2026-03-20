@@ -556,7 +556,7 @@ ul { list-style: none; }
 .home-featured-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(0.65rem, 1.25vw, 1.2rem);
+  gap: clamp(0.5rem, 1.05vw, 0.95rem);
 }
 
 .home-featured-grid .project-card,
@@ -567,37 +567,37 @@ ul { list-style: none; }
 
 /* Fluid card sizing on home page: shrink whole card content before 1-column switch */
 .home-featured-grid .project-thumb {
-  height: clamp(118px, 14.5vw, 170px);
+  height: clamp(104px, 12.8vw, 150px);
 }
 
 .home-featured-grid .project-body {
-  padding: clamp(0.68rem, 1vw, 1.12rem);
-  gap: clamp(0.28rem, 0.55vw, 0.5rem);
+  padding: clamp(0.56rem, 0.86vw, 0.92rem);
+  gap: clamp(0.22rem, 0.42vw, 0.4rem);
 }
 
 .home-featured-grid .project-type {
-  font-size: clamp(0.34rem, 0.42vw, 0.46rem);
+  font-size: clamp(0.3rem, 0.36vw, 0.4rem);
 }
 
 .home-featured-grid .project-card h3 {
-  font-size: clamp(0.82rem, 0.92vw, 1.02rem);
+  font-size: clamp(0.74rem, 0.8vw, 0.9rem);
 }
 
 .home-featured-grid .project-role-date {
-  font-size: clamp(0.64rem, 0.62vw, 0.74rem);
+  font-size: clamp(0.58rem, 0.52vw, 0.66rem);
 }
 
 .home-featured-grid .project-desc {
-  font-size: clamp(0.7rem, 0.72vw, 0.8rem);
+  font-size: clamp(0.64rem, 0.62vw, 0.72rem);
 }
 
 .home-featured-grid .tag {
-  font-size: clamp(0.56rem, 0.55vw, 0.64rem);
-  padding: clamp(0.1rem, 0.16vw, 0.15rem) clamp(0.32rem, 0.42vw, 0.44rem);
+  font-size: clamp(0.5rem, 0.46vw, 0.58rem);
+  padding: clamp(0.08rem, 0.12vw, 0.12rem) clamp(0.24rem, 0.32vw, 0.34rem);
 }
 
 .home-featured-grid .project-link-ext {
-  font-size: clamp(0.66rem, 0.62vw, 0.74rem);
+  font-size: clamp(0.6rem, 0.52vw, 0.66rem);
 }
 
 /* Collapse to 1 column later (so 3 columns stay longer) */
