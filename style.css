@@ -555,7 +555,7 @@ ul { list-style: none; }
 
 .home-featured-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(200px, 1fr));
+  grid-template-columns: repeat(3, minmax(180px, 1fr));
   gap: 1.5rem;
 }
 
@@ -565,7 +565,7 @@ ul { list-style: none; }
   min-width: 0;
 }
 
-@container (max-width: 600px) {
+@container (max-width: 550px) {
   .home-featured-grid {
     grid-template-columns: 1fr;
   }
