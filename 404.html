@@ -50,7 +50,7 @@
     }
   </style>
 </head>
-<body>
+<body data-is-404="true">
   <div id="navbar"></div>
 
   <main class="notfound-wrap">
@@ -70,20 +70,5 @@
   <div id="footer"></div>
   
   <script src="/script.js"></script>
-  <script>
-    (function () {
-      const isZh = location.pathname.startsWith('/zh/');
-      const homeLink = document.getElementById('homeLink');
-
-      if (isZh) {
-        document.documentElement.lang = 'zh';
-        document.title = '404 | 页面不存在';
-        document.getElementById('nfTitle').textContent = '页面不存在';
-        document.getElementById('nfSub').textContent = '你访问的页面不存在，或已被移动。';
-        homeLink.textContent = '返回首页';
-        homeLink.href = '/zh/';
-      }
-    })();
-  </script>
 </body>
 </html>

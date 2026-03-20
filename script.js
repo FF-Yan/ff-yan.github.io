@@ -50,8 +50,14 @@ async function loadSharedComponents() {
     await loadInto(navbarHost, navbarUrl);
     const toggle = navbarHost.querySelector('.lang-toggle');
     if (toggle) {
-      const fallback = isZh ? '/' : '/zh/';
-      toggle.dataset.langHref = document.body.dataset.langHref || fallback;
+      if (document.body.dataset.is404 === 'true') {
+        toggle.style.display = 'none';
+        toggle.removeAttribute('data-lang-href');
+      } else {
+        const fallback = isZh ? '/' : '/zh/';
+        toggle.dataset.langHref = document.body.dataset.langHref || fallback;
+        toggle.style.display = '';
+      }
     }
     if (navVariant !== 'main') {
       applyCurrentPageStateToMenu(navbarHost, isZh);
@@ -82,13 +88,15 @@ function normalizePath(path) {
 function getTopLevelMenuPath(pathname, isZh) {
   const p = normalizePath(pathname);
   if (isZh) {
+    if (p === '/zh') return '/zh';
     if (p.startsWith('/zh/projects')) return '/zh/projects';
     if (p.startsWith('/zh/about')) return '/zh/about';
-    return '/zh';
+    return null;
   }
+  if (p === '/') return '/';
   if (p.startsWith('/projects')) return '/projects';
   if (p.startsWith('/about')) return '/about';
-  return '/';
+  return null;
 }
 
 function applyCurrentPageStateToMenu(navbarHost, isZh) {
@@ -100,8 +108,8 @@ function applyCurrentPageStateToMenu(navbarHost, isZh) {
   menuLinks.forEach(link => {
     const href = link.getAttribute('href') || '';
     const targetTop = getTopLevelMenuPath(href, isZh);
-    const isCurrent = targetTop === currentTop;
-    const isExactSectionPage = currentPath === targetTop;
+    const isCurrent = currentTop !== null && targetTop !== null && targetTop === currentTop;
+    const isExactSectionPage = targetTop !== null && currentPath === targetTop;
     link.classList.toggle('is-current', isCurrent);
     if (isCurrent && isExactSectionPage) {
       link.setAttribute('aria-current', 'page');
