@@ -252,9 +252,9 @@ ul { list-style: none; }
   position: fixed;
   inset: 0;
   z-index: 400;
-  visibility: hidden;
+  pointer-events: none;
 }
-.menu-overlay.open { visibility: visible; }
+.menu-overlay.open { pointer-events: auto; }
 
 .menu-backdrop {
   position: absolute;

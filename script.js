@@ -3,13 +3,21 @@
 // ===========================
 (function normalizeHtmlUrl() {
   const { pathname, search, hash } = window.location;
-  if (!pathname.endsWith('.html')) return;
+  let cleanPath = pathname;
 
-  const cleanPath = pathname === '/index.html'
-    ? '/'
-    : pathname.replace(/\.html$/, '');
+  if (cleanPath.endsWith('.html')) {
+    cleanPath = cleanPath === '/index.html'
+      ? '/'
+      : cleanPath.replace(/\.html$/, '');
+  }
 
-  window.location.replace(cleanPath + search + hash);
+  if (cleanPath !== '/' && !cleanPath.endsWith('/')) {
+    cleanPath = `${cleanPath}/`;
+  }
+
+  if (cleanPath !== pathname) {
+    window.location.replace(cleanPath + search + hash);
+  }
 })();
 
 // ===========================
@@ -32,15 +40,22 @@ async function loadSharedComponents() {
   if (!navbarHost && !footerHost) return;
 
   const isZh = document.documentElement.lang.toLowerCase().startsWith('zh') || window.location.pathname.startsWith('/zh/');
+  const navVariant = document.body.dataset.navVariant === 'main' ? 'main' : 'default';
 
   if (navbarHost) {
-    await loadInto(navbarHost, isZh ? '/components/zh/navbar.html' : '/components/navbar.html');
+    const navbarUrl = navVariant === 'main'
+      ? (isZh ? '/components/zh/navbar-main.html' : '/components/navbar-main.html')
+      : (isZh ? '/components/zh/navbar.html' : '/components/navbar.html');
+
+    await loadInto(navbarHost, navbarUrl);
     const toggle = navbarHost.querySelector('.lang-toggle');
     if (toggle) {
       const fallback = isZh ? '/' : '/zh/';
       toggle.dataset.langHref = document.body.dataset.langHref || fallback;
     }
-    applyCurrentPageStateToMenu(navbarHost, isZh);
+    if (navVariant !== 'main') {
+      applyCurrentPageStateToMenu(navbarHost, isZh);
+    }
   }
 
   if (footerHost) {
@@ -80,30 +95,29 @@ function applyCurrentPageStateToMenu(navbarHost, isZh) {
   const menuLinks = navbarHost.querySelectorAll('.menu-nav a[href]');
   if (!menuLinks.length) return;
 
+  const currentPath = normalizePath(window.location.pathname);
   const currentTop = getTopLevelMenuPath(window.location.pathname, isZh);
   menuLinks.forEach(link => {
     const href = link.getAttribute('href') || '';
     const targetTop = getTopLevelMenuPath(href, isZh);
     const isCurrent = targetTop === currentTop;
+    const isExactSectionPage = currentPath === targetTop;
     link.classList.toggle('is-current', isCurrent);
-    if (isCurrent) {
+    if (isCurrent && isExactSectionPage) {
       link.setAttribute('aria-current', 'page');
       link.setAttribute('aria-disabled', 'true');
       link.dataset.disabledNav = 'true';
     } else {
-      link.removeAttribute('aria-current');
+      if (isCurrent) {
+        link.setAttribute('aria-current', 'page');
+      } else {
+        link.removeAttribute('aria-current');
+      }
       link.removeAttribute('aria-disabled');
       delete link.dataset.disabledNav;
     }
   });
 }
-
-document.addEventListener('click', e => {
-  const langBtn = e.target.closest('.lang-toggle');
-  if (!langBtn) return;
-  const target = langBtn.dataset.langHref;
-  if (target) window.location.href = target;
-});
 
 // ===========================
 // Page Transition Overlay
@@ -136,24 +150,60 @@ function scrollToAnchorWithoutHash(anchorHref) {
 }
 
 document.addEventListener('click', e => {
-  const link = e.target.closest('a[href]');
-  if (!link) return;
-  if (link.dataset.disabledNav === 'true' || link.getAttribute('aria-disabled') === 'true') {
-    e.preventDefault();
+  const langBtn = e.target.closest('.lang-toggle');
+  if (langBtn) {
+    const target = langBtn.dataset.langHref;
+    if (target) window.location.href = target;
     return;
   }
+
+  if (e.target.closest('.hamburger')) {
+    const { menuOverlay } = getMenuElements();
+    if (menuOverlay && menuOverlay.classList.contains('open')) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+    return;
+  }
+
+  if (e.target.closest('.menu-close') || e.target.closest('.menu-backdrop')) {
+    closeMenu();
+    return;
+  }
+
+  const link = e.target.closest('a[href]');
+  if (!link) return;
+  const inMenuOverlay = Boolean(link.closest('.menu-overlay'));
+
+  if (link.dataset.disabledNav === 'true' || link.getAttribute('aria-disabled') === 'true') {
+    e.preventDefault();
+    if (inMenuOverlay) closeMenu();
+    return;
+  }
+
   const href = link.getAttribute('href');
-  if (!href) return;
+  if (!href) {
+    if (inMenuOverlay) closeMenu();
+    return;
+  }
 
   // In-page anchor scroll without writing #hash to URL.
   if (href.startsWith('#')) {
-    if (!scrollToAnchorWithoutHash(href)) return;
-    e.preventDefault();
+    if (scrollToAnchorWithoutHash(href)) {
+      e.preventDefault();
+    }
+    if (inMenuOverlay) closeMenu();
     return;
   }
 
-  if (href.startsWith('mailto:') || href.startsWith('tel:') || link.target === '_blank') return;
+  if (href.startsWith('mailto:') || href.startsWith('tel:') || link.target === '_blank') {
+    if (inMenuOverlay) closeMenu();
+    return;
+  }
+
   e.preventDefault();
+  if (inMenuOverlay) closeMenu();
   transitionOverlay.classList.add('fade-active');
   setTimeout(() => { window.location.href = href; }, 280);
 }, true);
@@ -226,27 +276,6 @@ function resetTransientUiState() {
 }
 
 window.addEventListener('pageshow', resetTransientUiState);
-
-document.addEventListener('click', e => {
-  if (e.target.closest('.hamburger')) {
-    const { menuOverlay } = getMenuElements();
-    if (menuOverlay && menuOverlay.classList.contains('open')) {
-      closeMenu();
-    } else {
-      openMenu();
-    }
-    return;
-  }
-
-  if (e.target.closest('.menu-close') || e.target.closest('.menu-backdrop')) {
-    closeMenu();
-    return;
-  }
-
-  if (e.target.closest('.menu-overlay a')) {
-    closeMenu();
-  }
-});
 
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeMenu();
