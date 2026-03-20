@@ -554,9 +554,10 @@ ul { list-style: none; }
 }
 
 .home-featured-grid {
+  --home-card-scale: clamp(0.72, 0.82vw, 0.9);
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(0.5rem, 1.05vw, 0.95rem);
+  gap: calc(1.5rem * var(--home-card-scale));
 }
 
 .home-featured-grid .project-card,
@@ -567,37 +568,50 @@ ul { list-style: none; }
 
 /* Fluid card sizing on home page: shrink whole card content before 1-column switch */
 .home-featured-grid .project-thumb {
-  height: clamp(104px, 12.8vw, 150px);
+  height: calc(190px * var(--home-card-scale));
 }
 
 .home-featured-grid .project-body {
-  padding: clamp(0.56rem, 0.86vw, 0.92rem);
-  gap: clamp(0.22rem, 0.42vw, 0.4rem);
+  padding: calc(1.4rem * var(--home-card-scale));
+  gap: calc(0.6rem * var(--home-card-scale));
 }
 
 .home-featured-grid .project-type {
-  font-size: clamp(0.3rem, 0.36vw, 0.4rem);
+  font-size: calc(0.5rem * var(--home-card-scale));
 }
 
 .home-featured-grid .project-card h3 {
-  font-size: clamp(0.74rem, 0.8vw, 0.9rem);
+  font-size: calc(1.15rem * var(--home-card-scale));
 }
 
 .home-featured-grid .project-role-date {
-  font-size: clamp(0.58rem, 0.52vw, 0.66rem);
+  font-size: calc(0.8rem * var(--home-card-scale));
 }
 
 .home-featured-grid .project-desc {
-  font-size: clamp(0.64rem, 0.62vw, 0.72rem);
+  font-size: calc(0.88rem * var(--home-card-scale));
 }
 
 .home-featured-grid .tag {
-  font-size: clamp(0.5rem, 0.46vw, 0.58rem);
-  padding: clamp(0.08rem, 0.12vw, 0.12rem) clamp(0.24rem, 0.32vw, 0.34rem);
+  font-size: calc(0.7rem * var(--home-card-scale));
+  padding: calc(0.18rem * var(--home-card-scale)) calc(0.55rem * var(--home-card-scale));
 }
 
 .home-featured-grid .project-link-ext {
-  font-size: clamp(0.6rem, 0.52vw, 0.66rem);
+  font-size: calc(0.82rem * var(--home-card-scale));
+}
+
+.home-featured-grid .project-tags {
+  gap: calc(0.35rem * var(--home-card-scale));
+}
+
+.home-featured-grid .project-links {
+  gap: calc(0.65rem * var(--home-card-scale));
+  margin-top: calc(0.25rem * var(--home-card-scale));
+}
+
+.home-featured-grid .thumb-overlay {
+  padding: calc(0.65rem * var(--home-card-scale)) calc(1rem * var(--home-card-scale));
 }
 
 /* Collapse to 1 column later (so 3 columns stay longer) */
