@@ -554,10 +554,9 @@ ul { list-style: none; }
 }
 
 .home-featured-grid {
-  --home-card-scale: clamp(0.72, 0.82vw, 0.9);
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: calc(1.5rem * var(--home-card-scale));
+  gap: clamp(0.65rem, 1.25vw, 1.2rem);
 }
 
 .home-featured-grid .project-card,
@@ -568,50 +567,37 @@ ul { list-style: none; }
 
 /* Fluid card sizing on home page: shrink whole card content before 1-column switch */
 .home-featured-grid .project-thumb {
-  height: calc(190px * var(--home-card-scale));
+  height: clamp(118px, 14.5vw, 170px);
 }
 
 .home-featured-grid .project-body {
-  padding: calc(1.4rem * var(--home-card-scale));
-  gap: calc(0.6rem * var(--home-card-scale));
+  padding: clamp(0.68rem, 1vw, 1.12rem);
+  gap: clamp(0.28rem, 0.55vw, 0.5rem);
 }
 
 .home-featured-grid .project-type {
-  font-size: calc(0.5rem * var(--home-card-scale));
+  font-size: clamp(0.34rem, 0.42vw, 0.46rem);
 }
 
 .home-featured-grid .project-card h3 {
-  font-size: calc(1.15rem * var(--home-card-scale));
+  font-size: clamp(0.82rem, 0.92vw, 1.02rem);
 }
 
 .home-featured-grid .project-role-date {
-  font-size: calc(0.8rem * var(--home-card-scale));
+  font-size: clamp(0.64rem, 0.62vw, 0.74rem);
 }
 
 .home-featured-grid .project-desc {
-  font-size: calc(0.88rem * var(--home-card-scale));
+  font-size: clamp(0.7rem, 0.72vw, 0.8rem);
 }
 
 .home-featured-grid .tag {
-  font-size: calc(0.7rem * var(--home-card-scale));
-  padding: calc(0.18rem * var(--home-card-scale)) calc(0.55rem * var(--home-card-scale));
+  font-size: clamp(0.56rem, 0.55vw, 0.64rem);
+  padding: clamp(0.1rem, 0.16vw, 0.15rem) clamp(0.32rem, 0.42vw, 0.44rem);
 }
 
 .home-featured-grid .project-link-ext {
-  font-size: calc(0.82rem * var(--home-card-scale));
-}
-
-.home-featured-grid .project-tags {
-  gap: calc(0.35rem * var(--home-card-scale));
-}
-
-.home-featured-grid .project-links {
-  gap: calc(0.65rem * var(--home-card-scale));
-  margin-top: calc(0.25rem * var(--home-card-scale));
-}
-
-.home-featured-grid .thumb-overlay {
-  padding: calc(0.65rem * var(--home-card-scale)) calc(1rem * var(--home-card-scale));
+  font-size: clamp(0.66rem, 0.62vw, 0.74rem);
 }
 
 /* Collapse to 1 column later (so 3 columns stay longer) */
