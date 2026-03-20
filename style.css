@@ -544,7 +544,7 @@ ul { list-style: none; }
    =========================== */
 .feat-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(0px, 1fr));
   gap: 1.5rem;
 }
 
@@ -555,8 +555,8 @@ ul { list-style: none; }
 
 .home-featured-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(0.8rem, 1.6vw, 1.5rem);
+  grid-template-columns: repeat(3, minmax(100px, 1fr));
+  gap: 1.5rem;
 }
 
 .home-featured-grid .project-card,
@@ -565,50 +565,14 @@ ul { list-style: none; }
   min-width: 0;
 }
 
-/* Fluid card sizing on home page: shrink whole card content before 1-column switch */
-.home-featured-grid .project-thumb {
-  height: clamp(132px, 16vw, 190px);
-}
-
-.home-featured-grid .project-body {
-  padding: clamp(0.8rem, 1.2vw, 1.4rem);
-  gap: clamp(0.35rem, 0.7vw, 0.6rem);
-}
-
-.home-featured-grid .project-type {
-  font-size: clamp(0.38rem, 0.48vw, 0.5rem);
-}
-
-.home-featured-grid .project-card h3 {
-  font-size: clamp(0.9rem, 1.05vw, 1.15rem);
-}
-
-.home-featured-grid .project-role-date {
-  font-size: clamp(0.7rem, 0.72vw, 0.8rem);
-}
-
-.home-featured-grid .project-desc {
-  font-size: clamp(0.76rem, 0.82vw, 0.88rem);
-}
-
-.home-featured-grid .tag {
-  font-size: clamp(0.62rem, 0.62vw, 0.7rem);
-  padding: clamp(0.14rem, 0.22vw, 0.18rem) clamp(0.42rem, 0.5vw, 0.55rem);
-}
-
-.home-featured-grid .project-link-ext {
-  font-size: clamp(0.72rem, 0.72vw, 0.82rem);
-}
-
-/* Collapse to 1 column later (so 3 columns stay longer) */
-@container (max-width: 720px) {
+@container (max-width: 300px) {
   .home-featured-grid {
     grid-template-columns: 1fr;
   }
 }
 
 /* Fallback for browsers without container queries */
-@media (max-width: 720px) {
+@media (max-width: 900px) {
   .home-featured-grid {
     grid-template-columns: 1fr;
   }
