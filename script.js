@@ -13,20 +13,51 @@
 })();
 
 // ===========================
-// Footer year
+// Shared components loader
 // ===========================
-const yearEl = document.getElementById('year');
-if (yearEl) yearEl.textContent = new Date().getFullYear();
-
-// ===========================
-// Language Toggle
-// ===========================
-const langBtn = document.querySelector('.lang-toggle');
-if (langBtn) {
-  langBtn.addEventListener('click', () => {
-    window.location.href = langBtn.dataset.langHref;
-  });
+async function loadInto(el, url) {
+  if (!el) return;
+  try {
+    const res = await fetch(url, { cache: 'no-store' });
+    if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+    el.innerHTML = await res.text();
+  } catch (err) {
+    console.warn(`Failed to load component: ${url}`, err);
+  }
 }
+
+async function loadSharedComponents() {
+  const navbarHost = document.getElementById('navbar');
+  const footerHost = document.getElementById('footer');
+  if (!navbarHost && !footerHost) return;
+
+  const isZh = document.documentElement.lang.toLowerCase().startsWith('zh') || window.location.pathname.startsWith('/zh/');
+
+  if (navbarHost) {
+    await loadInto(navbarHost, isZh ? '/components/zh/navbar.html' : '/components/navbar.html');
+    const toggle = navbarHost.querySelector('.lang-toggle');
+    if (toggle) {
+      const fallback = isZh ? '/' : '/zh/';
+      toggle.dataset.langHref = document.body.dataset.langHref || fallback;
+    }
+  }
+
+  if (footerHost) {
+    await loadInto(footerHost, isZh ? '/components/zh/footer.html' : '/components/footer.html');
+  }
+}
+
+function syncYear() {
+  const yearEl = document.getElementById('year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+}
+
+document.addEventListener('click', e => {
+  const langBtn = e.target.closest('.lang-toggle');
+  if (!langBtn) return;
+  const target = langBtn.dataset.langHref;
+  if (target) window.location.href = target;
+});
 
 // ===========================
 // Page Transition Overlay
@@ -108,12 +139,15 @@ function startTypewriter() {
 // ===========================
 // Hamburger Menu Overlay
 // ===========================
-const hamburger    = document.querySelector('.hamburger');
-const menuOverlay  = document.querySelector('.menu-overlay');
-const menuClose    = document.querySelector('.menu-close');
-const menuBackdrop = document.querySelector('.menu-backdrop');
+function getMenuElements() {
+  return {
+    hamburger: document.querySelector('.hamburger'),
+    menuOverlay: document.querySelector('.menu-overlay')
+  };
+}
 
 function openMenu() {
+  const { hamburger, menuOverlay } = getMenuElements();
   if (!menuOverlay) return;
   menuOverlay.classList.add('open');
   if (hamburger) {
@@ -124,6 +158,7 @@ function openMenu() {
 }
 
 function closeMenu() {
+  const { hamburger, menuOverlay } = getMenuElements();
   if (!menuOverlay) return;
   menuOverlay.classList.remove('open');
   if (hamburger) {
@@ -142,24 +177,30 @@ function resetTransientUiState() {
 
 window.addEventListener('pageshow', resetTransientUiState);
 
-if (hamburger && menuOverlay) {
-  hamburger.addEventListener('click', () => {
-    menuOverlay.classList.contains('open') ? closeMenu() : openMenu();
-  });
+document.addEventListener('click', e => {
+  if (e.target.closest('.hamburger')) {
+    const { menuOverlay } = getMenuElements();
+    if (menuOverlay && menuOverlay.classList.contains('open')) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+    return;
+  }
 
-  if (menuClose)    menuClose.addEventListener('click', closeMenu);
-  if (menuBackdrop) menuBackdrop.addEventListener('click', closeMenu);
+  if (e.target.closest('.menu-close') || e.target.closest('.menu-backdrop')) {
+    closeMenu();
+    return;
+  }
 
-  // Close when clicking any link inside the overlay
-  menuOverlay.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', closeMenu);
-  });
+  if (e.target.closest('.menu-overlay a')) {
+    closeMenu();
+  }
+});
 
-  // Escape key closes menu
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeMenu();
-  });
-}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeMenu();
+});
 
 // ===========================
 // Screenshot Galleries
@@ -205,3 +246,8 @@ const revealObserver = new IntersectionObserver(
 );
 
 revealEls.forEach(el => revealObserver.observe(el));
+
+(async function bootstrap() {
+  await loadSharedComponents();
+  syncYear();
+})();
