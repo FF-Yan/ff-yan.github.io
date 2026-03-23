@@ -923,6 +923,10 @@ ul { list-style: none; }
   color: var(--muted);
 }
 
+.contact-captcha {
+  margin-top: 0.15rem;
+}
+
 .contact-form-status {
   min-height: 1.2rem;
   font-size: 0.9rem;

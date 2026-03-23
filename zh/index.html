@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>颜彬轩 | 游戏开发者</title>
   <link rel="stylesheet" href="/style.css" />
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body data-nav-variant="main" data-lang-href="/">
 
@@ -247,6 +248,10 @@
           <textarea class="contact-input contact-textarea" name="message" rows="6" required></textarea>
         </label>
 
+        <div class="contact-captcha">
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAACvDhtOvvBEaUTA2"></div>
+        </div>
+
         <div class="contact-form-actions">
           <button
             type="submit"
@@ -254,6 +259,7 @@
             data-text-default="发送消息"
             data-text-success="消息已发送！"
             data-text-error="发送失败，请重试"
+            data-text-captcha="请先完成人机验证。"
           >发送消息</button>
         </div>
         <div class="contact-form-status" aria-live="polite"></div>

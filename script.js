@@ -324,6 +324,7 @@ document.addEventListener('submit', e => {
   const defaultText = submitBtn?.dataset.textDefault || submitBtn?.textContent || 'Send Message';
   const successText = submitBtn?.dataset.textSuccess || 'Message sent!';
   const errorText = submitBtn?.dataset.textError || 'Failed to send. Please try again.';
+  const captchaText = submitBtn?.dataset.textCaptcha || 'Please complete the human verification.';
 
   const showStatus = (text, type) => {
     if (!statusEl) return;
@@ -338,23 +339,31 @@ document.addEventListener('submit', e => {
 
   showStatus('', 'error');
 
+  const hasCaptcha = Boolean(form.querySelector('.cf-turnstile'));
+  const turnstileToken = (form.querySelector('[name="cf-turnstile-response"]')?.value || '').trim();
+
+  if (hasCaptcha && !turnstileToken) {
+    showStatus(`❌ ${captchaText}`, 'error');
+    return;
+  }
+
   if (submitBtn) {
     submitBtn.disabled = true;
     submitBtn.classList.add('loading');
   }
 
+  const formData = new FormData(form);
+  formData.set('name', name);
+  formData.set('email', email);
+  formData.set('subject', subject);
+  formData.set('message', message);
+
   fetch(formspreeEndpoint, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
       'Accept': 'application/json'
     },
-    body: JSON.stringify({
-      name,
-      email,
-      subject,
-      message
-    })
+    body: formData
   })
     .then(async res => {
       if (res.ok) {
