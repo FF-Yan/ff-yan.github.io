@@ -304,6 +304,39 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeMenu();
 });
 
+// ===========================
+// Turnstile Explicit Render
+// ===========================
+let turnstileWidgetId = null;
+let turnstileToken = null;
+
+function initTurnstile() {
+  if (!window.turnstile) {
+    console.warn('Turnstile did not load yet');
+    return;
+  }
+  const container = document.getElementById('turnstile-container');
+  if (!container || turnstileWidgetId !== null) return;
+
+  turnstileWidgetId = window.turnstile.render('#turnstile-container', {
+    sitekey: '0x4AAAAAACvDhtOvvBEaUTA2',
+    callback: function (token) {
+      turnstileToken = token;
+      console.log('Turnstile token received:', token);
+    },
+    'error-callback': function () {
+      turnstileToken = null;
+      console.warn('Turnstile failed');
+    }
+  });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initTurnstile);
+} else {
+  initTurnstile();
+}
+
 document.addEventListener('submit', e => {
   const form = e.target.closest('.contact-form');
   if (!form) return;
@@ -339,8 +372,7 @@ document.addEventListener('submit', e => {
 
   showStatus('', 'error');
 
-  const hasCaptcha = Boolean(form.querySelector('.cf-turnstile'));
-  const turnstileToken = (form.querySelector('[name="cf-turnstile-response"]')?.value || '').trim();
+  const hasCaptcha = Boolean(form.querySelector('#turnstile-container'));
 
   if (hasCaptcha && !turnstileToken) {
     showStatus(`❌ ${captchaText}`, 'error');
@@ -357,6 +389,9 @@ document.addEventListener('submit', e => {
   formData.set('email', email);
   formData.set('subject', subject);
   formData.set('message', message);
+  if (hasCaptcha) {
+    formData.set('cf-turnstile-response', turnstileToken);
+  }
 
   fetch(formspreeEndpoint, {
     method: 'POST',
@@ -382,6 +417,10 @@ document.addEventListener('submit', e => {
         }
       } catch {
         // ignore parse error
+      }
+
+      if (/turnstile/i.test(detail) && typeof window.turnstile?.reset === 'function') {
+        window.turnstile.reset();
       }
 
       throw new Error(detail || `HTTP ${res.status}`);
