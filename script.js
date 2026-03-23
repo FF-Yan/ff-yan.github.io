@@ -320,52 +320,73 @@ document.addEventListener('submit', e => {
   if (!name || !email || !subject || !message) return;
 
   const submitBtn = form.querySelector('button[type="submit"]');
+  const statusEl = form.querySelector('.contact-form-status');
   const defaultText = submitBtn?.dataset.textDefault || submitBtn?.textContent || 'Send Message';
   const successText = submitBtn?.dataset.textSuccess || 'Message sent!';
   const errorText = submitBtn?.dataset.textError || 'Failed to send. Please try again.';
+
+  const showStatus = (text, type) => {
+    if (!statusEl) return;
+    statusEl.classList.remove('is-success', 'is-error', 'is-visible');
+    if (!text) {
+      statusEl.textContent = '';
+      return;
+    }
+    statusEl.textContent = text;
+    statusEl.classList.add(type === 'success' ? 'is-success' : 'is-error', 'is-visible');
+  };
+
+  showStatus('', 'error');
 
   if (submitBtn) {
     submitBtn.disabled = true;
     submitBtn.classList.add('loading');
   }
 
-  const formData = new FormData();
-  formData.append('name', name);
-  formData.append('email', email);
-  formData.append('subject', subject);
-  formData.append('message', message);
-
   fetch(formspreeEndpoint, {
     method: 'POST',
     headers: {
+      'Content-Type': 'application/json',
       'Accept': 'application/json'
     },
-    body: formData
+    body: JSON.stringify({
+      name,
+      email,
+      subject,
+      message
+    })
   })
-    .then(res => {
+    .then(async res => {
       if (res.ok) {
         form.reset();
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.classList.remove('loading');
-          submitBtn.textContent = successText;
-          setTimeout(() => {
-            submitBtn.textContent = defaultText;
-          }, 3000);
-        }
-      } else {
-        throw new Error('Form submission failed');
+        showStatus(`✅ ${successText}`, 'success');
+        return;
       }
+
+      let detail = '';
+      try {
+        const data = await res.json();
+        if (Array.isArray(data?.errors) && data.errors.length) {
+          detail = data.errors.map(item => item?.message).filter(Boolean).join(' / ');
+        } else if (typeof data?.error === 'string') {
+          detail = data.error;
+        }
+      } catch {
+        // ignore parse error
+      }
+
+      throw new Error(detail || `HTTP ${res.status}`);
     })
     .catch(err => {
       console.error('Formspree submission error:', err);
+      const detail = err instanceof Error && err.message ? ` (${err.message})` : '';
+      showStatus(`❌ ${errorText}${detail}`, 'error');
+    })
+    .finally(() => {
       if (submitBtn) {
         submitBtn.disabled = false;
         submitBtn.classList.remove('loading');
-        submitBtn.textContent = errorText;
-        setTimeout(() => {
-          submitBtn.textContent = defaultText;
-        }, 3000);
+        submitBtn.textContent = defaultText;
       }
     });
 });
