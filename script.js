@@ -50,10 +50,10 @@ async function loadSharedComponents() {
     await loadInto(navbarHost, navbarUrl);
     const toggle = navbarHost.querySelector('.lang-toggle');
     if (toggle) {
-      const currentTop = getTopLevelMenuPath(window.location.pathname, isZh);
-      const is404Like = document.body.dataset.is404 === 'true' || currentTop === null;
-      if (is404Like) {
-        toggle.remove();
+      if (document.body.dataset.is404 === 'true') {
+        toggle.textContent = '首页';
+        toggle.setAttribute('aria-label', '返回首页');
+        toggle.dataset.langHref = '/zh/';
       } else {
         const fallback = isZh ? '/' : '/zh/';
         toggle.dataset.langHref = document.body.dataset.langHref || fallback;
@@ -102,6 +102,16 @@ function getTopLevelMenuPath(pathname, isZh) {
 function applyCurrentPageStateToMenu(navbarHost, isZh) {
   const menuLinks = navbarHost.querySelectorAll('.menu-nav a[href]');
   if (!menuLinks.length) return;
+
+  if (document.body.dataset.is404 === 'true') {
+    menuLinks.forEach(link => {
+      link.classList.remove('is-current');
+      link.removeAttribute('aria-current');
+      link.removeAttribute('aria-disabled');
+      delete link.dataset.disabledNav;
+    });
+    return;
+  }
 
   const currentPath = normalizePath(window.location.pathname);
   const currentTop = getTopLevelMenuPath(window.location.pathname, isZh);
