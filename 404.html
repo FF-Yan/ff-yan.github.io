@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 | Page Not Found</title>
+  <link rel="stylesheet" href="/style.css" />
+  <style>
+    .notfound-wrap {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 2rem;
+    }
+    .notfound-card {
+      width: min(760px, 100%);
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 18px;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.35);
+    }
+    .notfound-code {
+      font-size: clamp(3rem, 9vw, 6rem);
+      line-height: 1;
+      margin: 0;
+      letter-spacing: 0.08em;
+      color: var(--primary);
+    }
+    .notfound-title {
+      margin: 0.75rem 0 0.5rem;
+      font-size: clamp(1.2rem, 3vw, 1.9rem);
+    }
+    .notfound-sub {
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+    }
+    .notfound-actions {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 1.2rem 0 1.8rem;
+    }
+    .notfound-divider {
+      height: 1px;
+      background: var(--line);
+      margin: 1.2rem 0;
+    }
+  </style>
+</head>
+<body data-is-404="true">
+  <div id="navbar"></div>
+
+  <main class="notfound-wrap">
+    <section class="notfound-card">
+      <p class="notfound-code">404</p>
+      <h1 class="notfound-title" id="nfTitle">Page Not Found</h1>
+      <p class="notfound-sub" id="nfSub">The page you are looking for does not exist or has been moved.</p>
+
+      <div class="notfound-actions">
+        <a id="homeLink" href="/" class="btn btn-primary">Back Home</a>
+      </div>
+
+      <div class="notfound-divider"></div>
+    </section>
+    
+  </main>
+  <div id="footer"></div>
+  
+  <script src="/script.js"></script>
+</body>
+</html>
