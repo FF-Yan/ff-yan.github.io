@@ -50,7 +50,12 @@ async function loadSharedComponents() {
     await loadInto(navbarHost, navbarUrl);
     const toggle = navbarHost.querySelector('.lang-toggle');
     if (toggle) {
-      if (document.body.dataset.is404 === 'true') {
+      const is404Page =
+        document.body.dataset.is404 === 'true' ||
+        Boolean(document.querySelector('.notfound-wrap')) ||
+        /^404\b/.test(document.title);
+
+      if (is404Page) {
         toggle.textContent = '首页';
         toggle.setAttribute('aria-label', '返回首页');
         toggle.dataset.langHref = '/zh/';
