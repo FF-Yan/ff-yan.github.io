@@ -223,52 +223,40 @@
         <div class="section-num">// 04 &mdash; 联系方式</div>
         <h2 class="section-title">联系我</h2>
       </div>
-      <p class="contact-intro reveal-target">有合作意向或想打个招呼？欢迎通过以下任何渠道联系我。</p>
+      <p class="contact-intro reveal-target">有合作意向或想打个招呼？欢迎直接填写下方表单。</p>
 
-      <div class="contact-grid reveal-target">
-        <a href="mailto:yan.binx@northeastern.edu" class="contact-item">
-          <div class="contact-icon-wrap">✉️</div>
-          <div>
-            <div class="contact-label">学校邮箱</div>
-            <div class="contact-value">yan.binx@northeastern.edu</div>
-          </div>
-        </a>
-        <a href="mailto:biinxuand@gmail.com" class="contact-item">
-          <div class="contact-icon-wrap">📧</div>
-          <div>
-            <div class="contact-label">个人邮箱</div>
-            <div class="contact-value">biinxuand@gmail.com</div>
-          </div>
-        </a>
-        <a href="tel:+18575235523" class="contact-item">
-          <div class="contact-icon-wrap">📱</div>
-          <div>
-            <div class="contact-label">美国电话</div>
-            <div class="contact-value">+1 (857) 523-5523</div>
-          </div>
-        </a>
-        <a href="tel:+8613621623918" class="contact-item">
-          <div class="contact-icon-wrap">📞</div>
-          <div>
-            <div class="contact-label">国内电话</div>
-            <div class="contact-value">+86 136-2162-3918</div>
-          </div>
-        </a>
-        <a href="https://github.com/FF-Yan" class="contact-item" target="_blank" rel="noopener noreferrer">
-          <div class="contact-icon-wrap">🐙</div>
-          <div>
-            <div class="contact-label">GitHub</div>
-            <div class="contact-value">FF-Yan</div>
-          </div>
-        </a>
-        <a href="/assets/resumes/binxuan-yan-resume-zh.pdf" class="contact-item" target="_blank" rel="noopener noreferrer" download>
-          <div class="contact-icon-wrap">📃</div>
-          <div>
-            <div class="contact-label">简历</div>
-            <div class="contact-value">颜彬轩</div>
-          </div>
-        </a>
-      </div>
+      <form class="contact-form reveal-target">
+        <div class="contact-form-row">
+          <label class="form-field">
+            <span class="form-label">姓名</span>
+            <input class="contact-input" type="text" name="name" autocomplete="name" required />
+          </label>
+          <label class="form-field">
+            <span class="form-label">邮箱</span>
+            <input class="contact-input" type="email" name="email" autocomplete="email" required />
+          </label>
+        </div>
+
+        <label class="form-field">
+          <span class="form-label">主题</span>
+          <input class="contact-input" type="text" name="subject" required />
+        </label>
+
+        <label class="form-field">
+          <span class="form-label">内容</span>
+          <textarea class="contact-input contact-textarea" name="message" rows="6" required></textarea>
+        </label>
+
+        <div class="contact-form-actions">
+          <button
+            type="submit"
+            class="btn btn-primary"
+            data-text-default="发送消息"
+            data-text-success="消息已发送！"
+            data-text-error="发送失败，请重试"
+          >发送消息</button>
+        </div>
+      </form>
     </div>
   </section>
 

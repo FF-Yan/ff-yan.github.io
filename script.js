@@ -304,6 +304,72 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeMenu();
 });
 
+document.addEventListener('submit', e => {
+  const form = e.target.closest('.contact-form');
+  if (!form) return;
+
+  e.preventDefault();
+
+  const formspreeEndpoint = 'https://formspree.io/f/mojkoglo';
+
+  const name = (form.querySelector('[name="name"]')?.value || '').trim();
+  const email = (form.querySelector('[name="email"]')?.value || '').trim();
+  const subject = (form.querySelector('[name="subject"]')?.value || '').trim();
+  const message = (form.querySelector('[name="message"]')?.value || '').trim();
+
+  if (!name || !email || !subject || !message) return;
+
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const defaultText = submitBtn?.dataset.textDefault || submitBtn?.textContent || 'Send Message';
+  const successText = submitBtn?.dataset.textSuccess || 'Message sent!';
+  const errorText = submitBtn?.dataset.textError || 'Failed to send. Please try again.';
+
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.classList.add('loading');
+  }
+
+  const formData = new FormData();
+  formData.append('name', name);
+  formData.append('email', email);
+  formData.append('subject', subject);
+  formData.append('message', message);
+
+  fetch(formspreeEndpoint, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json'
+    },
+    body: formData
+  })
+    .then(res => {
+      if (res.ok) {
+        form.reset();
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.classList.remove('loading');
+          submitBtn.textContent = successText;
+          setTimeout(() => {
+            submitBtn.textContent = defaultText;
+          }, 3000);
+        }
+      } else {
+        throw new Error('Form submission failed');
+      }
+    })
+    .catch(err => {
+      console.error('Formspree submission error:', err);
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('loading');
+        submitBtn.textContent = errorText;
+        setTimeout(() => {
+          submitBtn.textContent = defaultText;
+        }, 3000);
+      }
+    });
+});
+
 // ===========================
 // Screenshot Galleries
 // ===========================
