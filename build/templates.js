@@ -42,14 +42,18 @@ function head({ locale, title, description, canonicalPath, alternatePath, ogImag
   <meta name="twitter:image" content="${image}" />`;
 }
 
-function externalLinkHtml(locale, ext) {
-  const label = EXT_LABEL[ext.type][locale];
-  return `<a href="${ext.url}" class="project-link-ext" target="_blank" rel="noopener noreferrer">${label}</a>`;
+// Card links: plain text links, in data order.
+function externalLinksHtml(locale, links) {
+  return links
+    .map((ext) => `<a href="${ext.url}" class="project-link-ext" target="_blank" rel="noopener noreferrer">${EXT_LABEL[ext.type][locale]}</a>`)
+    .join('\n              ');
 }
 
-function detailPrimaryLinkHtml(locale, ext) {
-  const label = EXT_LABEL[ext.type][locale];
-  return `<a href="${ext.url}" class="btn btn-primary" target="_blank" rel="noopener noreferrer">${label}</a>`;
+// Detail page: the first link is the call to action, the rest are secondary.
+function detailLinksHtml(locale, links) {
+  return links
+    .map((ext, i) => `<a href="${ext.url}" class="btn ${i === 0 ? 'btn-primary' : 'btn-outline'}" target="_blank" rel="noopener noreferrer">${EXT_LABEL[ext.type][locale]}</a>`)
+    .join('\n            ');
 }
 
 // Renders a home ("featured") or listing project card. `view` is 'home' or 'listing'.
@@ -85,10 +89,29 @@ function projectCard(project, locale, view, { detailsLabel }) {
               ${tagList(v.tags)}
             </div>
             <div class="project-links">
-              ${detailsBtn}${externalLinkHtml(locale, project.externalLink)}
+              ${detailsBtn}${externalLinksHtml(locale, project.externalLinks)}
             </div>
           </div>
         </div>`;
+}
+
+// Work-experience / leadership entry. `location` is optional.
+function experienceCard(entry) {
+  const location = entry.location
+    ? `\n            <p class="exp-location">${entry.location}</p>`
+    : '';
+  return `      <div class="experience-card reveal-target">
+        <div class="exp-header">
+          <div class="exp-info">
+            <h3>${entry.org}</h3>${location}
+          </div>
+          <div class="exp-dates">${entry.dates}</div>
+        </div>
+        <p class="exp-role">${entry.role}</p>
+        <ul class="exp-bullets">
+          ${entry.bullets.map((b) => `<li>${b}</li>`).join('\n          ')}
+        </ul>
+      </div>`;
 }
 
 function navbarInner(locale, site, { menuLinks }) {
@@ -183,7 +206,7 @@ function page({ locale, htmlLang, title, description, canonicalPath, alternatePa
 ${head({ locale, title, description, canonicalPath, alternatePath, ogImage })}
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Silkscreen:wght@400;700&family=Space+Grotesk:wght@500;600;700&display=swap" />
   <link rel="stylesheet" href="/style.css" />${extraHead ? `\n${extraHead}` : ''}
 </head>
 <body${bodyAttrs ? ` ${bodyAttrs}` : ''}>
@@ -204,12 +227,18 @@ function homePage(locale, site, projects, homeFeaturedSlugs) {
   const otherLocale = locale === 'en' ? 'zh' : 'en';
   const cards = homeFeaturedSlugs
     .map((slug) => projects.find((p) => p.slug === slug))
-    .map((p) => projectCard(p, locale, 'home', { detailsLabel: locale === 'en' ? '▶ Details' : '▶ 深入了解' }))
+    .map((p) => projectCard(p, locale, 'home', { detailsLabel: locale === 'en' ? 'Details →' : '深入了解 →' }))
     .join('\n\n');
 
   const body = `
   <!-- ===== Hero ===== -->
   <section id="hero" class="hero">
+    <div class="hero-bg" aria-hidden="true">
+      <span class="hero-orb hero-orb-1"></span>
+      <span class="hero-orb hero-orb-2"></span>
+      <span class="hero-orb hero-orb-3"></span>
+      <span class="hero-grid"></span>
+    </div>
     <div class="hero-inner">
       <div class="hero-eyebrow">${h.heroEyebrow}</div>
       <h1 class="hero-name">${h.heroNameFirst}<br><span class="accent">${h.heroNameLast}</span></h1>
@@ -225,6 +254,7 @@ function homePage(locale, site, projects, homeFeaturedSlugs) {
         <span class="hero-meta-item">${h.heroLocation}</span>
       </div>
     </div>
+    <span class="hero-scroll" aria-hidden="true"></span>
   </section>
 
   <!-- ===== Featured Projects ===== -->
@@ -235,11 +265,11 @@ function homePage(locale, site, projects, homeFeaturedSlugs) {
         <h2 class="section-title">${h.featuredTitle}</h2>
       </div>
 
-      <div class="feat-grid home-featured-grid">
+      <div class="feat-grid">
 
 ${cards}
       </div>
-      <div style="text-align:center; margin-top:2.5rem;">
+      <div class="projects-more">
         <a href="${localePath(locale, '/projects/')}" class="btn btn-outline">${h.seeAllProjects}</a>
       </div>
     </div>
@@ -450,19 +480,7 @@ function aboutPage(locale, site) {
         <h2 class="section-title">${a.experienceTitle}</h2>
       </div>
 
-      <div class="experience-card reveal-target">
-        <div class="exp-header">
-          <div class="exp-info">
-            <h3>${a.experience.org}</h3>
-            <p class="exp-location">${a.experience.location}</p>
-          </div>
-          <div class="exp-dates">${a.experience.dates}</div>
-        </div>
-        <p class="exp-role">${a.experience.role}</p>
-        <ul class="exp-bullets">
-          ${a.experience.bullets.map((b) => `<li>${b}</li>`).join('\n          ')}
-        </ul>
-      </div>
+${a.experiences.map(experienceCard).join('\n\n')}
     </div>
   </section>
 
@@ -474,18 +492,7 @@ function aboutPage(locale, site) {
         <h2 class="section-title">${a.leadershipTitle}</h2>
       </div>
 
-      <div class="experience-card reveal-target">
-        <div class="exp-header">
-          <div class="exp-info">
-            <h3>${a.leadership.org}</h3>
-          </div>
-          <div class="exp-dates">${a.leadership.dates}</div>
-        </div>
-        <p class="exp-role">${a.leadership.role}</p>
-        <ul class="exp-bullets">
-          ${a.leadership.bullets.map((b) => `<li>${b}</li>`).join('\n          ')}
-        </ul>
-      </div>
+${experienceCard(a.leadership)}
     </div>
   </section>
 `;
@@ -509,7 +516,7 @@ function projectsListPage(locale, site, projects) {
   const otherLocale = locale === 'en' ? 'zh' : 'en';
   const cards = projects
     .filter((p) => p[locale].listing)
-    .map((p) => projectCard(p, locale, 'listing', { detailsLabel: locale === 'en' ? '▶ Details' : '▶ 深入了解' }))
+    .map((p) => projectCard(p, locale, 'listing', { detailsLabel: locale === 'en' ? 'Details →' : '深入了解 →' }))
     .join('\n\n');
 
   const body = `
@@ -540,7 +547,7 @@ ${cards}
     description: pp.description,
     canonicalPath: locale === 'en' ? '/projects/' : '/zh/projects/',
     alternatePath: otherLocale === 'en' ? '/projects/' : '/zh/projects/',
-    ogImage: '/assets/images/chromatic/ingame1.jpg',
+    ogImage: '/assets/images/chromatic/ingame1.webp',
     bodyAttrs: `data-lang-href="${localePath(otherLocale, '/projects/')}"`,
     body,
   });
@@ -628,7 +635,7 @@ ${galleryDots}
             ${tagList(d.tags)}
           </div>
           <div class="game-links">
-            ${detailPrimaryLinkHtml(locale, project.externalLink)}
+            ${detailLinksHtml(locale, project.externalLinks)}
             <a href="${localePath(locale, '/projects/')}" class="btn btn-outline">${allProjectsLabel}</a>
           </div>
         </div>

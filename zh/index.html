@@ -23,7 +23,7 @@
   <meta name="twitter:image" content="https://binxuanyan.dev/assets/images/profile.webp" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Silkscreen:wght@400;700&family=Space+Grotesk:wght@500;600;700&display=swap" />
   <link rel="stylesheet" href="/style.css" />
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
 </head>
@@ -33,6 +33,12 @@
 
   <!-- ===== Hero ===== -->
   <section id="hero" class="hero">
+    <div class="hero-bg" aria-hidden="true">
+      <span class="hero-orb hero-orb-1"></span>
+      <span class="hero-orb hero-orb-2"></span>
+      <span class="hero-orb hero-orb-3"></span>
+      <span class="hero-grid"></span>
+    </div>
     <div class="hero-inner">
       <div class="hero-eyebrow">游戏开发者 &amp; 计算机科学学生</div>
       <h1 class="hero-name">颜<br><span class="accent">彬轩</span></h1>
@@ -48,6 +54,7 @@
         <span class="hero-meta-item">📍 美国·波士顿</span>
       </div>
     </div>
+    <span class="hero-scroll" aria-hidden="true"></span>
   </section>
 
   <!-- ===== Featured Projects ===== -->
@@ -58,7 +65,7 @@
         <h2 class="section-title">我做过什么</h2>
       </div>
 
-      <div class="feat-grid home-featured-grid">
+      <div class="feat-grid">
 
         <div class="project-card reveal-target">
           <div class="project-thumb thumb-chroma">
@@ -69,8 +76,8 @@
           </div>
           <div class="project-body">
             <div class="project-type">游戏开发 &mdash; 团队项目</div>
-            <h3>Chromatic (进行中)</h3>
-            <p class="project-role-date">游戏程序员 &middot; 2026年1月 &ndash; 至今</p>
+            <h3>Chromatic</h3>
+            <p class="project-role-date">游戏程序员 &middot; 2026年1月 &ndash; 2026年4月</p>
             <p class="project-desc">
               2D 解谜平台跳跃游戏，玩家通过击败 Boss 与解谜将灰度世界还原为彩色。开发了颜色交互机制、可复用组件架构与颜色解锁进度系统，动态改变世界状态与谜题配置。
             </p>
@@ -80,7 +87,8 @@
               <span class="tag">解谜平台跳跃</span>
             </div>
             <div class="project-links">
-              <a href="/zh/projects/chromatic/" class="btn-pixel">▶ 深入了解</a>
+              <a href="/zh/projects/chromatic/" class="btn-pixel">深入了解 →</a>
+              <a href="https://hanwenzeng.itch.io/chromatic" class="project-link-ext" target="_blank" rel="noopener noreferrer">▶ 在 itch.io 游玩</a>
               <a href="https://github.com/Hbadmus/Chromatic" class="project-link-ext" target="_blank" rel="noopener noreferrer">⟶ 在 GitHub 上查看</a>
             </div>
           </div>
@@ -106,7 +114,7 @@
               <span class="tag">恐怖解谜</span>
             </div>
             <div class="project-links">
-              <a href="/zh/projects/glass-ceiling/" class="btn-pixel">▶ 深入了解</a>
+              <a href="/zh/projects/glass-ceiling/" class="btn-pixel">深入了解 →</a>
               <a href="https://aidan-moreau04.itch.io/glass-ceiling" class="project-link-ext" target="_blank" rel="noopener noreferrer">▶ 在 itch.io 游玩</a>
             </div>
           </div>
@@ -133,13 +141,13 @@
               <span class="tag">Jira</span>
             </div>
             <div class="project-links">
-              <a href="/zh/projects/what-remains-of-me/" class="btn-pixel">▶ 深入了解</a>
+              <a href="/zh/projects/what-remains-of-me/" class="btn-pixel">深入了解 →</a>
               <a href="https://whatremainsofme.itch.io/what-remains-of-me" class="project-link-ext" target="_blank" rel="noopener noreferrer">▶ 在 itch.io 游玩</a>
             </div>
           </div>
         </div>
       </div>
-      <div style="text-align:center; margin-top:2.5rem;">
+      <div class="projects-more">
         <a href="/zh/projects/" class="btn btn-outline">查看全部项目 →</a>
       </div>
     </div>
@@ -157,7 +165,7 @@
         <div class="avatar"><img src="/assets/images/profile.webp" alt="颜彬轩" width="800" height="1176" loading="lazy" class="avatar-img"></div>
         <div class="about-text">
           <p>
-            我是东北大学计算机科学与游戏开发专业学生，GPA 3.89/4.00，荣登院长嘉奖名单。我擅长使用 Unity 和 C# 开发游戏系统，从核心玩法到关卡设计，致力于将创意转化为完整可玩的游戏体验。
+            我是东北大学计算机科学与游戏开发专业学生，GPA 3.90/4.00，荣登院长嘉奖名单。我擅长使用 Unity 和 C# 开发游戏系统，从核心玩法到关卡设计，致力于将创意转化为完整可玩的游戏体验。
           </p>
           <p>
             我在 ISWorldLife 担任助理项目经理，带领跨职能团队并提供辅导支持；同时拥有复旦大学智能医学研究所的暑期研究实习经历。
@@ -187,6 +195,7 @@
             <li>C++</li>
             <li>Java</li>
             <li>Python</li>
+            <li>Lua</li>
           </ul>
         </div>
 

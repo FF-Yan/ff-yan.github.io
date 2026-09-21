@@ -3,9 +3,12 @@
   "configurations": [
     {
       "name": "static-site",
-      "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "8000", "--directory", "/Users/frank/Documents/GitHub/website"],
-      "port": 8000
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "/Users/frank/Documents/GitHub/website/build/serve.js",
+        "8001"
+      ],
+      "port": 8001
     }
   ]
 }

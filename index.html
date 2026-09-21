@@ -23,7 +23,7 @@
   <meta name="twitter:image" content="https://binxuanyan.dev/assets/images/profile.webp" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Silkscreen:wght@400;700&family=Space+Grotesk:wght@500;600;700&display=swap" />
   <link rel="stylesheet" href="/style.css" />
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
 </head>
@@ -33,6 +33,12 @@
 
   <!-- ===== Hero ===== -->
   <section id="hero" class="hero">
+    <div class="hero-bg" aria-hidden="true">
+      <span class="hero-orb hero-orb-1"></span>
+      <span class="hero-orb hero-orb-2"></span>
+      <span class="hero-orb hero-orb-3"></span>
+      <span class="hero-grid"></span>
+    </div>
     <div class="hero-inner">
       <div class="hero-eyebrow">Game Developer &amp; CS Student</div>
       <h1 class="hero-name">Binxuan<br><span class="accent">Yan</span></h1>
@@ -48,6 +54,7 @@
         <span class="hero-meta-item">📍 Boston, MA</span>
       </div>
     </div>
+    <span class="hero-scroll" aria-hidden="true"></span>
   </section>
 
   <!-- ===== Featured Projects ===== -->
@@ -58,7 +65,7 @@
         <h2 class="section-title">What I've Built</h2>
       </div>
 
-      <div class="feat-grid home-featured-grid">
+      <div class="feat-grid">
 
         <div class="project-card reveal-target">
           <div class="project-thumb thumb-chroma">
@@ -69,8 +76,8 @@
           </div>
           <div class="project-body">
             <div class="project-type">Game Dev &mdash; Team Project</div>
-            <h3>Chromatic (In Progress)</h3>
-            <p class="project-role-date">Gameplay Programmer &middot; Jan 2026 &ndash; Present</p>
+            <h3>Chromatic</h3>
+            <p class="project-role-date">Gameplay Programmer &middot; Jan &ndash; Apr 2026</p>
             <p class="project-desc">
               2D puzzle-platformer where players restore color to a grayscale world. Built color-based interaction mechanics, reusable component architecture, and color unlock progression affecting world state and puzzle configurations.
             </p>
@@ -80,7 +87,8 @@
               <span class="tag">Puzzle Platformer</span>
             </div>
             <div class="project-links">
-              <a href="/projects/chromatic/" class="btn-pixel">▶ Details</a>
+              <a href="/projects/chromatic/" class="btn-pixel">Details →</a>
+              <a href="https://hanwenzeng.itch.io/chromatic" class="project-link-ext" target="_blank" rel="noopener noreferrer">▶ Play on itch.io</a>
               <a href="https://github.com/Hbadmus/Chromatic" class="project-link-ext" target="_blank" rel="noopener noreferrer">⟶ View on GitHub</a>
             </div>
           </div>
@@ -106,7 +114,7 @@
               <span class="tag">Horror Puzzle</span>
             </div>
             <div class="project-links">
-              <a href="/projects/glass-ceiling/" class="btn-pixel">▶ Details</a>
+              <a href="/projects/glass-ceiling/" class="btn-pixel">Details →</a>
               <a href="https://aidan-moreau04.itch.io/glass-ceiling" class="project-link-ext" target="_blank" rel="noopener noreferrer">▶ Play on itch.io</a>
             </div>
           </div>
@@ -133,13 +141,13 @@
               <span class="tag">Jira</span>
             </div>
             <div class="project-links">
-              <a href="/projects/what-remains-of-me/" class="btn-pixel">▶ Details</a>
+              <a href="/projects/what-remains-of-me/" class="btn-pixel">Details →</a>
               <a href="https://whatremainsofme.itch.io/what-remains-of-me" class="project-link-ext" target="_blank" rel="noopener noreferrer">▶ Play on itch.io</a>
             </div>
           </div>
         </div>
       </div>
-      <div style="text-align:center; margin-top:2.5rem;">
+      <div class="projects-more">
         <a href="/projects/" class="btn btn-outline">See All Projects →</a>
       </div>
     </div>
@@ -157,7 +165,7 @@
         <div class="avatar"><img src="/assets/images/profile.webp" alt="Binxuan Yan" width="800" height="1176" loading="lazy" class="avatar-img"></div>
         <div class="about-text">
           <p>
-            I'm a Computer Science &amp; Game Development student at Northeastern University, maintaining a 3.89 GPA and recognized on the Dean's List. I build games with Unity and C# — from core systems to level design — and love the process of turning a concept into a playable, polished experience.
+            I'm a Computer Science &amp; Game Development student at Northeastern University, maintaining a 3.90 GPA and recognized on the Dean's List. I build games with Unity and C# — from core systems to level design — and love the process of turning a concept into a playable, polished experience.
           </p>
           <p>
             Beyond coursework, I bring leadership experience as Assistant Project Manager at ISWorldLife and research experience from a summer internship at Fudan University&#39;s Intelligent Medical Institute.
@@ -187,6 +195,7 @@
             <li>C++</li>
             <li>Java</li>
             <li>Python</li>
+            <li>Lua</li>
           </ul>
         </div>
 

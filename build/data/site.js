@@ -44,7 +44,7 @@ const site = {
       aboutEyebrow: '// 02 &mdash; About',
       aboutTitle: 'Who I Am',
       aboutText: [
-        "I'm a Computer Science &amp; Game Development student at Northeastern University, maintaining a 3.89 GPA and recognized on the Dean's List. I build games with Unity and C# — from core systems to level design — and love the process of turning a concept into a playable, polished experience.",
+        "I'm a Computer Science &amp; Game Development student at Northeastern University, maintaining a 3.90 GPA and recognized on the Dean's List. I build games with Unity and C# — from core systems to level design — and love the process of turning a concept into a playable, polished experience.",
         'Beyond coursework, I bring leadership experience as Assistant Project Manager at ISWorldLife and research experience from a summer internship at Fudan University&#39;s Intelligent Medical Institute.',
         'Outside of tech, I enjoy horror &amp; action games, musicals, photography, singing, and traveling.',
       ],
@@ -53,7 +53,7 @@ const site = {
       skillsTitle: 'Technical Toolkit',
       skills: {
         languagesTitle: 'Programming Languages',
-        languages: ['C# (Unity)', 'C++', 'Java', 'Python'],
+        languages: ['C# (Unity)', 'C++', 'Java', 'Python', 'Lua'],
         toolsTitle: 'Game Dev Tools',
         tools: ['Unity', 'Maya', 'Substance 3D Painter', 'SketchUp', 'Adobe Photoshop', 'Affinity Photo'],
         workflowTitle: 'Workflow &amp; Collab',
@@ -79,7 +79,7 @@ const site = {
       pageEyebrow: '// Who I Am',
       pageTitle: 'About Me',
       bio: [
-        "I'm a Computer Science &amp; Game Development student at Northeastern University, maintaining a 3.89/4.00 GPA and recognized on the Dean's List. I'm passionate about game development with hands-on experience using Unity and C#, having shipped playable demos through coursework and team projects.",
+        "I'm a Computer Science &amp; Game Development student at Northeastern University, maintaining a 3.90/4.00 GPA and recognized on the Dean's List. I'm passionate about game development with hands-on experience using Unity and C#, having shipped playable demos through coursework and team projects.",
         'I focus on building solid gameplay systems — from AI state machines to UI flows — and enjoy the challenge of making complex interactions feel natural and fun. Beyond development, I bring leadership and cross-functional collaboration skills from my role at ISWorldLife.',
         'Outside of code, I enjoy horror &amp; action games, musicals, photography, traveling, and singing.',
       ],
@@ -91,23 +91,36 @@ const site = {
         location: 'Boston, MA',
         dates: 'Expected December 2027',
         degree: 'Bachelor of Science in Computer Science and Game Development',
-        badges: ['GPA: 3.89 / 4.00', "Dean's List"],
+        badges: ['GPA: 3.90 / 4.00', "Dean's List"],
         courseworkLabel: 'Relevant Coursework:',
-        coursework: 'Game Design Capstone, Game Concept Development, Rapid Idea Prototyping Games, Level Design and Game Architecture, Program Design and Implementation II, Game Programming, Programming in C++, Game Studio, Math Fundamentals for Games, Foundations of Game Design',
+        coursework: 'Game Interface Design, Generative Game Design, Game Design Capstone, Game Concept Development, Rapid Idea Prototyping Games, Level Design and Game Architecture, Program Design and Implementation II, Game Programming, Programming in C++, Game Studio, Math Fundamentals for Games, Foundations of Game Design',
       },
       experienceEyebrow: '// Experience',
       experienceTitle: 'Work Experience',
-      experience: {
-        org: 'Intelligent Medical Institute, Fudan University',
-        location: 'Shanghai, China',
-        dates: 'June 2024 &mdash; August 2024',
-        role: 'Research Intern',
-        bullets: [
-          'Enhanced dataset quality in Python through cleaning and preprocessing, producing standardized research inputs',
-          'Automated complex data transformation workflows using Python scripts, reducing manual effort and improving processing efficiency',
-          'Developed reusable Python utilities for data validation and formatting, improving dataset reliability and consistency',
-        ],
-      },
+      experiences: [
+        {
+          org: 'Papergames INC.',
+          location: 'Shanghai, China',
+          dates: 'May 2026 &mdash; July 2026',
+          role: 'Game Client Developer Intern',
+          bullets: [
+            'Supported daily client maintenance for Love and Deepspace, including resource management and asset packaging',
+            'Assisted with AssetBundle configuration and built a version comparison tool for resource analysis and report generation',
+            'Performed multilingual UI validation, identified display issues, and developed a tool to export testing results',
+          ],
+        },
+        {
+          org: 'Intelligent Medical Institute, Fudan University',
+          location: 'Shanghai, China',
+          dates: 'June 2024 &mdash; August 2024',
+          role: 'Research Intern',
+          bullets: [
+            'Enhanced dataset quality in Python through cleaning and preprocessing, producing standardized research inputs',
+            'Automated complex data transformation workflows using Python scripts, reducing manual effort and improving processing efficiency',
+            'Developed reusable Python utilities for data validation and formatting, improving dataset reliability and consistency',
+          ],
+        },
+      ],
       leadershipEyebrow: '// Leadership',
       leadershipTitle: 'Leadership',
       leadership: {
@@ -177,7 +190,7 @@ const site = {
       aboutEyebrow: '// 02 &mdash; 关于我',
       aboutTitle: '我是谁',
       aboutText: [
-        '我是东北大学计算机科学与游戏开发专业学生，GPA 3.89/4.00，荣登院长嘉奖名单。我擅长使用 Unity 和 C# 开发游戏系统，从核心玩法到关卡设计，致力于将创意转化为完整可玩的游戏体验。',
+        '我是东北大学计算机科学与游戏开发专业学生，GPA 3.90/4.00，荣登院长嘉奖名单。我擅长使用 Unity 和 C# 开发游戏系统，从核心玩法到关卡设计，致力于将创意转化为完整可玩的游戏体验。',
         '我在 ISWorldLife 担任助理项目经理，带领跨职能团队并提供辅导支持；同时拥有复旦大学智能医学研究所的暑期研究实习经历。',
         '课余爱好：恐怖 &amp; 动作游戏、音乐剧、摄影、旅行与唱歌。',
       ],
@@ -186,7 +199,7 @@ const site = {
       skillsTitle: '技术工具箱',
       skills: {
         languagesTitle: '编程语言',
-        languages: ['C#（Unity）', 'C++', 'Java', 'Python'],
+        languages: ['C#（Unity）', 'C++', 'Java', 'Python', 'Lua'],
         toolsTitle: '游戏开发工具',
         tools: ['Unity', 'Maya', 'Substance 3D Painter', 'SketchUp', 'Adobe Photoshop', 'Affinity Photo'],
         workflowTitle: '协作与流程',
@@ -212,7 +225,7 @@ const site = {
       pageEyebrow: '// 我是谁',
       pageTitle: '关于我',
       bio: [
-        '我是东北大学计算机科学与游戏开发专业学生，GPA 3.89/4.00，荣登院长嘉奖名单。我热爱游戏开发，擅长使用 Unity 和 C# 构建游戏系统，从 AI 状态机到 UI 流程，致力于让复杂的交互变得自然流畅、有趣好玩。',
+        '我是东北大学计算机科学与游戏开发专业学生，GPA 3.90/4.00，荣登院长嘉奖名单。我热爱游戏开发，擅长使用 Unity 和 C# 构建游戏系统，从 AI 状态机到 UI 流程，致力于让复杂的交互变得自然流畅、有趣好玩。',
         '除技术开发外，我在 ISWorldLife 担任助理项目经理，带领跨职能团队并提供学生辅导支持；同时拥有复旦大学智能医学研究所的暑期研究实习经历。',
         '课余爱好：恐怖 &amp; 动作游戏、音乐剧、摄影、旅行与唱歌。',
       ],
@@ -224,23 +237,36 @@ const site = {
         location: '美国马萨诸塞州波士顿',
         dates: '预计2027年12月毕业',
         degree: '计算机科学与游戏开发 理学学士',
-        badges: ['GPA: 3.89 / 4.00', '院长嘉奖名单'],
+        badges: ['GPA: 3.90 / 4.00', '院长嘉奖名单'],
         courseworkLabel: '相关课程：',
-        coursework: '游戏设计顶点课程、游戏概念开发、游戏快速原型设计、关卡设计与游戏架构、程序设计与实现 II、游戏编程、C++ 编程、游戏工作室、游戏数学基础、游戏设计基础',
+        coursework: '游戏界面设计、生成式游戏设计、游戏设计顶点课程、游戏概念开发、游戏快速原型设计、关卡设计与游戏架构、程序设计与实现 II、游戏编程、C++ 编程、游戏工作室、游戏数学基础、游戏设计基础',
       },
       experienceEyebrow: '// 经历',
       experienceTitle: '工作经历',
-      experience: {
-        org: '复旦大学智能医学研究所',
-        location: '中国上海',
-        dates: '2024年6月 &mdash; 2024年8月',
-        role: '研究实习生',
-        bullets: [
-          '使用 Python 进行数据清洗与预处理，提升数据集质量，输出标准化研究数据',
-          '利用 Python 脚本自动化复杂数据转换流程，降低人工操作量并提升处理效率',
-          '开发可复用的 Python 工具用于数据验证与格式化，提高数据集的可靠性和一致性',
-        ],
-      },
+      experiences: [
+        {
+          org: '上海暖叠网络科技有限公司（叠纸游戏）',
+          location: '中国上海',
+          dates: '2026年5月 &mdash; 2026年7月',
+          role: '客户端开发实习生',
+          bullets: [
+            '参与恋与深空制作组客户端日常开发与维护，熟悉客户端项目架构、资源管理流程及分包机制',
+            '协助维护分包配置与资源管理，开发自动化资源比对工具，实现版本差异分析及报告导出，提升排查效率',
+            '负责多语言 UI 质量验证，定位并反馈显示以及文本布局问题，开发测试数据一键导出工具，优化测试流程',
+          ],
+        },
+        {
+          org: '复旦大学智能医学研究所',
+          location: '中国上海',
+          dates: '2024年6月 &mdash; 2024年8月',
+          role: '研究实习生',
+          bullets: [
+            '使用 Python 进行数据清洗与预处理，提升数据集质量，输出标准化研究数据',
+            '利用 Python 脚本自动化复杂数据转换流程，降低人工操作量并提升处理效率',
+            '开发可复用的 Python 工具用于数据验证与格式化，提高数据集的可靠性和一致性',
+          ],
+        },
+      ],
       leadershipEyebrow: '// 领导力',
       leadershipTitle: '领导经历',
       leadership: {

@@ -12,13 +12,16 @@ const projects = [
     slug: 'chromatic',
     thumbClass: 'thumb-chroma',
     cardImage: { src: '/assets/images/chromatic/ingame1.webp', alt: 'Chromatic', width: 1600, height: 907 },
-    externalLink: { type: 'github', url: 'https://github.com/Hbadmus/Chromatic' },
+    externalLinks: [
+      { type: 'itch', url: 'https://hanwenzeng.itch.io/chromatic' },
+      { type: 'github', url: 'https://github.com/Hbadmus/Chromatic' },
+    ],
     en: {
-      title: 'Chromatic (In Progress)',
+      title: 'Chromatic',
       name: 'Chromatic',
       type: 'Game Dev &mdash; Team Project',
       role: 'Gameplay Programmer',
-      period: 'Jan 2026 &ndash; Present',
+      period: 'Jan &ndash; Apr 2026',
       thumbLabel: 'Unity · C# · Puzzle Platformer',
       home: {
         desc: '2D puzzle-platformer where players restore color to a grayscale world. Built color-based interaction mechanics, reusable component architecture, and color unlock progression affecting world state and puzzle configurations.',
@@ -35,6 +38,9 @@ const projects = [
         overviewImage: { src: '/assets/images/chromatic/ingame1.webp', alt: 'Chromatic - In-Game', overlay: true, width: 1600, height: 907 },
         gallery: [
           { src: '/assets/images/chromatic/ingame1.webp', alt: 'Chromatic – In-Game', width: 1600, height: 907 },
+          { src: '/assets/images/chromatic/ingame2.webp', alt: 'Chromatic – In-Game', width: 1912, height: 1176 },
+          { src: '/assets/images/chromatic/ingame3.webp', alt: 'Chromatic – In-Game', width: 1898, height: 1176 },
+          { src: '/assets/images/chromatic/ingame4.webp', alt: 'Chromatic – In-Game', width: 1720, height: 1180 },
         ],
         contributions: [
           'Built core gameplay systems in Unity (C#), including color-based interaction mechanics that modify object properties, world physics, and traversal.',
@@ -48,11 +54,11 @@ const projects = [
       seo: 'Chromatic is a 2D puzzle-platformer where players restore color to a grayscale world, solving puzzles and defeating bosses through color-based mechanics. Built in Unity with C#.',
     },
     zh: {
-      title: 'Chromatic (进行中)',
+      title: 'Chromatic',
       name: 'Chromatic',
       type: '游戏开发 &mdash; 团队项目',
       role: '游戏程序员',
-      period: '2026年1月 &ndash; 至今',
+      period: '2026年1月 &ndash; 2026年4月',
       thumbLabel: 'Unity · C# · 解谜平台跳跃',
       home: {
         desc: '2D 解谜平台跳跃游戏，玩家通过击败 Boss 与解谜将灰度世界还原为彩色。开发了颜色交互机制、可复用组件架构与颜色解锁进度系统，动态改变世界状态与谜题配置。',
@@ -69,6 +75,9 @@ const projects = [
         overviewImage: { src: '/assets/images/chromatic/ingame1.webp', alt: 'Chromatic - 游戏内截图', overlay: true, width: 1600, height: 907 },
         gallery: [
           { src: '/assets/images/chromatic/ingame1.webp', alt: 'Chromatic – 游戏内截图', width: 1600, height: 907 },
+          { src: '/assets/images/chromatic/ingame2.webp', alt: 'Chromatic – 游戏内截图', width: 1912, height: 1176 },
+          { src: '/assets/images/chromatic/ingame3.webp', alt: 'Chromatic – 游戏内截图', width: 1898, height: 1176 },
+          { src: '/assets/images/chromatic/ingame4.webp', alt: 'Chromatic – 游戏内截图', width: 1720, height: 1180 },
         ],
         contributions: [
           '使用 Unity（C#）开发核心玩法系统，构建颜色交互机制，让玩家行为动态改变物体属性、世界物理与通行方式。',
@@ -87,7 +96,7 @@ const projects = [
     slug: 'glass-ceiling',
     thumbClass: 'thumb-gc',
     cardImage: { src: '/assets/images/glass-ceiling/menu.webp', alt: 'Glass Ceiling', width: 1600, height: 873 },
-    externalLink: { type: 'itch', url: 'https://aidan-moreau04.itch.io/glass-ceiling' },
+    externalLinks: [{ type: 'itch', url: 'https://aidan-moreau04.itch.io/glass-ceiling' }],
     en: {
       title: 'Glass Ceiling',
       type: 'Game Dev &mdash; Team Project',
@@ -166,7 +175,7 @@ const projects = [
     slug: 'what-remains-of-me',
     thumbClass: 'thumb-wrom',
     cardImage: { src: '/assets/images/what-remains-of-me/menu.webp', alt: 'What Remains Of Me', width: 1600, height: 888 },
-    externalLink: { type: 'itch', url: 'https://whatremainsofme.itch.io/what-remains-of-me' },
+    externalLinks: [{ type: 'itch', url: 'https://whatremainsofme.itch.io/what-remains-of-me' }],
     en: {
       title: 'What Remains Of Me',
       type: 'Game Dev &mdash; Class-wide Project',
@@ -249,7 +258,7 @@ const projects = [
     slug: 'boston-tea-party',
     thumbClass: 'thumb-lum',
     cardImage: { src: '/assets/images/boston-tea-party/ingame1.webp', alt: 'Boston Tea Party', width: 1348, height: 784 },
-    externalLink: { type: 'github', url: 'https://github.com/brandonius2/GAME3400_FinalProject_Group3' },
+    externalLinks: [{ type: 'github', url: 'https://github.com/brandonius2/GAME3400_FinalProject_Group3' }],
     en: {
       title: 'Boston Tea Party',
       type: 'Game Dev &mdash; Team Project',
@@ -322,7 +331,7 @@ const projects = [
     slug: 'personal-website',
     thumbClass: 'thumb-web',
     cardIcon: '🌐',
-    externalLink: { type: 'github', url: 'https://github.com/FF-Yan/ff-yan.github.io/' },
+    externalLinks: [{ type: 'github', url: 'https://github.com/FF-Yan/ff-yan.github.io/' }],
     en: {
       title: 'Personal Portfolio Website',
       type: 'Web Development &mdash; Solo',
