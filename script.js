@@ -26,7 +26,7 @@
 async function loadInto(el, url) {
   if (!el) return;
   try {
-    const res = await fetch(url, { cache: 'no-store' });
+    const res = await fetch(url);
     if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
     el.innerHTML = await res.text();
   } catch (err) {
@@ -197,6 +197,10 @@ document.addEventListener('click', e => {
 
   const link = e.target.closest('a[href]');
   if (!link) return;
+
+  // Let the browser handle modifier/middle clicks natively (new tab, new window, etc.).
+  if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+
   const inMenuOverlay = Boolean(link.closest('.menu-overlay'));
 
   if (link.dataset.disabledNav === 'true' || link.getAttribute('aria-disabled') === 'true') {
@@ -243,6 +247,7 @@ window.addEventListener('hashchange', () => {
 function startTypewriter() {
   const el = document.querySelector('.hero-eyebrow');
   if (!el) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const text = el.textContent.trim();
   el.textContent = '';
   el.classList.add('typewriter-active');
@@ -322,7 +327,6 @@ function initTurnstile() {
     sitekey: '0x4AAAAAACvDhtOvvBEaUTA2',
     callback: function (token) {
       turnstileToken = token;
-      console.log('Turnstile token received:', token);
     },
     'error-callback': function () {
       turnstileToken = null;
@@ -403,6 +407,10 @@ document.addEventListener('submit', e => {
     .then(async res => {
       if (res.ok) {
         form.reset();
+        if (typeof window.turnstile?.reset === 'function') {
+          window.turnstile.reset();
+        }
+        turnstileToken = null;
         showStatus(`✅ ${successText}`, 'success');
         return;
       }

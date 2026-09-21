@@ -1,7 +1,7 @@
 /* ===========================
-   Pixel Font Import
+   Pixel Font — loaded via <link> in <head>, not @import
+   (see build/templates.js), so it doesn't block this file's own parsing.
    =========================== */
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 /* ===========================
    CSS Reset & Base
@@ -1414,5 +1414,25 @@ ul { list-style: none; }
 @media (max-width: 600px) {
   .game-overview-thumb { height: 300px; }
   .gallery-slide img { height: 350px; }
+}
+
+/* ===========================
+   Accessibility
+   =========================== */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 

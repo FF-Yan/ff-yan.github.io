@@ -1,0 +1,8 @@
+{
+  "name": "binxuanyan-dev",
+  "private": true,
+  "description": "Build script for the bilingual (EN/ZH) static site. No runtime dependencies — the deployed site is still plain HTML/CSS/JS.",
+  "scripts": {
+    "build": "node build/build.js"
+  }
+}
