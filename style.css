@@ -84,6 +84,31 @@ body::after {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.22'/%3E%3C/svg%3E");
 }
 
+/* Cursor-follow "dent": a soft grey depression pressed into the stock.
+   z-index 0 puts it above in-flow section backgrounds but below every
+   positioned card, so it never washes over artwork. Injected by script.js. */
+.paper-dent {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 320px;
+  height: 320px;
+  margin: -160px 0 0 -160px;
+  z-index: 0;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  will-change: transform;
+  background: radial-gradient(
+    circle,
+    rgba(21, 20, 15, 0.085) 0%,
+    rgba(21, 20, 15, 0.055) 34%,
+    rgba(21, 20, 15, 0.022) 58%,
+    rgba(21, 20, 15, 0) 76%
+  );
+}
+
 a { color: var(--blue); text-decoration: none; transition: color var(--t); }
 a:hover { color: var(--red); }
 ul { list-style: none; }
@@ -519,6 +544,7 @@ img { max-width: 100%; }
 .hero-orb {
   position: absolute;
   display: block;
+  will-change: transform;
 }
 .hero-orb-1 {
   width: 240px; height: 240px;
@@ -866,6 +892,8 @@ img { max-width: 100%; }
    About
    =========================== */
 .about-card {
+  position: relative;
+  z-index: 1;
   background: var(--paper-2);
   border: 1px solid var(--ink);
   border-radius: var(--r);
@@ -974,6 +1002,8 @@ img { max-width: 100%; }
 }
 
 .contact-form {
+  position: relative;
+  z-index: 1;
   background: var(--paper-2);
   border: 1px solid var(--ink);
   border-radius: var(--r);
@@ -1168,7 +1198,6 @@ img { max-width: 100%; }
    Page hero (sub-pages)
    =========================== */
 .page-hero {
-  position: relative;
   padding: calc(var(--nav-h) + 4.5rem) 0 3.5rem;
   background: var(--paper-alt);
   border-bottom: 2px solid var(--ink);
@@ -1196,6 +1225,8 @@ img { max-width: 100%; }
    Footer
    =========================== */
 .footer {
+  position: relative;
+  z-index: 1;
   border-top: 2px solid var(--ink);
   background: var(--paper-alt);
   padding: 3.5rem 1.75rem 2.75rem;
@@ -1306,6 +1337,8 @@ img { max-width: 100%; }
 }
 
 .game-section {
+  position: relative;
+  z-index: 1;
   background: var(--paper-2);
   border: 1px solid var(--ink);
   border-radius: var(--r);
@@ -1539,6 +1572,8 @@ img { max-width: 100%; }
   shape-rendering: crispEdges;
 }
 .cat-ink  { fill: var(--ink); }
+/* Pupils shift in whole grid cells (moved by script.js) so they stay crisp. */
+.cat-eyes { fill: var(--ink); }
 .cat-fill { fill: var(--paper-2); }
 
 .notfound-caption {

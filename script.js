@@ -492,6 +492,120 @@ const revealObserver = new IntersectionObserver(
 
 revealEls.forEach(el => revealObserver.observe(el));
 
+// ===========================
+// Pointer-reactive paper
+// ===========================
+// Three effects share one rAF loop: a soft dent that follows the cursor
+// across the stock, hero layers that drift against it, and the 404 cat's
+// pupils. Skipped entirely for touch input and reduced-motion users.
+(function initPointerEffects() {
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+  if (!finePointer.matches) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const dent = document.createElement('div');
+  dent.className = 'paper-dent';
+  dent.setAttribute('aria-hidden', 'true');
+  document.body.insertBefore(dent, document.body.firstChild);
+
+  // Each hero layer drifts by a different amount, which is what reads as depth.
+  const LAYERS = [
+    ['.hero-orb-1', 20],
+    ['.hero-orb-2', -13],
+    ['.hero-orb-3', 27],
+    ['.hero-grid', 6],
+  ]
+    .map(([sel, depth]) => ({ el: document.querySelector(sel), depth }))
+    .filter((l) => l.el);
+
+  const catSvg = document.querySelector('.pixel-cat');
+  const catEyes = document.querySelector('.cat-eyes');
+
+  let targetX = window.innerWidth / 2;
+  let targetY = window.innerHeight / 2;
+  let x = targetX;
+  let y = targetY;
+  let eyeX = 0;
+  let eyeY = 0;
+  let frame = null;
+  let visible = false;
+  let needsSnap = true;
+
+  // Pupils move in whole grid cells, so the look stays pixel-crisp.
+  function pupilStep(distance, half) {
+    if (!half) return 0;
+    const n = distance / half;
+    if (n > 0.28) return 1;
+    if (n < -0.28) return -1;
+    return 0;
+  }
+
+  function render() {
+    frame = null;
+
+    x += (targetX - x) * 0.22;
+    y += (targetY - y) * 0.22;
+    dent.style.transform = 'translate3d(' + x.toFixed(1) + 'px, ' + y.toFixed(1) + 'px, 0)';
+
+    // -1..1 from the viewport centre drives the parallax
+    const nx = (x / window.innerWidth) * 2 - 1;
+    const ny = (y / window.innerHeight) * 2 - 1;
+    for (const layer of LAYERS) {
+      layer.el.style.transform =
+        'translate3d(' + (-nx * layer.depth).toFixed(1) + 'px, ' +
+        (-ny * layer.depth * 0.55).toFixed(1) + 'px, 0)';
+    }
+
+    if (catEyes && catSvg) {
+      const box = catSvg.getBoundingClientRect();
+      const nextX = pupilStep(x - (box.left + box.width / 2), box.width / 2);
+      const nextY = pupilStep(y - (box.top + box.height / 2), box.height / 2);
+      if (nextX !== eyeX || nextY !== eyeY) {
+        eyeX = nextX;
+        eyeY = nextY;
+        catEyes.setAttribute('transform', 'translate(' + eyeX + ' ' + eyeY + ')');
+      }
+    }
+
+    if (Math.abs(targetX - x) > 0.3 || Math.abs(targetY - y) > 0.3) {
+      frame = requestAnimationFrame(render);
+    }
+  }
+
+  function schedule() {
+    if (frame === null) frame = requestAnimationFrame(render);
+  }
+
+  window.addEventListener(
+    'pointermove',
+    (e) => {
+      if (e.pointerType && e.pointerType !== 'mouse') return;
+      targetX = e.clientX;
+      targetY = e.clientY;
+      if (needsSnap) {
+        // Land the dent under the cursor rather than sliding in from the centre.
+        needsSnap = false;
+        x = targetX;
+        y = targetY;
+      }
+      if (!visible) {
+        visible = true;
+        dent.style.opacity = '1';
+      }
+      schedule();
+    },
+    { passive: true }
+  );
+
+  // Fade out when the cursor leaves the window; the next pointermove
+  // re-snaps it into place and fades it back in.
+  document.addEventListener('mouseleave', () => {
+    visible = false;
+    needsSnap = true;
+    dent.style.opacity = '0';
+  });
+})();
+
 (async function bootstrap() {
   await loadSharedComponents();
   syncYear();
