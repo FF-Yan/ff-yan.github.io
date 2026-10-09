@@ -639,9 +639,9 @@ img { max-width: 100%; }
 
 .hero-meta {
   display: flex;
-  gap: 1.75rem;
-  flex-wrap: wrap;
-  align-items: center;
+  flex-direction: column;
+  gap: 0.6rem;
+  align-items: flex-start;
 }
 .hero-meta-item {
   font-family: var(--mono-font);
@@ -1653,7 +1653,6 @@ img { max-width: 100%; }
 }
 
 @media (max-width: 480px) {
-  .hero-meta { gap: 1rem; }
   .feat-grid { grid-template-columns: 1fr; }
   .exp-header, .edu-header { flex-direction: column; gap: 0.5rem; }
 }

@@ -252,6 +252,7 @@ function homePage(locale, site, projects, homeFeaturedSlugs) {
       </div>
       <div class="hero-meta">
         <span class="hero-meta-item">${h.heroLocation}</span>
+        <span class="hero-meta-item">${h.heroAvailability}</span>
       </div>
     </div>
     <span class="hero-scroll" aria-hidden="true"></span>

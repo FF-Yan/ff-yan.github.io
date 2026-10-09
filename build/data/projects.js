@@ -20,15 +20,15 @@ const projects = [
       title: 'Chromatic',
       name: 'Chromatic',
       type: 'Game Dev &mdash; Team Project',
-      role: 'Gameplay Programmer',
-      period: 'Jan &ndash; Apr 2026',
+      role: 'Game Developer',
+      period: 'January 2026 &ndash; April 2026',
       thumbLabel: 'Unity · C# · Puzzle Platformer',
       home: {
         desc: '2D puzzle-platformer where players restore color to a grayscale world. Built color-based interaction mechanics, reusable component architecture, and color unlock progression affecting world state and puzzle configurations.',
         tags: ['Unity', 'C#', 'Puzzle Platformer'],
       },
       listing: {
-        desc: 'Built gameplay systems in Unity (C#), including color-based interaction mechanics that dynamically modify object physics and level traversal. Designed reusable components enabling multiple systems to share core logic while maintaining unique behavior. Implemented color unlock progression affecting world state and puzzle configurations across a 4-person team.',
+        desc: 'Built gameplay systems in Unity (C#), including color-based interaction mechanics that dynamically modify object physics and level traversal. Designed reusable components enabling multiple systems to share core logic while maintaining unique behavior. Implemented color unlock progression affecting world state and puzzle configurations as part of a 4-person team.',
         tags: ['Unity', 'C#', 'Puzzle Platformer', 'GitHub'],
       },
       detail: {
@@ -49,7 +49,7 @@ const projects = [
           'Developed color unlock progression that transforms world state and updates puzzle configurations dynamically.',
           'Collaborated in a 4-person team using GitHub, maintaining reusable systems that support unique per-level and per-boss behavior.',
         ],
-        techTags: ['Unity', 'C#', 'FSM AI', 'Modular Architecture', 'GitHub', 'Team Collaboration'],
+        techTags: ['Unity', 'C#', 'Modular Architecture', 'GitHub', 'Team Collaboration'],
       },
       seo: 'Chromatic is a 2D puzzle-platformer where players restore color to a grayscale world, solving puzzles and defeating bosses through color-based mechanics. Built in Unity with C#.',
     },
@@ -57,7 +57,7 @@ const projects = [
       title: 'Chromatic',
       name: 'Chromatic',
       type: '游戏开发 &mdash; 团队项目',
-      role: '游戏程序员',
+      role: '游戏开发',
       period: '2026年1月 &ndash; 2026年4月',
       thumbLabel: 'Unity · C# · 解谜平台跳跃',
       home: {
@@ -86,7 +86,7 @@ const projects = [
           '开发颜色解锁进度系统，使世界状态与谜题配置随能力获取动态变化。',
           '在四人团队中使用 GitHub 协作，维护可复用核心系统并支持不同 Boss/关卡的差异化行为。',
         ],
-        techTags: ['Unity', 'C#', '有限状态机 AI', '模块化架构', 'GitHub', '团队协作'],
+        techTags: ['Unity', 'C#', '模块化架构', 'GitHub', '团队协作'],
       },
       seo: '《Chromatic》是一款 2D 解谜平台跳跃游戏，玩家通过基于颜色的机制为灰度世界恢复色彩、解谜并击败 Boss。使用 Unity 与 C# 开发。',
     },
@@ -100,8 +100,8 @@ const projects = [
     en: {
       title: 'Glass Ceiling',
       type: 'Game Dev &mdash; Team Project',
-      role: 'Gameplay Programmer',
-      period: 'Sep &ndash; Dec 2025',
+      role: 'Game Developer',
+      period: 'September 2025 &ndash; December 2025',
       thumbLabel: 'Unity · C# · Horror Puzzle',
       home: {
         desc: 'Developed core gameplay programming, UI system, mechanics, and audio integration using Unity &amp; C#. Delivered a fully playable horror-puzzle demo with iterative playtesting and polish.',
@@ -136,8 +136,8 @@ const projects = [
     zh: {
       title: 'Glass Ceiling',
       type: '游戏开发 &mdash; 团队项目',
-      role: '游戏程序员',
-      period: '2025年9月 &ndash; 12月',
+      role: '游戏开发',
+      period: '2025年9月 &ndash; 2025年12月',
       thumbLabel: 'Unity · C# · 恐怖解谜',
       home: {
         desc: '使用 Unity 和 C# 完成核心游戏编程、UI 系统、机制设计与音效集成，交付了一款完整可玩的恐怖解谜 Demo，经过多轮迭代测试与打磨。',
@@ -149,7 +149,7 @@ const projects = [
       },
       detail: {
         pageEyebrow: '// 游戏项目 &mdash; 恐怖解谜',
-        overview: '<strong>Glass Ceiling</strong> 是一款在东北大学学期项目中与团队共同开发的恐怖解谜游戏。玩家在充满张力的大气环境中解谜，同时躲避危险——经过多轮迭代测试与打磨，最终交付完整可玩的 Demo。',
+        overview: '<strong>Glass Ceiling</strong> 是一款在美国东北大学学期项目中与团队共同开发的恐怖解谜游戏。玩家在充满张力的大气环境中解谜，同时躲避危险——经过多轮迭代测试与打磨，最终交付完整可玩的 Demo。',
         tags: ['Unity', 'C#', '恐怖解谜', 'UI系统', '音效', '团队项目'],
         overviewImage: { src: '/assets/images/glass-ceiling/menu.webp', alt: 'Glass Ceiling - 主菜单', overlay: false, width: 1600, height: 873 },
         gallery: [
@@ -174,13 +174,13 @@ const projects = [
   {
     slug: 'what-remains-of-me',
     thumbClass: 'thumb-wrom',
-    cardImage: { src: '/assets/images/what-remains-of-me/menu.webp', alt: 'What Remains Of Me', width: 1600, height: 888 },
+    cardImage: { src: '/assets/images/what-remains-of-me/menu.webp', alt: 'What Remains of Me', width: 1600, height: 888 },
     externalLinks: [{ type: 'itch', url: 'https://whatremainsofme.itch.io/what-remains-of-me' }],
     en: {
-      title: 'What Remains Of Me',
+      title: 'What Remains of Me',
       type: 'Game Dev &mdash; Class-wide Project',
       role: 'Game Developer',
-      period: 'Sep &ndash; Dec 2025',
+      period: 'September 2025 &ndash; December 2025',
       thumbLabel: 'Unity · C# · Level Design',
       home: {
         desc: 'A cross-semester game developed by an entire class. Extended existing gameplay systems for smoother feature integration. Contributed to level design, art assets, and QA scripting. Tracked tasks with Jira to ensure consistent team delivery.',
@@ -192,18 +192,19 @@ const projects = [
       },
       detail: {
         pageEyebrow: '// Game Project &mdash; Level Design',
-        overview: '<strong>What Remains Of Me</strong> is a cross-semester, narrative-driven game developed by an entire class at Northeastern University. The project focused on extending existing gameplay systems, shaping the world through level design, and ensuring quality through rigorous QA. Our group focus was revising <strong>Level 3</strong> and adding a clearer gameplay flow, making progression and player guidance more reasonable. My primary contribution was on the coding side of those updates.',
+        overview: '<strong>What Remains of Me</strong> is a cross-semester, narrative-driven game developed by an entire class at Northeastern University. The project focused on extending existing gameplay systems, shaping the world through level design, and ensuring quality through QA testing. Our group focus was revising <strong>Level 3</strong> and adding a clearer gameplay flow, making progression and player guidance more reasonable. My primary contribution was on the coding side of those updates.',
         tags: ['Unity', 'C#', 'Level Design', 'Art Assets', 'Jira', 'QA'],
-        overviewImage: { src: '/assets/images/what-remains-of-me/menu.webp', alt: 'What Remains Of Me - Main Menu', overlay: false, width: 1600, height: 888 },
+        overviewImage: { src: '/assets/images/what-remains-of-me/menu.webp', alt: 'What Remains of Me - Main Menu', overlay: false, width: 1600, height: 888 },
         gallery: [
-          { src: '/assets/images/what-remains-of-me/menu.webp', alt: 'What Remains Of Me – Main Menu', width: 1600, height: 888 },
-          { src: '/assets/images/what-remains-of-me/ingame1.webp', alt: 'What Remains Of Me – In-Game', width: 1600, height: 884 },
-          { src: '/assets/images/what-remains-of-me/ingame2.webp', alt: 'What Remains Of Me – In-Game Scene 2', width: 1104, height: 710 },
-          { src: '/assets/images/what-remains-of-me/ingame3.webp', alt: 'What Remains Of Me – In-Game Scene 3', width: 1600, height: 865 },
-          { src: '/assets/images/what-remains-of-me/ingame4.webp', alt: 'What Remains Of Me – In-Game Scene 4', width: 1600, height: 859 },
+          { src: '/assets/images/what-remains-of-me/menu.webp', alt: 'What Remains of Me – Main Menu', width: 1600, height: 888 },
+          { src: '/assets/images/what-remains-of-me/ingame1.webp', alt: 'What Remains of Me – In-Game', width: 1600, height: 884 },
+          { src: '/assets/images/what-remains-of-me/ingame2.webp', alt: 'What Remains of Me – In-Game Scene 2', width: 1104, height: 710 },
+          { src: '/assets/images/what-remains-of-me/ingame3.webp', alt: 'What Remains of Me – In-Game Scene 3', width: 1600, height: 865 },
+          { src: '/assets/images/what-remains-of-me/ingame4.webp', alt: 'What Remains of Me – In-Game Scene 4', width: 1600, height: 859 },
         ],
         contributions: [
           'Implemented key code changes for the Level 3 rework, including progression logic and event sequencing.',
+          'Modified existing Unity systems to integrate new mechanics, including an alert system that triggers story progression.',
           'Built and integrated an added gameplay flow that made player objectives and transitions more coherent.',
           "Created and refined art assets to visually support the game's narrative tone.",
           'Collaborated with teammates on iteration and balancing, then shipped fixes quickly through Unity C# workflow.',
@@ -212,13 +213,13 @@ const projects = [
         ],
         techTags: ['Unity 2022', 'C#', 'ProBuilder', 'GitHub', 'Jira', 'Adobe Photoshop'],
       },
-      seo: 'What Remains Of Me is a cross-semester, class-wide Unity game project featuring extended gameplay systems, level design, art contributions, and QA scripting.',
+      seo: 'What Remains of Me is a cross-semester, class-wide Unity game project featuring extended gameplay systems, level design, art contributions, and QA scripting.',
     },
     zh: {
-      title: 'What Remains Of Me',
+      title: 'What Remains of Me',
       type: '游戏开发 &mdash; 班级协作项目',
-      role: '游戏开发者',
-      period: '2025年9月 &ndash; 12月',
+      role: '游戏开发',
+      period: '2025年9月 &ndash; 2025年12月',
       thumbLabel: 'Unity · C# · 关卡设计',
       home: {
         desc: '这是一个跨学期由一整个班级共同开发的项目。扩展现有系统以实现更流畅的功能集成，参与游戏编程、美术资产与关卡设计。使用 Jira 追踪任务，编写 QA 测试脚本，保障团队协作质量。',
@@ -230,18 +231,19 @@ const projects = [
       },
       detail: {
         pageEyebrow: '// 游戏项目 &mdash; 关卡设计',
-        overview: '<strong>What Remains Of Me</strong> 是一个跨学期由一整个班级共同开发的叙事驱动游戏。项目聚焦于扩展现有游戏系统、通过关卡设计构建游戏世界，并以严格的 QA 测试确保整体质量。我们的主要工作是重做 <strong>Level 3</strong>，并新增一段更清晰的游戏流程，让玩家目标与推进节奏更合理。我的主要职责是这部分流程改造中的代码实现。',
+        overview: '<strong>What Remains of Me</strong> 是一个跨学期由一整个班级共同开发的叙事驱动游戏。项目聚焦于扩展现有游戏系统、通过关卡设计构建游戏世界，并通过 QA 测试保障整体质量。我们的主要工作是重做 <strong>Level 3</strong>，并新增一段更清晰的游戏流程，让玩家目标与推进节奏更合理。我的主要职责是这部分流程改造中的代码实现。',
         tags: ['Unity', 'C#', '关卡设计', '美术资产', 'Jira', 'QA'],
-        overviewImage: { src: '/assets/images/what-remains-of-me/menu.webp', alt: 'What Remains Of Me - 主菜单', overlay: false, width: 1600, height: 888 },
+        overviewImage: { src: '/assets/images/what-remains-of-me/menu.webp', alt: 'What Remains of Me - 主菜单', overlay: false, width: 1600, height: 888 },
         gallery: [
-          { src: '/assets/images/what-remains-of-me/menu.webp', alt: 'What Remains Of Me – 主菜单', width: 1600, height: 888 },
-          { src: '/assets/images/what-remains-of-me/ingame1.webp', alt: 'What Remains Of Me – 游戏内截图', width: 1600, height: 884 },
-          { src: '/assets/images/what-remains-of-me/ingame2.webp', alt: 'What Remains Of Me – 游戏内截图 2', width: 1104, height: 710 },
-          { src: '/assets/images/what-remains-of-me/ingame3.webp', alt: 'What Remains Of Me – 游戏内截图 3', width: 1600, height: 865 },
-          { src: '/assets/images/what-remains-of-me/ingame4.webp', alt: 'What Remains Of Me – 游戏内截图 4', width: 1600, height: 859 },
+          { src: '/assets/images/what-remains-of-me/menu.webp', alt: 'What Remains of Me – 主菜单', width: 1600, height: 888 },
+          { src: '/assets/images/what-remains-of-me/ingame1.webp', alt: 'What Remains of Me – 游戏内截图', width: 1600, height: 884 },
+          { src: '/assets/images/what-remains-of-me/ingame2.webp', alt: 'What Remains of Me – 游戏内截图 2', width: 1104, height: 710 },
+          { src: '/assets/images/what-remains-of-me/ingame3.webp', alt: 'What Remains of Me – 游戏内截图 3', width: 1600, height: 865 },
+          { src: '/assets/images/what-remains-of-me/ingame4.webp', alt: 'What Remains of Me – 游戏内截图 4', width: 1600, height: 859 },
         ],
         contributions: [
           '负责 Level 3 重做中的核心代码改动，包括推进逻辑、事件顺序与触发条件实现。',
+          '修改现有 Unity 系统以接入新机制，包括触发剧情推进的警报系统。',
           '实现并接入新增游戏流程，使玩家目标提示、区域切换与节奏衔接更连贯。',
           '制作并完善美术资产，在视觉上支撑游戏的叙事基调。',
           '与团队反复迭代流程手感与难度，并通过 Unity C# 快速落地修复与优化。',
@@ -250,7 +252,7 @@ const projects = [
         ],
         techTags: ['Unity 2022', 'C#', 'ProBuilder', 'GitHub', 'Jira', 'Adobe Photoshop'],
       },
-      seo: '《What Remains Of Me》是由整个班级跨学期共同开发的 Unity 游戏项目，涉及玩法系统扩展、关卡设计与 QA 脚本编写。',
+      seo: '《What Remains of Me》是由整个班级跨学期共同开发的 Unity 游戏项目，涉及玩法系统扩展、关卡设计与 QA 脚本编写。',
     },
   },
 
@@ -263,7 +265,7 @@ const projects = [
       title: 'Boston Tea Party',
       type: 'Game Dev &mdash; Team Project',
       role: 'Level Designer &amp; Programmer',
-      period: 'Nov 2025 &ndash; Dec 2025',
+      period: 'November 2025 &ndash; December 2025',
       thumbLabel: 'Unity · C# · Narrative Level Design',
       listing: {
         desc: 'Built a narrative-driven historical level in Unity where players carry tea crates and throw them into the harbor. Focused on mood, storytelling, and immersion through fog, lighting, environmental sound, and paced audio events.',
@@ -296,7 +298,7 @@ const projects = [
       title: 'Boston Tea Party',
       type: '游戏开发 &mdash; 团队项目',
       role: '关卡设计师 &amp; 程序员',
-      period: '2025年11月 &ndash; 12月',
+      period: '2025年11月 &ndash; 2025年12月',
       thumbLabel: 'Unity · C# · 叙事关卡设计',
       listing: {
         desc: '在 Unity 中完成叙事驱动的历史关卡体验。玩家在船上搬运茶箱并投向港口，通过重复交互感受事件意义。重点放在氛围与沉浸感，使用雾效、灯光、环境音与节奏化音频推进叙事。',
@@ -339,8 +341,8 @@ const projects = [
       period: '2025 &ndash; Present',
       thumbLabel: 'HTML · CSS · JavaScript',
       listing: {
-        desc: 'This very site — a clean, responsive, bilingual (EN / ZH) personal portfolio built with HTML, CSS, and vanilla JavaScript, hosted on GitHub Pages. Designed with a game-developer aesthetic in mind.',
-        tags: ['HTML', 'CSS', 'JavaScript', 'GitHub Pages'],
+        desc: 'This very site — a clean, responsive, bilingual (EN / ZH) personal portfolio built with HTML, CSS, and vanilla JavaScript, hosted on GitHub Pages. Both language versions are generated from a single data source by a custom Node.js build script, and the contact form is protected by Cloudflare Turnstile verification. Designed with a game-developer aesthetic in mind.',
+        tags: ['HTML', 'CSS', 'JavaScript', 'Node.js', 'GitHub Pages'],
       },
     },
     zh: {
@@ -350,8 +352,8 @@ const projects = [
       period: '2025年 &ndash; 至今',
       thumbLabel: 'HTML · CSS · JavaScript',
       listing: {
-        desc: '这个网站本身——一个简洁、响应式、支持中英双语的个人作品集，使用 HTML、CSS 和原生 JavaScript 构建，以游戏开发者视觉风格为设计理念，托管于 GitHub Pages。',
-        tags: ['HTML', 'CSS', 'JavaScript', 'GitHub Pages'],
+        desc: '这个网站本身——一个简洁、响应式、支持中英双语的个人作品集，使用 HTML、CSS 和原生 JavaScript 构建，托管于 GitHub Pages。中英文页面由自研 Node.js 构建脚本从同一份数据源生成，联系表单接入 Cloudflare Turnstile 人机验证。以游戏开发者视觉风格为设计理念。',
+        tags: ['HTML', 'CSS', 'JavaScript', 'Node.js', 'GitHub Pages'],
       },
     },
   },
