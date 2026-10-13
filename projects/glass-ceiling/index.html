@@ -26,9 +26,46 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Silkscreen:wght@400;700&family=Space+Grotesk:wght@500;600;700&display=swap" />
   <link rel="stylesheet" href="/style.css" />
 </head>
-<body data-lang-href="/zh/projects/glass-ceiling/">
+<body>
 
-  <div id="navbar"></div>
+  <div id="navbar">
+<header class="navbar">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">Binxuan <span>Yan</span></a>
+    <div class="nav-right">
+      <button class="lang-toggle" data-lang-href="/zh/projects/glass-ceiling/" aria-label="切换到中文">中文</button>
+      <button class="hamburger" aria-label="Open navigation" aria-expanded="false" aria-controls="menuOverlay">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="menu-overlay" id="menuOverlay">
+  <div class="menu-backdrop"></div>
+  <div class="menu-panel">
+    <button class="menu-close" aria-label="Close menu">&times;</button>
+
+    <div class="menu-logo">Binxuan <span>Yan</span></div>
+    <div class="menu-tagline">// Game Developer &amp; CS Student</div>
+
+    <nav class="menu-nav">
+      <a href="/"><span class="menu-num">01</span> Home</a>
+      <a href="/projects/" class="is-current" aria-current="page"><span class="menu-num">02</span> Projects</a>
+      <a href="/about/"><span class="menu-num">03</span> About</a>
+    </nav>
+
+    <div class="menu-bottom">
+      <div class="menu-bottom-label">Contact</div>
+      <div class="menu-contacts">
+        <a href="mailto:biinxuand@gmail.com">biinxuand@gmail.com</a>
+        <a href="https://github.com/FF-Yan" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="/assets/resumes/binxuan-yan-resume.pdf" target="_blank" rel="noopener noreferrer" download>Resume</a>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
 
   <!-- ===== Page Hero ===== -->
   <div class="page-hero">
@@ -60,7 +97,7 @@
             <strong>Role:</strong> Game Developer &nbsp;&middot;&nbsp;
             <strong>Period:</strong> September 2025 &ndash; December 2025
           </p>
-          <div class="project-tags" style="margin-bottom:0.5rem;">
+          <div class="project-tags">
             <span class="tag">Unity</span>
               <span class="tag">C#</span>
               <span class="tag">Horror Puzzle</span>
@@ -92,15 +129,15 @@
           </div>
         </div>
         <div class="gallery-nav">
-          <button class="gallery-btn" data-dir="-1">◀ PREV</button>
-          <button class="gallery-btn" data-dir="1">NEXT ▶</button>
+          <button type="button" class="gallery-btn" data-dir="-1" aria-label="Previous screenshot">◀ PREV</button>
+          <button type="button" class="gallery-btn" data-dir="1" aria-label="Next screenshot">NEXT ▶</button>
         </div>
         <div class="gallery-footer">
           <div class="gallery-dots">
-            <div class="gallery-dot active" data-idx="0"></div>
-            <div class="gallery-dot" data-idx="1"></div>
-            <div class="gallery-dot" data-idx="2"></div>
-            <div class="gallery-dot" data-idx="3"></div>
+            <button type="button" class="gallery-dot active" aria-label="Show screenshot 1" aria-current="true"></button>
+            <button type="button" class="gallery-dot" aria-label="Show screenshot 2"></button>
+            <button type="button" class="gallery-dot" aria-label="Show screenshot 3"></button>
+            <button type="button" class="gallery-dot" aria-label="Show screenshot 4"></button>
           </div>
           <div class="gallery-caption">// Screenshots</div>
         </div>
@@ -134,7 +171,19 @@
     </div>
   </section>
 
-  <div id="footer"></div>
+  <div id="footer">
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-name">Binxuan Yan</div>
+    <div class="footer-contacts">
+      <a href="mailto:biinxuand@gmail.com">biinxuand@gmail.com</a>
+      <a href="https://github.com/FF-Yan" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="/assets/resumes/binxuan-yan-resume.pdf" target="_blank" rel="noopener noreferrer" download>Resume</a>
+    </div>
+    <p class="footer-copy">&copy; <span id="year">2026</span> Binxuan Yan &mdash; Hosted on GitHub Pages.</p>
+  </div>
+</footer>
+  </div>
 
   <script src="/script.js"></script>
 </body>

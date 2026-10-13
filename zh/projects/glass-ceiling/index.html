@@ -26,9 +26,46 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Silkscreen:wght@400;700&family=Space+Grotesk:wght@500;600;700&display=swap" />
   <link rel="stylesheet" href="/style.css" />
 </head>
-<body data-lang-href="/projects/glass-ceiling/">
+<body>
 
-  <div id="navbar"></div>
+  <div id="navbar">
+<header class="navbar">
+  <div class="nav-inner">
+    <a href="/zh/" class="nav-logo">颜<span>彬轩</span></a>
+    <div class="nav-right">
+      <button class="lang-toggle" data-lang-href="/projects/glass-ceiling/" aria-label="Switch to English">EN</button>
+      <button class="hamburger" aria-label="打开导航" aria-expanded="false" aria-controls="menuOverlay">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="menu-overlay" id="menuOverlay">
+  <div class="menu-backdrop"></div>
+  <div class="menu-panel">
+    <button class="menu-close" aria-label="关闭菜单">&times;</button>
+
+    <div class="menu-logo">颜<span>彬轩</span></div>
+    <div class="menu-tagline">// 游戏开发者 &amp; 计算机科学学生</div>
+
+    <nav class="menu-nav">
+      <a href="/zh/"><span class="menu-num">01</span> 主页</a>
+      <a href="/zh/projects/" class="is-current" aria-current="page"><span class="menu-num">02</span> 项目</a>
+      <a href="/zh/about/"><span class="menu-num">03</span> 关于我</a>
+    </nav>
+
+    <div class="menu-bottom">
+      <div class="menu-bottom-label">联系方式</div>
+      <div class="menu-contacts">
+        <a href="mailto:biinxuand@gmail.com">biinxuand@gmail.com</a>
+        <a href="https://github.com/FF-Yan" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="/assets/resumes/binxuan-yan-resume-zh.pdf" target="_blank" rel="noopener noreferrer" download>简历</a>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
 
   <!-- ===== Page Hero ===== -->
   <div class="page-hero">
@@ -60,7 +97,7 @@
             <strong>角色：</strong> 游戏开发 &nbsp;&middot;&nbsp;
             <strong>周期：</strong> 2025年9月 &ndash; 2025年12月
           </p>
-          <div class="project-tags" style="margin-bottom:0.5rem;">
+          <div class="project-tags">
             <span class="tag">Unity</span>
               <span class="tag">C#</span>
               <span class="tag">恐怖解谜</span>
@@ -92,15 +129,15 @@
           </div>
         </div>
         <div class="gallery-nav">
-          <button class="gallery-btn" data-dir="-1">◀ 上一张</button>
-          <button class="gallery-btn" data-dir="1">下一张 ▶</button>
+          <button type="button" class="gallery-btn" data-dir="-1" aria-label="上一张截图">◀ 上一张</button>
+          <button type="button" class="gallery-btn" data-dir="1" aria-label="下一张截图">下一张 ▶</button>
         </div>
         <div class="gallery-footer">
           <div class="gallery-dots">
-            <div class="gallery-dot active" data-idx="0"></div>
-            <div class="gallery-dot" data-idx="1"></div>
-            <div class="gallery-dot" data-idx="2"></div>
-            <div class="gallery-dot" data-idx="3"></div>
+            <button type="button" class="gallery-dot active" aria-label="查看第 1 张截图" aria-current="true"></button>
+            <button type="button" class="gallery-dot" aria-label="查看第 2 张截图"></button>
+            <button type="button" class="gallery-dot" aria-label="查看第 3 张截图"></button>
+            <button type="button" class="gallery-dot" aria-label="查看第 4 张截图"></button>
           </div>
           <div class="gallery-caption">// 游戏截图</div>
         </div>
@@ -134,7 +171,19 @@
     </div>
   </section>
 
-  <div id="footer"></div>
+  <div id="footer">
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-name">颜彬轩</div>
+    <div class="footer-contacts">
+      <a href="mailto:biinxuand@gmail.com">biinxuand@gmail.com</a>
+      <a href="https://github.com/FF-Yan" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="/assets/resumes/binxuan-yan-resume-zh.pdf" target="_blank" rel="noopener noreferrer" download>简历</a>
+    </div>
+    <p class="footer-copy">&copy; <span id="year">2026</span> 颜彬轩 &mdash; 托管于 GitHub Pages。</p>
+  </div>
+</footer>
+  </div>
 
   <script src="/script.js"></script>
 </body>

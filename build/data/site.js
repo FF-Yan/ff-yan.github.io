@@ -1,6 +1,7 @@
 // Single source of truth for every string that used to be hand-duplicated
 // between the English pages and their /zh/ mirrors.
-// Run `npm run build` (or `node build/build.js`) after editing this file.
+// Pushing to main rebuilds the site automatically; run `npm run build`
+// to regenerate the pages locally.
 
 const BASE_URL = 'https://binxuanyan.dev';
 const FAVICON = '/assets/images/profile.webp';
@@ -10,7 +11,6 @@ const site = {
     htmlLang: 'en',
     ogLocale: 'en_US',
     altOgLocale: 'zh_CN',
-    path: '',
     langToggle: { label: '中文', aria: '切换到中文' },
     logo: { first: 'Binxuan', last: 'Yan', separator: ' ' },
     tagline: '// Game Developer &amp; CS Student',
@@ -19,6 +19,7 @@ const site = {
     menu: {
       home: 'Home',
       projects: 'Projects',
+      experience: 'Experience',
       about: 'About',
       skills: 'Skills',
       contact: 'Contact',
@@ -28,6 +29,25 @@ const site = {
     github: 'https://github.com/FF-Yan',
     resume: { url: '/assets/resumes/binxuan-yan-resume.pdf', label: 'Resume' },
     footer: { name: 'Binxuan Yan', copy: 'Hosted on GitHub Pages.' },
+
+    // Labels shared by project cards and detail pages.
+    ui: {
+      details: 'Details →',
+      backToProjects: '← Back to Projects',
+      allProjects: '← All Projects',
+      role: 'Role:',
+      period: 'Period:',
+      overview: 'Overview',
+      contributions: '// My Contributions',
+      techStack: '// Technical Stack',
+      screenshots: '// Screenshots',
+      prev: '◀ PREV',
+      next: 'NEXT ▶',
+      prevAria: 'Previous screenshot',
+      nextAria: 'Next screenshot',
+      dotAria: 'Show screenshot {n}',
+      external: { github: '⟶ View on GitHub', itch: '▶ Play on itch.io' },
+    },
 
     home: {
       title: 'Binxuan Yan | Game Developer',
@@ -42,7 +62,10 @@ const site = {
       featuredEyebrow: '// 01 &mdash; Featured Projects',
       featuredTitle: "What I've Built",
       seeAllProjects: 'See All Projects →',
-      aboutEyebrow: '// 02 &mdash; About',
+      experienceEyebrow: '// 02 &mdash; Experience',
+      experienceTitle: "Where I've Worked",
+      seeAllExperience: 'Full Experience →',
+      aboutEyebrow: '// 03 &mdash; About',
       aboutTitle: 'Who I Am',
       aboutText: [
         "I'm a Computer Science &amp; Game Development student at Northeastern University, maintaining a 3.90 GPA and recognized on the Dean's List. I build games with Unity and C# — from core systems to level design — and love the process of turning a concept into a playable, polished experience.",
@@ -50,7 +73,7 @@ const site = {
         'Outside of tech, I enjoy horror &amp; action games, musicals, photography, singing, and traveling.',
       ],
       fullProfile: 'Full Profile →',
-      skillsEyebrow: '// 03 &mdash; Skills',
+      skillsEyebrow: '// 04 &mdash; Skills',
       skillsTitle: 'Technical Toolkit',
       skills: {
         languagesTitle: 'Programming Languages',
@@ -62,7 +85,7 @@ const site = {
         spokenTitle: 'Languages',
         spoken: ['Mandarin — Native', 'English — Fluent', 'Japanese — Beginner'],
       },
-      contactEyebrow: '// 04 &mdash; Contact',
+      contactEyebrow: '// 05 &mdash; Contact',
       contactTitle: 'Get In Touch',
       contactIntro: 'Looking to collaborate, hire, or just say hi? Send me a message below.',
       form: {
@@ -102,6 +125,7 @@ const site = {
       experiences: [
         {
           org: 'Papergames INC.',
+          featured: true,
           location: 'Shanghai, China',
           dates: 'May 2026 &ndash; July 2026',
           role: 'Game Client Developer Intern',
@@ -145,12 +169,16 @@ const site = {
       pageTitle: 'Projects',
     },
 
+    // GitHub Pages serves a single /404.html, so only the English page exists.
+    // Its language toggle intentionally reads 首页 and leads to the Chinese home.
     notFound: {
       title: '404 | Page Not Found',
       code: '404',
       heading: 'Page Not Found',
-      sub: 'The page you are looking for does not exist or has been moved.',
-      home: 'Back Home',
+      sub: 'The page you&#39;re looking for doesn&#39;t exist or has been moved.',
+      home: '&larr; Back to Home',
+      caption: 'A lost cat somewhere on the internet&hellip;',
+      langToggle: { label: '首页', aria: '返回首页', href: '/zh/' },
     },
   },
 
@@ -158,7 +186,6 @@ const site = {
     htmlLang: 'zh-CN',
     ogLocale: 'zh_CN',
     altOgLocale: 'en_US',
-    path: '/zh',
     langToggle: { label: 'EN', aria: 'Switch to English' },
     logo: { first: '颜', last: '彬轩', separator: '' },
     tagline: '// 游戏开发者 &amp; 计算机科学学生',
@@ -167,6 +194,7 @@ const site = {
     menu: {
       home: '主页',
       projects: '项目',
+      experience: '经历',
       about: '关于我',
       skills: '技能',
       contact: '联系方式',
@@ -176,6 +204,24 @@ const site = {
     github: 'https://github.com/FF-Yan',
     resume: { url: '/assets/resumes/binxuan-yan-resume-zh.pdf', label: '简历' },
     footer: { name: '颜彬轩', copy: '托管于 GitHub Pages。' },
+
+    ui: {
+      details: '深入了解 →',
+      backToProjects: '← 返回项目列表',
+      allProjects: '← 全部项目',
+      role: '角色：',
+      period: '周期：',
+      overview: '项目概述',
+      contributions: '// 我的贡献',
+      techStack: '// 技术栈',
+      screenshots: '// 游戏截图',
+      prev: '◀ 上一张',
+      next: '下一张 ▶',
+      prevAria: '上一张截图',
+      nextAria: '下一张截图',
+      dotAria: '查看第 {n} 张截图',
+      external: { github: '⟶ 在 GitHub 上查看', itch: '▶ 在 itch.io 游玩' },
+    },
 
     home: {
       title: '颜彬轩 | 游戏开发者',
@@ -190,7 +236,10 @@ const site = {
       featuredEyebrow: '// 01 &mdash; 精选项目',
       featuredTitle: '我做过什么',
       seeAllProjects: '查看全部项目 →',
-      aboutEyebrow: '// 02 &mdash; 关于我',
+      experienceEyebrow: '// 02 &mdash; 经历',
+      experienceTitle: '工作经历',
+      seeAllExperience: '查看全部经历 →',
+      aboutEyebrow: '// 03 &mdash; 关于我',
       aboutTitle: '我是谁',
       aboutText: [
         '我是美国东北大学计算机科学与游戏开发专业学生，GPA 3.90/4.00，入选院长名单。我擅长使用 Unity 和 C# 开发游戏系统，从核心玩法到关卡设计，致力于将创意转化为完整可玩的游戏体验。',
@@ -198,7 +247,7 @@ const site = {
         '课余爱好：恐怖 &amp; 动作游戏、音乐剧、摄影、旅行与唱歌。',
       ],
       fullProfile: '查看完整简介 →',
-      skillsEyebrow: '// 03 &mdash; 技能',
+      skillsEyebrow: '// 04 &mdash; 技能',
       skillsTitle: '技术工具箱',
       skills: {
         languagesTitle: '编程语言',
@@ -210,7 +259,7 @@ const site = {
         spokenTitle: '语言能力',
         spoken: ['普通话 — 母语', '英语 — 流利', '日语 — 初级'],
       },
-      contactEyebrow: '// 04 &mdash; 联系方式',
+      contactEyebrow: '// 05 &mdash; 联系方式',
       contactTitle: '联系我',
       contactIntro: '有合作意向或想打个招呼？欢迎直接填写下方表单。',
       form: {
@@ -250,6 +299,7 @@ const site = {
       experiences: [
         {
           org: '上海暖叠网络科技有限公司（叠纸游戏）',
+          featured: true,
           location: '中国上海',
           dates: '2026年5月 &ndash; 2026年7月',
           role: '客户端开发实习生',
@@ -291,14 +341,6 @@ const site = {
       description: '颜彬轩的游戏开发项目集，使用 Unity 与 C# 制作——解谜平台跳跃、恐怖解谜与叙事关卡设计。',
       pageEyebrow: '// 作品集',
       pageTitle: '项目经历',
-    },
-
-    notFound: {
-      title: '404 | Page Not Found',
-      code: '404',
-      heading: 'Page Not Found',
-      sub: 'The page you are looking for does not exist or has been moved.',
-      home: 'Back Home',
     },
   },
 };

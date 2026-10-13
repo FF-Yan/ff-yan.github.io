@@ -26,9 +26,46 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Silkscreen:wght@400;700&family=Space+Grotesk:wght@500;600;700&display=swap" />
   <link rel="stylesheet" href="/style.css" />
 </head>
-<body data-lang-href="/about/">
+<body>
 
-  <div id="navbar"></div>
+  <div id="navbar">
+<header class="navbar">
+  <div class="nav-inner">
+    <a href="/zh/" class="nav-logo">颜<span>彬轩</span></a>
+    <div class="nav-right">
+      <button class="lang-toggle" data-lang-href="/about/" aria-label="Switch to English">EN</button>
+      <button class="hamburger" aria-label="打开导航" aria-expanded="false" aria-controls="menuOverlay">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="menu-overlay" id="menuOverlay">
+  <div class="menu-backdrop"></div>
+  <div class="menu-panel">
+    <button class="menu-close" aria-label="关闭菜单">&times;</button>
+
+    <div class="menu-logo">颜<span>彬轩</span></div>
+    <div class="menu-tagline">// 游戏开发者 &amp; 计算机科学学生</div>
+
+    <nav class="menu-nav">
+      <a href="/zh/"><span class="menu-num">01</span> 主页</a>
+      <a href="/zh/projects/"><span class="menu-num">02</span> 项目</a>
+      <a href="/zh/about/" class="is-current" aria-current="page" aria-disabled="true" data-disabled-nav="true"><span class="menu-num">03</span> 关于我</a>
+    </nav>
+
+    <div class="menu-bottom">
+      <div class="menu-bottom-label">联系方式</div>
+      <div class="menu-contacts">
+        <a href="mailto:biinxuand@gmail.com">biinxuand@gmail.com</a>
+        <a href="https://github.com/FF-Yan" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="/assets/resumes/binxuan-yan-resume-zh.pdf" target="_blank" rel="noopener noreferrer" download>简历</a>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
 
   <!-- ===== Page Hero ===== -->
   <div class="page-hero">
@@ -53,7 +90,10 @@
           <p>
             除技术开发外，我在 ISWorldLife 担任项目经理助理，带领跨职能团队并提供学生辅导支持；同时拥有复旦大学智能医学研究所的暑期研究实习经历。
           </p>
-          <a href="mailto:biinxuand@gmail.com" class="btn btn-primary btn-sm">联系我 →</a>
+          <p>
+            课余爱好：恐怖 &amp; 动作游戏、音乐剧、摄影、旅行与唱歌。
+          </p>
+          <a href="/zh/#contact" class="btn btn-primary btn-sm">联系我 →</a>
         </div>
       </div>
     </div>
@@ -90,7 +130,7 @@
   </section>
 
   <!-- ===== Work Experience ===== -->
-  <section class="section">
+  <section id="experience" class="section">
     <div class="container">
       <div class="section-header reveal-target">
         <div class="section-num">// 经历</div>
@@ -156,7 +196,19 @@
     </div>
   </section>
 
-  <div id="footer"></div>
+  <div id="footer">
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-name">颜彬轩</div>
+    <div class="footer-contacts">
+      <a href="mailto:biinxuand@gmail.com">biinxuand@gmail.com</a>
+      <a href="https://github.com/FF-Yan" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="/assets/resumes/binxuan-yan-resume-zh.pdf" target="_blank" rel="noopener noreferrer" download>简历</a>
+    </div>
+    <p class="footer-copy">&copy; <span id="year">2026</span> 颜彬轩 &mdash; 托管于 GitHub Pages。</p>
+  </div>
+</footer>
+  </div>
 
   <script src="/script.js"></script>
 </body>

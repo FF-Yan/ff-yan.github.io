@@ -70,6 +70,7 @@ const projects = [
       },
       detail: {
         pageEyebrow: '// 游戏项目 &mdash; 解谜平台跳跃',
+        contributionsHeading: '// 我的职责',
         overview: '<strong>Chromatic</strong> 是一款 2D 解谜平台跳跃游戏，玩家通过击败 Boss 与环境解谜，将灰度世界逐步恢复为彩色。核心机制是对物体施加颜色，改变其物理属性，从而解锁新的路径与解谜方案。',
         tags: ['Unity', 'C#', '解谜平台跳跃', '游戏系统', '团队项目'],
         overviewImage: { src: '/assets/images/chromatic/ingame1.webp', alt: 'Chromatic - 游戏内截图', overlay: true, width: 1600, height: 907 },
@@ -306,6 +307,7 @@ const projects = [
       },
       detail: {
         pageEyebrow: '// 游戏项目 &mdash; 叙事关卡设计',
+        contributionsHeading: '// 我的职责',
         overview: '该项目是以"波士顿倾茶事件"为背景的叙事关卡体验。玩家扮演殖民地革命者，登上英国商船，搬起茶箱并将其投向港口。通过重复且有象征意义的交互，让玩家逐步体会历史事件的情绪和意义。通过雾效、灯光、环境音和分段音频，逐步传达"自由、反抗与历史复杂性"等主题，营造寒冷冬夜中的历史现场感。',
         tags: ['Unity', 'C#', '叙事设计', '关卡设计', '环境音频', '团队项目'],
         overviewImage: { src: '/assets/images/boston-tea-party/ingame1.webp', alt: 'Boston Tea Party - 游戏内截图', overlay: true, width: 1348, height: 784 },

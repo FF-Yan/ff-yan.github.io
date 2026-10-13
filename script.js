@@ -21,126 +21,16 @@
 })();
 
 // ===========================
-// Shared components loader
+// Footer year
 // ===========================
-async function loadInto(el, url) {
-  if (!el) return;
-  try {
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
-    el.innerHTML = await res.text();
-  } catch (err) {
-    console.warn(`Failed to load component: ${url}`, err);
-  }
-}
-
-async function loadSharedComponents() {
-  const navbarHost = document.getElementById('navbar');
-  const footerHost = document.getElementById('footer');
-  if (!navbarHost && !footerHost) return;
-
-  const isZh = document.documentElement.lang.toLowerCase().startsWith('zh') || window.location.pathname.startsWith('/zh/');
-  const navVariant = document.body.dataset.navVariant === 'main' ? 'main' : 'default';
-
-  if (navbarHost) {
-    const navbarUrl = navVariant === 'main'
-      ? (isZh ? '/components/zh/navbar-main.html' : '/components/navbar-main.html')
-      : (isZh ? '/components/zh/navbar.html' : '/components/navbar.html');
-
-    await loadInto(navbarHost, navbarUrl);
-    const toggle = navbarHost.querySelector('.lang-toggle');
-    if (toggle) {
-      const is404Page =
-        document.body.dataset.is404 === 'true' ||
-        Boolean(document.querySelector('.notfound-wrap')) ||
-        /^404\b/.test(document.title);
-
-      if (is404Page) {
-        toggle.textContent = '首页';
-        toggle.setAttribute('aria-label', '返回首页');
-        toggle.dataset.langHref = '/zh/';
-      } else {
-        const fallback = isZh ? '/' : '/zh/';
-        toggle.dataset.langHref = document.body.dataset.langHref || fallback;
-      }
-    }
-    if (navVariant !== 'main') {
-      applyCurrentPageStateToMenu(navbarHost, isZh);
-    }
-  }
-
-  if (footerHost) {
-    await loadInto(footerHost, isZh ? '/components/zh/footer.html' : '/components/footer.html');
-  }
-}
-
+// The navbar and footer are rendered into each page by build/build.js;
+// the year is filled in at build time and refreshed here.
 function syncYear() {
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 }
 
-function normalizePath(path) {
-  if (!path) return '/';
-  let p = path;
-  if (p.includes('://')) p = new URL(p).pathname;
-  p = p.replace(/\/index\.html$/, '/');
-  p = p.replace(/\.html$/, '');
-  if (!p.startsWith('/')) p = `/${p}`;
-  if (p !== '/' && p.endsWith('/')) p = p.slice(0, -1);
-  return p || '/';
-}
-
-function getTopLevelMenuPath(pathname, isZh) {
-  const p = normalizePath(pathname);
-  if (isZh) {
-    if (p === '/zh') return '/zh';
-    if (p.startsWith('/zh/projects')) return '/zh/projects';
-    if (p.startsWith('/zh/about')) return '/zh/about';
-    return null;
-  }
-  if (p === '/') return '/';
-  if (p.startsWith('/projects')) return '/projects';
-  if (p.startsWith('/about')) return '/about';
-  return null;
-}
-
-function applyCurrentPageStateToMenu(navbarHost, isZh) {
-  const menuLinks = navbarHost.querySelectorAll('.menu-nav a[href]');
-  if (!menuLinks.length) return;
-
-  if (document.body.dataset.is404 === 'true') {
-    menuLinks.forEach(link => {
-      link.classList.remove('is-current');
-      link.removeAttribute('aria-current');
-      link.removeAttribute('aria-disabled');
-      delete link.dataset.disabledNav;
-    });
-    return;
-  }
-
-  const currentPath = normalizePath(window.location.pathname);
-  const currentTop = getTopLevelMenuPath(window.location.pathname, isZh);
-  menuLinks.forEach(link => {
-    const href = link.getAttribute('href') || '';
-    const targetTop = getTopLevelMenuPath(href, isZh);
-    const isCurrent = currentTop !== null && targetTop !== null && targetTop === currentTop;
-    const isExactSectionPage = targetTop !== null && currentPath === targetTop;
-    link.classList.toggle('is-current', isCurrent);
-    if (isCurrent && isExactSectionPage) {
-      link.setAttribute('aria-current', 'page');
-      link.setAttribute('aria-disabled', 'true');
-      link.dataset.disabledNav = 'true';
-    } else {
-      if (isCurrent) {
-        link.setAttribute('aria-current', 'page');
-      } else {
-        link.removeAttribute('aria-current');
-      }
-      link.removeAttribute('aria-disabled');
-      delete link.dataset.disabledNav;
-    }
-  });
-}
+syncYear();
 
 // ===========================
 // Page Transition Overlay
@@ -241,6 +131,12 @@ window.addEventListener('hashchange', () => {
   scrollToAnchorWithoutHash(window.location.hash);
 });
 
+// Cross-page anchors (e.g. /about/#experience): scroll after load, then clear the hash.
+window.addEventListener('load', () => {
+  if (!window.location.hash) return;
+  scrollToAnchorWithoutHash(window.location.hash);
+});
+
 // ===========================
 // Typewriter Effect (hero eyebrow)
 // ===========================
@@ -328,11 +224,27 @@ function initTurnstile() {
     callback: function (token) {
       turnstileToken = token;
     },
+    // Tokens expire after ~5 minutes; drop the stale one and get a fresh challenge
+    // so a slow writer isn't rejected by Formspree on submit.
+    'expired-callback': function () {
+      turnstileToken = null;
+      resetTurnstile();
+    },
+    'timeout-callback': function () {
+      turnstileToken = null;
+      resetTurnstile();
+    },
     'error-callback': function () {
       turnstileToken = null;
       console.warn('Turnstile failed');
     }
   });
+}
+
+function resetTurnstile() {
+  if (turnstileWidgetId !== null && typeof window.turnstile?.reset === 'function') {
+    window.turnstile.reset(turnstileWidgetId);
+  }
 }
 
 if (document.readyState === 'loading') {
@@ -407,10 +319,8 @@ document.addEventListener('submit', e => {
     .then(async res => {
       if (res.ok) {
         form.reset();
-        if (typeof window.turnstile?.reset === 'function') {
-          window.turnstile.reset();
-        }
         turnstileToken = null;
+        resetTurnstile();
         showStatus(`✅ ${successText}`, 'success');
         return;
       }
@@ -427,8 +337,9 @@ document.addEventListener('submit', e => {
         // ignore parse error
       }
 
-      if (/turnstile/i.test(detail) && typeof window.turnstile?.reset === 'function') {
-        window.turnstile.reset();
+      if (/turnstile/i.test(detail)) {
+        turnstileToken = null;
+        resetTurnstile();
       }
 
       throw new Error(detail || `HTTP ${res.status}`);
@@ -461,7 +372,12 @@ document.querySelectorAll('.screenshot-gallery').forEach(gallery => {
     // Wrap index to handle both PREV (negative) and NEXT directions
     current = ((idx % total) + total) % total;
     slides.style.transform = `translateX(-${current * 100}%)`;
-    dotEls.forEach((d, i) => d.classList.toggle('active', i === current));
+    dotEls.forEach((d, i) => {
+      const active = i === current;
+      d.classList.toggle('active', active);
+      if (active) d.setAttribute('aria-current', 'true');
+      else d.removeAttribute('aria-current');
+    });
   }
 
   btnEls.forEach(btn => {
@@ -470,6 +386,23 @@ document.querySelectorAll('.screenshot-gallery').forEach(gallery => {
   dotEls.forEach((dot, i) => {
     dot.addEventListener('click', () => goTo(i));
   });
+
+  // Swipe on touch screens: a mostly-horizontal drag of 40px+ changes slide.
+  if (total > 1) {
+    let startX = null;
+    let startY = 0;
+    slides.addEventListener('touchstart', e => {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+    }, { passive: true });
+    slides.addEventListener('touchend', e => {
+      if (startX === null) return;
+      const dx = e.changedTouches[0].clientX - startX;
+      const dy = e.changedTouches[0].clientY - startY;
+      startX = null;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) goTo(current + (dx < 0 ? 1 : -1));
+    }, { passive: true });
+  }
 });
 
 // ===========================
@@ -604,9 +537,4 @@ revealEls.forEach(el => revealObserver.observe(el));
     needsSnap = true;
     dent.style.opacity = '0';
   });
-})();
-
-(async function bootstrap() {
-  await loadSharedComponents();
-  syncYear();
 })();

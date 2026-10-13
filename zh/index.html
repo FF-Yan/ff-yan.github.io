@@ -27,9 +27,49 @@
   <link rel="stylesheet" href="/style.css" />
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
 </head>
-<body data-nav-variant="main" data-lang-href="/">
+<body>
 
-  <div id="navbar"></div>
+  <div id="navbar">
+<header class="navbar">
+  <div class="nav-inner">
+    <a href="/zh/" class="nav-logo">颜<span>彬轩</span></a>
+    <div class="nav-right">
+      <button class="lang-toggle" data-lang-href="/" aria-label="Switch to English">EN</button>
+      <button class="hamburger" aria-label="打开导航" aria-expanded="false" aria-controls="menuOverlay">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="menu-overlay" id="menuOverlay">
+  <div class="menu-backdrop"></div>
+  <div class="menu-panel">
+    <button class="menu-close" aria-label="关闭菜单">&times;</button>
+
+    <div class="menu-logo">颜<span>彬轩</span></div>
+    <div class="menu-tagline">// 游戏开发者 &amp; 计算机科学学生</div>
+
+    <nav class="menu-nav">
+      <a href="#hero"><span class="menu-num">01</span> 主页</a>
+      <a href="#featured"><span class="menu-num">02</span> 项目</a>
+      <a href="#experience"><span class="menu-num">03</span> 经历</a>
+      <a href="#about"><span class="menu-num">04</span> 关于我</a>
+      <a href="#skills"><span class="menu-num">05</span> 技能</a>
+      <a href="#contact"><span class="menu-num">06</span> 联系方式</a>
+    </nav>
+
+    <div class="menu-bottom">
+      <div class="menu-bottom-label">联系方式</div>
+      <div class="menu-contacts">
+        <a href="mailto:biinxuand@gmail.com">biinxuand@gmail.com</a>
+        <a href="https://github.com/FF-Yan" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="/assets/resumes/binxuan-yan-resume-zh.pdf" target="_blank" rel="noopener noreferrer" download>简历</a>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
 
   <!-- ===== Hero ===== -->
   <section id="hero" class="hero">
@@ -154,11 +194,40 @@
     </div>
   </section>
 
-  <!-- ===== About ===== -->
-  <section id="about" class="section">
+  <!-- ===== Experience ===== -->
+  <section id="experience" class="section">
     <div class="container">
       <div class="section-header reveal-target">
-        <div class="section-num">// 02 &mdash; 关于我</div>
+        <div class="section-num">// 02 &mdash; 经历</div>
+        <h2 class="section-title">工作经历</h2>
+      </div>
+
+      <div class="experience-card reveal-target">
+        <div class="exp-header">
+          <div class="exp-info">
+            <h3>上海暖叠网络科技有限公司（叠纸游戏）</h3>
+            <p class="exp-location">中国上海</p>
+          </div>
+          <div class="exp-dates">2026年5月 &ndash; 2026年7月</div>
+        </div>
+        <p class="exp-role">客户端开发实习生</p>
+        <ul class="exp-bullets">
+          <li>参与恋与深空制作组客户端日常开发与维护，熟悉客户端项目架构、资源管理流程及分包机制</li>
+          <li>协助维护分包配置与资源管理，开发自动化资源比对工具，实现版本差异分析及报告导出，提升排查效率</li>
+          <li>负责多语言 UI 质量验证，定位并反馈显示以及文本布局问题，开发测试数据一键导出工具，优化测试流程</li>
+        </ul>
+      </div>
+      <div class="projects-more">
+        <a href="/zh/about/#experience" class="btn btn-outline">查看全部经历 →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== About ===== -->
+  <section id="about" class="section section-alt">
+    <div class="container">
+      <div class="section-header reveal-target">
+        <div class="section-num">// 03 &mdash; 关于我</div>
         <h2 class="section-title">我是谁</h2>
       </div>
 
@@ -181,10 +250,10 @@
   </section>
 
   <!-- ===== Skills ===== -->
-  <section id="skills" class="section section-alt">
+  <section id="skills" class="section">
     <div class="container">
       <div class="section-header reveal-target">
-        <div class="section-num">// 03 &mdash; 技能</div>
+        <div class="section-num">// 04 &mdash; 技能</div>
         <h2 class="section-title">技术工具箱</h2>
       </div>
 
@@ -239,10 +308,10 @@
   </section>
 
   <!-- ===== Contact ===== -->
-  <section id="contact" class="section">
+  <section id="contact" class="section section-alt">
     <div class="container">
       <div class="section-header reveal-target">
-        <div class="section-num">// 04 &mdash; 联系方式</div>
+        <div class="section-num">// 05 &mdash; 联系方式</div>
         <h2 class="section-title">联系我</h2>
       </div>
       <p class="contact-intro reveal-target">
@@ -290,7 +359,19 @@
     </div>
   </section>
 
-  <div id="footer"></div>
+  <div id="footer">
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-name">颜彬轩</div>
+    <div class="footer-contacts">
+      <a href="mailto:biinxuand@gmail.com">biinxuand@gmail.com</a>
+      <a href="https://github.com/FF-Yan" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="/assets/resumes/binxuan-yan-resume-zh.pdf" target="_blank" rel="noopener noreferrer" download>简历</a>
+    </div>
+    <p class="footer-copy">&copy; <span id="year">2026</span> 颜彬轩 &mdash; 托管于 GitHub Pages。</p>
+  </div>
+</footer>
+  </div>
 
   <script src="/script.js"></script>
 </body>

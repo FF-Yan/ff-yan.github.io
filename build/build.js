@@ -1,9 +1,9 @@
 // Generates every bilingual static page from build/data/*.js.
 // Usage: node build/build.js   (or: npm run build)
 //
-// This does NOT touch style.css, script.js, 404.html, projects.html
-// (the /projects redirect shim), or anything under assets/ — only the
-// pages/partials that used to be hand-duplicated between / and /zh/.
+// The navbar and footer are rendered straight into every page. This does NOT
+// touch style.css, script.js, projects.html (the /projects redirect shim), or
+// anything under assets/.
 
 const fs = require('fs');
 const path = require('path');
@@ -40,13 +40,9 @@ for (const locale of ['en', 'zh']) {
   }
 }
 
-// ---- Shared nav/footer partials (still fetched at runtime by script.js) ----
-write('components/navbar.html', templates.navbarDefault('en', site));
-write('components/navbar-main.html', templates.navbarMain('en', site));
-write('components/footer.html', templates.footerHtml('en', site));
-write('components/zh/navbar.html', templates.navbarDefault('zh', site));
-write('components/zh/navbar-main.html', templates.navbarMain('zh', site));
-write('components/zh/footer.html', templates.footerHtml('zh', site));
+// ---- 404 (single English page; the pixel cat lives in its own partial) ----
+const catSvg = fs.readFileSync(path.join(__dirname, 'partials/pixel-cat.svg'), 'utf8');
+write('404.html', templates.notFoundPage(site, catSvg));
 
 // ---- sitemap.xml (kept in sync with the same project slugs) ----
 const staticUrls = ['/', '/about/', '/projects/', '/zh/', '/zh/about/', '/zh/projects/'];
