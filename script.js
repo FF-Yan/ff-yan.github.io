@@ -53,11 +53,11 @@ requestAnimationFrame(() => {
 });
 
 // Fade out before navigation
-function scrollToAnchorWithoutHash(anchorHref) {
+function scrollToAnchorWithoutHash(anchorHref, behavior = 'smooth') {
   const id = anchorHref.slice(1);
   const target = id ? document.getElementById(id) : null;
   if (!target) return false;
-  target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  target.scrollIntoView({ behavior, block: 'start' });
   history.replaceState(null, '', window.location.pathname + window.location.search);
   return true;
 }
@@ -131,11 +131,28 @@ window.addEventListener('hashchange', () => {
   scrollToAnchorWithoutHash(window.location.hash);
 });
 
-// Cross-page anchors (e.g. /about/#experience): scroll after load, then clear the hash.
-window.addEventListener('load', () => {
-  if (!window.location.hash) return;
-  scrollToAnchorWithoutHash(window.location.hash);
-});
+// Cross-page anchors (e.g. /#archive, /about/#experience): land on the section
+// instantly, then clear the hash.
+//
+// Two things this deliberately avoids. It does not wait for `load` — that waits
+// on every subresource, and a slow or blocked third-party script (Turnstile) can
+// hold it for seconds, so the reader would sit at the top and then get yanked.
+// And it scrolls with 'instant' rather than 'smooth': arriving from another page
+// should put you at the section, not fly you past the whole homepage to get
+// there. 'instant' has to be explicit, since 'auto' defers to the CSS
+// scroll-behavior, which is smooth.
+const initialHash = window.location.hash;
+
+function scrollToInitialHash() {
+  if (!initialHash) return;
+  scrollToAnchorWithoutHash(initialHash, 'instant');
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', scrollToInitialHash);
+} else {
+  scrollToInitialHash();
+}
 
 // ===========================
 // Typewriter Effect (hero eyebrow)

@@ -1,1 +1,14 @@
 .DS_Store
+.claude/
+node_modules/
+_site/
+
+# Build output. The deploy workflow runs `node build/build.js` on every push to
+# main, so every page here is regenerated from build/ and content/. Editing one
+# of these files directly is silently undone by the next build.
+**/index.html
+/404.html
+/sitemap.xml
+
+# ...but content/ holds sources, and a collection's own page is index.html too.
+!/content/**/index.html

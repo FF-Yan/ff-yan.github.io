@@ -10,7 +10,6 @@
 const projects = [
   {
     slug: 'chromatic',
-    thumbClass: 'thumb-chroma',
     cardImage: { src: '/assets/images/chromatic/ingame1.webp', alt: 'Chromatic', width: 1600, height: 907 },
     externalLinks: [
       { type: 'itch', url: 'https://hanwenzeng.itch.io/chromatic' },
@@ -95,7 +94,6 @@ const projects = [
 
   {
     slug: 'glass-ceiling',
-    thumbClass: 'thumb-gc',
     cardImage: { src: '/assets/images/glass-ceiling/menu.webp', alt: 'Glass Ceiling', width: 1600, height: 873 },
     externalLinks: [{ type: 'itch', url: 'https://aidan-moreau04.itch.io/glass-ceiling' }],
     en: {
@@ -174,7 +172,6 @@ const projects = [
 
   {
     slug: 'what-remains-of-me',
-    thumbClass: 'thumb-wrom',
     cardImage: { src: '/assets/images/what-remains-of-me/menu.webp', alt: 'What Remains of Me', width: 1600, height: 888 },
     externalLinks: [{ type: 'itch', url: 'https://whatremainsofme.itch.io/what-remains-of-me' }],
     en: {
@@ -259,7 +256,6 @@ const projects = [
 
   {
     slug: 'boston-tea-party',
-    thumbClass: 'thumb-lum',
     cardImage: { src: '/assets/images/boston-tea-party/ingame1.webp', alt: 'Boston Tea Party', width: 1348, height: 784 },
     externalLinks: [{ type: 'github', url: 'https://github.com/brandonius2/GAME3400_FinalProject_Group3' }],
     en: {
@@ -333,7 +329,6 @@ const projects = [
 
   {
     slug: 'personal-website',
-    thumbClass: 'thumb-web',
     cardIcon: '🌐',
     externalLinks: [{ type: 'github', url: 'https://github.com/FF-Yan/ff-yan.github.io/' }],
     en: {

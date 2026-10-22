@@ -10,25 +10,31 @@ function tagList(tags) {
   return tags.map((t) => `<span class="tag">${t}</span>`).join('\n              ');
 }
 
-function head({ locale, s, title, description, canonicalPath, alternatePath, ogImage }) {
+// `monolingual` is for pages that exist in one language only (a content page
+// with no .zh.html twin): they get a canonical but no hreflang alternates,
+// because pointing at a translation that does not exist is worse than none.
+function head({ locale, s, title, description, canonicalPath, alternatePath, ogImage, monolingual = false }) {
   const url = `${BASE_URL}${canonicalPath}`;
   const altUrl = `${BASE_URL}${alternatePath}`;
   const image = `${BASE_URL}${ogImage}`;
   const enUrl = locale === 'en' ? url : altUrl;
   const zhUrl = locale === 'en' ? altUrl : url;
-  return `  <meta name="description" content="${description}" />
-  <link rel="canonical" href="${url}" />
+  const alternates = monolingual
+    ? ''
+    : `
   <link rel="alternate" hreflang="en" href="${enUrl}" />
   <link rel="alternate" hreflang="zh-CN" href="${zhUrl}" />
-  <link rel="alternate" hreflang="x-default" href="${enUrl}" />
+  <link rel="alternate" hreflang="x-default" href="${enUrl}" />`;
+  return `  <meta name="description" content="${description}" />
+  <link rel="canonical" href="${url}" />${alternates}
   <link rel="icon" type="image/webp" href="${FAVICON}" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="${title}" />
   <meta property="og:description" content="${description}" />
   <meta property="og:url" content="${url}" />
   <meta property="og:image" content="${image}" />
-  <meta property="og:locale" content="${s.ogLocale}" />
-  <meta property="og:locale:alternate" content="${s.altOgLocale}" />
+  <meta property="og:locale" content="${s.ogLocale}" />${monolingual ? '' : `
+  <meta property="og:locale:alternate" content="${s.altOgLocale}" />`}
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="${title}" />
   <meta name="twitter:description" content="${description}" />
@@ -68,7 +74,7 @@ function projectCard(project, locale, view, ui) {
             </div>`;
 
   return `        <div class="project-card reveal-target">
-          <div class="project-thumb ${project.thumbClass}">
+          <div class="project-thumb">
             ${thumbInner}
           </div>
           <div class="project-body">
@@ -111,16 +117,66 @@ function experienceCard(entry) {
       </div>`;
 }
 
+// Pages dropped into content/pages/ register themselves in the menu. build.js
+// fills this before rendering anything, so every page agrees on the menu.
+// Each entry: { slug, order, label: {en, zh}, locales: {en, zh} }
+let navPages = [];
+
+function setNavPages(pages) {
+  navPages = pages;
+}
+
+// Whether content/ holds anything the homepage archive can list. When it is
+// empty the section is not rendered, so its menu anchor must go too — otherwise
+// the menu points at an id that does not exist on the page.
+let hasArchive = false;
+
+function setHasArchive(flag) {
+  hasArchive = flag;
+}
+
+// Menu rows carry a sequence number; generating it here means adding or
+// reordering an item never requires renumbering anything by hand.
+function renderMenuLinks(rows) {
+  return rows
+    .map(({ href, label, attrs = '' }, i) => {
+      const num = String(i + 1).padStart(2, '0');
+      return `      <a href="${href}"${attrs}><span class="menu-num">${num}</span> ${label}</a>`;
+    })
+    .join('\n');
+}
+
+// Content-page menu rows for `locale`. A page with no twin in this locale still
+// appears, pointing at the language it does exist in. `exact` means the current
+// page IS this entry, so the link is inert; on a page *below* it (a collection
+// entry) it stays clickable, which is how you get back up to the listing.
+function navPageRows(locale, current, exact) {
+  return navPages.map((entry) => {
+    const href = localePath(entry.locales[locale] ? locale : 'en', `/${entry.slug}/`);
+    let attrs = '';
+    if (entry.slug === current) {
+      attrs = ' class="is-current" aria-current="page"';
+      if (exact) attrs += ' aria-disabled="true" data-disabled-nav="true"';
+    }
+    return { order: entry.order, href, label: entry.label[locale] || entry.label.en, attrs };
+  });
+}
+
 // `langToggle` = { label, aria, href }: the button that switches to the other
-// language version of the current page (or, on the 404 page, to 首页).
+// language version of the current page (or, on the 404 page, to 首页). Pass null
+// when the page has no twin — offering a switch that only dumps the reader on
+// another homepage is worse than offering none.
 function navbarInner(locale, site, { menuLinks, langToggle }) {
   const s = site[locale];
   const homeHref = localePath(locale, '/');
+  const langButton = langToggle
+    ? `
+      <button class="lang-toggle" data-lang-href="${langToggle.href}" aria-label="${langToggle.aria}">${langToggle.label}</button>`
+    : '';
   return `<header class="navbar">
   <div class="nav-inner">
     <a href="${homeHref}" class="nav-logo">${s.logo.first}${s.logo.separator}<span>${s.logo.last}</span></a>
-    <div class="nav-right">
-      <button class="lang-toggle" data-lang-href="${langToggle.href}" aria-label="${langToggle.aria}">${langToggle.label}</button>
+    <div class="nav-right">${langButton}
       <button class="hamburger" aria-label="${s.hamburgerAria}" aria-expanded="false" aria-controls="menuOverlay">
         <span></span><span></span><span></span>
       </button>
@@ -157,36 +213,42 @@ ${menuLinks}
 // that section's index, so its link is disabled rather than just highlighted.
 function navbarDefault(locale, site, { current = null, exact = false, langToggle }) {
   const s = site[locale];
-  const links = [
-    ['home', localePath(locale, '/'), '01', s.menu.home],
-    ['projects', localePath(locale, '/projects/'), '02', s.menu.projects],
-    ['about', localePath(locale, '/about/'), '03', s.menu.about],
-  ]
-    .map(([key, href, num, label]) => {
-      let attrs = '';
-      if (key === current) {
-        attrs = ' class="is-current" aria-current="page"';
-        if (exact) attrs += ' aria-disabled="true" data-disabled-nav="true"';
-      }
-      return `      <a href="${href}"${attrs}><span class="menu-num">${num}</span> ${label}</a>`;
-    })
-    .join('\n');
-  return navbarInner(locale, site, { menuLinks: links, langToggle });
+  const builtIn = [
+    ['home', 10, localePath(locale, '/'), s.menu.home],
+    ['projects', 20, localePath(locale, '/projects/'), s.menu.projects],
+    ['about', 30, localePath(locale, '/about/'), s.menu.about],
+  ].map(([key, order, href, label]) => {
+    let attrs = '';
+    if (key === current) {
+      attrs = ' class="is-current" aria-current="page"';
+      if (exact) attrs += ' aria-disabled="true" data-disabled-nav="true"';
+    }
+    return { order, href, label, attrs };
+  });
+
+  const rows = [...builtIn, ...navPageRows(locale, current, exact)].sort((a, b) => a.order - b.order);
+  return navbarInner(locale, site, { menuLinks: renderMenuLinks(rows), langToggle });
 }
 
 function navbarMain(locale, site, { langToggle }) {
   const s = site[locale];
-  const links = [
-    ['#hero', '01', s.menu.home],
-    ['#featured', '02', s.menu.projects],
-    ['#experience', '03', s.menu.experience],
-    ['#about', '04', s.menu.about],
-    ['#skills', '05', s.menu.skills],
-    ['#contact', '06', s.menu.contact],
+  const builtIn = [
+    ['#hero', 10, s.menu.home],
+    ['#featured', 20, s.menu.projects],
+    ['#experience', 30, s.menu.experience],
+    ['#about', 40, s.menu.about],
+    ['#skills', 50, s.menu.skills],
+    ['#archive', 55, s.menu.archive],
+    ['#contact', 60, s.menu.contact],
   ]
-    .map(([href, num, label]) => `      <a href="${href}"><span class="menu-num">${num}</span> ${label}</a>`)
-    .join('\n');
-  return navbarInner(locale, site, { menuLinks: links, langToggle });
+    .filter(([href]) => href !== '#archive' || hasArchive)
+    .map(([href, order, label]) => ({ order, href, label }));
+
+  // Only the homepage's own sections. Everything under content/ is reachable
+  // through #archive, so the collections are not repeated here; the sub-page
+  // menu (navbarDefault) carries their real links instead.
+  const rows = builtIn.sort((a, b) => a.order - b.order);
+  return navbarInner(locale, site, { menuLinks: renderMenuLinks(rows), langToggle });
 }
 
 // The year is rendered at build time and refreshed by script.js at runtime.
@@ -212,7 +274,7 @@ function langToggleFor(s, alternatePath) {
 
 // `headHtml` replaces the SEO/social block for pages that should not be
 // indexed (404); everything else gets the full canonical/hreflang/OG set.
-function page({ locale, site, title, description, canonicalPath, alternatePath, ogImage, nav, extraHead, headHtml, body }) {
+function page({ locale, site, title, description, canonicalPath, alternatePath, ogImage, nav, extraHead, headHtml, body, monolingual = false }) {
   const s = site[locale];
   return `<!DOCTYPE html>
 <html lang="${s.htmlLang}">
@@ -220,7 +282,7 @@ function page({ locale, site, title, description, canonicalPath, alternatePath, 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>${title}</title>
-${headHtml || head({ locale, s, title, description, canonicalPath, alternatePath, ogImage })}
+${headHtml || head({ locale, s, title, description, canonicalPath, alternatePath, ogImage, monolingual })}
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Silkscreen:wght@400;700&family=Space+Grotesk:wght@500;600;700&display=swap" />
@@ -242,7 +304,106 @@ ${footerHtml(locale, site)}
 `;
 }
 
-function homePage(locale, site, projects, homeFeaturedSlugs) {
+// Which language to send a reader to: this one if it exists, otherwise
+// whichever does. Matches how the menu already links untranslated pages.
+function linkLocaleFor(bodies, locale) {
+  if (bodies[locale]) return locale;
+  if (bodies.en) return 'en';
+  return bodies.zh ? 'zh' : null;
+}
+
+// The homepage archive is the index for everything under content/: collection
+// entries first (dated, newest first), then standalone pages, which have no
+// listing of their own to live in. Untranslated items still appear, pointing at
+// the language they exist in, rather than being hidden from one locale.
+function contentStripItems(locale, site, content) {
+  const ui = site[locale].ui;
+  const entries = [];
+
+  for (const collection of content.collections) {
+    const kind = collection.label[locale];
+    for (const entry of collection.entries) {
+      const target = linkLocaleFor(entry.bodies, locale);
+      if (!target) continue;
+      // Title and summary come from the page being linked to, so the card never
+      // promises Chinese and then lands on English.
+      const meta = entry.metaByLocale[target] || entry.meta;
+      entries.push({
+        kind,
+        href: localePath(target, `/${collection.slug}/${entry.slug}/`),
+        title: meta.title,
+        summary: meta.summary || '',
+        date: meta.date || entry.meta.date,
+      });
+    }
+  }
+  entries.sort((a, b) => b.date.localeCompare(a.date));
+
+  const pages = [];
+  for (const entry of content.pages) {
+    const target = linkLocaleFor(entry.locales, locale);
+    if (!target) continue;
+    const meta = entry.metaByLocale[target] || entry.meta;
+    pages.push({
+      kind: ui.contentPageLabel,
+      href: localePath(target, `/${entry.slug}/`),
+      title: meta.nav || meta.heading || meta.title,
+      summary: meta.description || '',
+      date: '',
+    });
+  }
+
+  return [...entries, ...pages];
+}
+
+// Horizontal, snap-scrolling strip. Native overflow scrolling, so the
+// trackpad, shift+wheel, touch and keyboard all work without extra JS.
+function contentStrip(locale, site, content) {
+  const items = contentStripItems(locale, site, content);
+  if (!items.length) return '';
+
+  const s = site[locale];
+  const h = s.home;
+
+  // One way in per collection that has a listing page of its own.
+  const moreLinks = content.collections
+    .filter((collection) => collection.listing && collection.index.bodies[linkLocaleFor(collection.index.bodies, locale)])
+    .map((collection) => {
+      const target = linkLocaleFor(collection.index.bodies, locale);
+      const label = s.ui.allInCollection.replace('{collection}', collection.label[locale]);
+      return `        <a class="btn btn-outline btn-sm" href="${localePath(target, `/${collection.slug}/`)}">${label}</a>`;
+    })
+    .join('\n');
+  const cards = items
+    .map(
+      (item) => `        <a class="strip-card" href="${item.href}">
+          <span class="strip-kind">${item.kind}</span>
+          <h3 class="strip-title">${item.title}</h3>${
+            item.summary ? `\n          <p class="strip-summary">${item.summary}</p>` : ''
+          }${item.date ? `\n          <span class="strip-date">${item.date}</span>` : ''}
+        </a>`
+    )
+    .join('\n');
+
+  return `
+  <!-- ===== Archive ===== -->
+  <section id="archive" class="section section-alt">
+    <div class="container">
+      <div class="section-header reveal-target">
+        <div class="section-num">${h.contentEyebrow}</div>
+        <h2 class="section-title">${h.contentTitle}</h2>
+      </div>
+    </div>
+    <div class="strip-scroll reveal-target">
+      <div class="strip-track">
+${cards}
+      </div>
+    </div>
+${moreLinks ? `    <div class="container">\n      <div class="archive-more reveal-target">\n${moreLinks}\n      </div>\n    </div>\n` : ''}  </section>
+`;
+}
+
+function homePage(locale, site, projects, homeFeaturedSlugs, content) {
   const s = site[locale];
   const h = s.home;
   const otherLocale = locale === 'en' ? 'zh' : 'en';
@@ -370,8 +531,9 @@ ${s.about.experiences.filter((e) => e.featured).map(experienceCard).join('\n\n')
     </div>
   </section>
 
+${contentStrip(locale, site, content)}
   <!-- ===== Contact ===== -->
-  <section id="contact" class="section section-alt">
+  <section id="contact" class="section">
     <div class="container">
       <div class="section-header reveal-target">
         <div class="section-num">${h.contactEyebrow}</div>
@@ -632,7 +794,7 @@ ${galleryDots}
 
       <!-- Overview -->
       <div class="game-overview reveal-target">
-        <div class="game-overview-thumb ${project.thumbClass}">
+        <div class="game-overview-thumb">
           ${overviewThumb}
         </div>
         <div class="game-info">
@@ -733,7 +895,175 @@ ${catSvg.trimEnd()}
   });
 }
 
+// Wraps a hand-written body fragment from content/pages/ in the site chrome.
+// `entry.meta` comes from the fragment's comment header (parsed in build.js).
+function contentPage(entry, locale, site) {
+  const { meta } = entry;
+  const otherLocale = locale === 'en' ? 'zh' : 'en';
+  const selfPath = localePath(locale, `/${entry.slug}/`);
+  const hasTwin = Boolean(entry.locales[otherLocale]);
+  const alternatePath = hasTwin
+    ? localePath(otherLocale, `/${entry.slug}/`)
+    : localePath(otherLocale, '/');
+
+  return page({
+    locale,
+    site,
+    title: meta.title,
+    description: meta.description,
+    canonicalPath: selfPath,
+    alternatePath,
+    ogImage: meta.ogImage || FAVICON,
+    monolingual: !hasTwin,
+    nav: navbarDefault(locale, site, {
+      current: entry.slug,
+      exact: true,
+      langToggle: hasTwin ? langToggleFor(site[locale], alternatePath) : null,
+    }),
+    // A standalone page has no listing of its own, so the way back is the
+    // homepage archive — the same place a collection entry returns to. It sits
+    // above the fragment; CSS pulls in the following .page-hero's top padding,
+    // which otherwise assumes it is the first thing on the page.
+    body: `${
+      hasArchive && meta.back !== 'false'
+        ? `
+  <div class="section-back">
+    <div class="container">
+      <div class="game-back">
+        <a href="${localePath(locale, '/#archive')}">${site[locale].ui.backToArchive}</a>
+      </div>
+    </div>
+  </div>
+`
+        : ''
+    }\n${entry.locales[locale]}\n`,
+  });
+}
+
+// ---- Collections (content/<name>/) ----
+//
+// A collection is a folder of entry fragments plus an index.html that is the
+// collection's own page. build.js parses them; these two render them.
+
+// Shared chrome for both the listing and its entries.
+function collectionPage({ locale, site, slugPath, entryMeta, indexMeta, hasTwin, body, current }) {
+  const otherLocale = locale === 'en' ? 'zh' : 'en';
+  const alternatePath = localePath(otherLocale, slugPath);
+  const meta = entryMeta || indexMeta;
+  return page({
+    locale,
+    site,
+    title: meta.title,
+    description: meta.description || meta.summary || indexMeta.description,
+    canonicalPath: localePath(locale, slugPath),
+    alternatePath,
+    ogImage: meta.ogImage || indexMeta.ogImage || FAVICON,
+    monolingual: !hasTwin,
+    nav: navbarDefault(locale, site, {
+      current,
+      exact: !entryMeta,
+      langToggle: hasTwin ? langToggleFor(site[locale], alternatePath) : null,
+    }),
+    body,
+  });
+}
+
+// The collection's page: its own writing from index.html, then every entry,
+// newest first.
+function collectionIndexPage(collection, locale, site) {
+  const indexMeta = collection.index.metaByLocale[locale] || collection.index.meta;
+  const intro = collection.index.bodies[locale];
+  const entries = collection.entries.filter((e) => e.bodies[locale]);
+
+  const rows = entries
+    .map((entry) => {
+      const href = localePath(locale, `/${collection.slug}/${entry.slug}/`);
+      const summary = entry.meta.summary
+        ? `\n            <p class="entry-summary">${entry.meta.summary}</p>`
+        : '';
+      return `          <a class="entry-row reveal-target" href="${href}">
+            <span class="entry-date">${entry.meta.date}</span>
+            <h3 class="entry-title">${entry.meta.title}</h3>${summary}
+          </a>`;
+    })
+    .join('\n');
+
+  const list = rows
+    ? `        <div class="entry-list">\n${rows}\n        </div>`
+    : `        <p class="contact-intro">${site[locale].ui.collectionEmpty}</p>`;
+
+  return collectionPage({
+    locale,
+    site,
+    slugPath: `/${collection.slug}/`,
+    indexMeta,
+    hasTwin: Boolean(collection.index.bodies[locale === 'en' ? 'zh' : 'en']),
+    current: collection.slug,
+    body: `
+  <div class="page-hero">
+    <div class="container">
+      <div class="page-eyebrow">${indexMeta.eyebrow || `// ${collection.slug}`}</div>
+      <h1 class="page-title">${indexMeta.heading || indexMeta.nav || collection.slug}</h1>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+${intro ? `      <div class="entry-intro reveal-target">\n${intro}\n      </div>\n\n` : ''}${list}
+    </div>
+  </section>
+`,
+  });
+}
+
+function collectionEntryPage(collection, entry, locale, site) {
+  const ui = site[locale].ui;
+  // Without a listing page there is nothing to go "back" to inside the
+  // collection, so point at the homepage archive strip instead.
+  const backHref = collection.listing
+    ? localePath(locale, `/${collection.slug}/`)
+    : localePath(locale, '/#archive');
+  return collectionPage({
+    locale,
+    site,
+    slugPath: `/${collection.slug}/${entry.slug}/`,
+    entryMeta: entry.meta,
+    indexMeta: collection.index.metaByLocale[locale] || collection.index.meta,
+    hasTwin: Boolean(entry.bodies[locale === 'en' ? 'zh' : 'en']),
+    current: collection.slug,
+    body: `
+  <div class="page-hero">
+    <div class="container">
+      <div class="page-eyebrow">${entry.meta.date}</div>
+      <h1 class="page-title">${entry.meta.title}</h1>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="game-back reveal-target">
+        <a href="${backHref}">${
+          collection.listing
+            ? ui.backToCollection.replace('{collection}', collection.label[locale])
+            : ui.backToArchive
+        }</a>
+      </div>
+
+      <article class="entry-body reveal-target">
+${entry.bodies[locale]}
+      </article>
+    </div>
+  </section>
+`,
+  });
+}
+
 module.exports = {
+  setNavPages,
+  setHasArchive,
+  contentPage,
+  collectionIndexPage,
+  collectionEntryPage,
   homePage,
   aboutPage,
   projectsListPage,

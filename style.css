@@ -729,6 +729,18 @@ img { max-width: 100%; }
 .project-card:hover::after { opacity: 1; }
 
 /* Thumbnail */
+/* The checkerboard shows only where a project has no screenshot; a thumb-img
+   covers it completely otherwise. */
+.project-thumb,
+.game-overview-thumb {
+  background-color: var(--paper-3);
+  background-image:
+    linear-gradient(45deg, var(--rule) 25%, transparent 25%, transparent 75%, var(--rule) 75%),
+    linear-gradient(45deg, var(--rule) 25%, transparent 25%, transparent 75%, var(--rule) 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 8px 8px;
+}
+
 .project-thumb {
   position: relative;
   aspect-ratio: 16 / 10;
@@ -784,19 +796,6 @@ img { max-width: 100%; }
 }
 
 /* Placeholder stock for the one project with no screenshot. */
-.thumb-gc,
-.thumb-wrom,
-.thumb-lum,
-.thumb-web,
-.thumb-chroma {
-  background-color: var(--paper-3);
-  background-image:
-    linear-gradient(45deg, var(--rule) 25%, transparent 25%, transparent 75%, var(--rule) 75%),
-    linear-gradient(45deg, var(--rule) 25%, transparent 25%, transparent 75%, var(--rule) 75%);
-  background-size: 16px 16px;
-  background-position: 0 0, 8px 8px;
-}
-
 /* Body: a slip of stock laid over the artwork. */
 .project-body {
   position: relative;
@@ -1272,6 +1271,229 @@ img { max-width: 100%; }
 }
 
 /* ===========================
+   Homepage content strip
+   =========================== */
+/* Full-bleed scroller whose first card still lines up with .container's text
+   edge: the inline padding resolves to the container gutter at any width. */
+.strip-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x proximity;
+  scroll-padding-left: 1.75rem;
+  padding: 0.4rem max(1.75rem, calc((100% - var(--max-w)) / 2 + 1.75rem)) 1.5rem;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-color: var(--rule-2) transparent;
+}
+.strip-scroll::-webkit-scrollbar { height: 10px; }
+.strip-scroll::-webkit-scrollbar-track { background: transparent; }
+.strip-scroll::-webkit-scrollbar-thumb {
+  background: var(--rule-2);
+  border: 3px solid var(--paper-alt);
+  border-radius: 999px;
+}
+.strip-scroll:hover::-webkit-scrollbar-thumb { background: var(--grey); }
+
+.strip-track {
+  display: flex;
+  gap: 1.25rem;
+  width: max-content;
+}
+
+.strip-card {
+  flex: 0 0 clamp(248px, 72vw, 320px);
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  min-height: 11rem;
+  padding: 1.3rem 1.25rem 1.35rem;
+  background: var(--paper-2);
+  border: 1px solid var(--ink);
+  border-radius: var(--r);
+  box-shadow: var(--raise);
+  color: var(--ink);
+  transition: transform var(--t), box-shadow var(--t);
+}
+.strip-card:hover {
+  color: var(--ink);
+  transform: translateY(2px);
+  box-shadow: var(--press-soft);
+}
+
+.strip-kind {
+  font-family: var(--pixel);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  line-height: 1.6;
+  text-transform: uppercase;
+  color: var(--green);
+}
+.strip-title {
+  font-family: var(--display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  color: var(--blue);
+}
+.strip-summary {
+  font-size: 0.88rem;
+  color: var(--ink-2);
+  line-height: 1.65;
+  flex: 1;
+}
+.archive-more {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.strip-date {
+  font-family: var(--pixel);
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  color: var(--grey);
+  margin-top: auto;
+}
+
+/* Leading "back" row on a standalone page. It clears the floating navbar
+   itself, and the hero that follows drops the nav offset it would otherwise
+   carry as the first element on the page. */
+.section-back {
+  padding: calc(var(--nav-h) + 2rem) 0 0;
+}
+.section-back .game-back { margin-bottom: 0; }
+.section-back + .page-hero { padding-top: 2.25rem; }
+
+/* ===========================
+   Collection listing & entries
+   =========================== */
+.entry-intro {
+  margin-bottom: 3rem;
+}
+
+.entry-list {
+  display: flex;
+  flex-direction: column;
+  border-top: 2px solid var(--ink);
+}
+
+/* Each row is the whole link target, so the hit area matches what you see. */
+.entry-row {
+  display: block;
+  padding: 1.5rem 0.5rem 1.6rem;
+  border-bottom: 1px solid var(--rule-2);
+  color: var(--ink);
+  transition: background var(--t), padding-left var(--t);
+}
+.entry-row:hover {
+  color: var(--ink);
+  background: var(--paper-2);
+  padding-left: 1.1rem;
+  box-shadow: var(--press-soft);
+}
+
+.entry-date {
+  display: block;
+  font-family: var(--pixel);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  line-height: 1.8;
+  color: var(--green);
+  margin-bottom: 0.5rem;
+}
+.entry-title {
+  font-family: var(--display);
+  font-size: clamp(1.25rem, 2.6vw, 1.6rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--blue);
+}
+.entry-summary {
+  margin-top: 0.5rem;
+  max-width: 44rem;
+  font-size: 0.94rem;
+  color: var(--ink-2);
+  line-height: 1.7;
+}
+
+/* Prose: an entry's body, and the intro written at the top of a listing. */
+.entry-body,
+.entry-intro {
+  max-width: 44rem;
+  font-size: 1rem;
+  color: var(--ink-2);
+  line-height: 1.9;
+}
+.entry-body > * + *,
+.entry-intro > * + * { margin-top: 1.2rem; }
+.entry-body h2,
+.entry-intro h2 {
+  font-family: var(--display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-top: 2.5rem;
+}
+.entry-body h3,
+.entry-intro h3 {
+  font-family: var(--display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-top: 2rem;
+}
+.entry-body ul,
+.entry-body ol,
+.entry-intro ul,
+.entry-intro ol { display: flex; flex-direction: column; gap: 0.6rem; }
+.entry-body li,
+.entry-intro li { display: flex; gap: 0.75rem; }
+.entry-body li::before,
+.entry-intro li::before {
+  content: '';
+  width: 6px; height: 6px;
+  margin-top: 0.75em;
+  background: var(--blue);
+  flex-shrink: 0;
+}
+.entry-body blockquote,
+.entry-intro blockquote {
+  padding-left: 1.25rem;
+  border-left: 4px solid var(--red);
+  color: var(--ink);
+}
+.entry-body code,
+.entry-intro code {
+  font-family: var(--mono-font);
+  font-size: 0.9em;
+  background: var(--paper-3);
+  border: 1px solid var(--rule-2);
+  border-radius: var(--r-sm);
+  padding: 0.1em 0.35em;
+}
+.entry-body pre,
+.entry-intro pre {
+  background: var(--paper-3);
+  border: 1px solid var(--ink);
+  border-radius: var(--r-sm);
+  padding: 1.1rem 1.25rem;
+  overflow-x: auto;
+}
+.entry-body pre code,
+.entry-intro pre code { background: none; border: 0; padding: 0; }
+.entry-body img,
+.entry-intro img {
+  display: block;
+  width: 100%;
+  border: 1px solid var(--ink);
+  border-radius: var(--r-sm);
+}
+
+/* ===========================
    Project detail page
    =========================== */
 .game-back { margin-bottom: 2.5rem; }
@@ -1525,8 +1747,9 @@ img { max-width: 100%; }
 .notfound-inner {
   width: min(var(--max-w), 100%);
   display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 3.5rem;
+  grid-template-columns: minmax(0, 30rem) auto;
+  justify-content: center;
+  gap: clamp(3.5rem, 8vw, 7rem);
   align-items: center;
 }
 
