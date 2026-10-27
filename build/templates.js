@@ -117,9 +117,9 @@ function experienceCard(entry) {
       </div>`;
 }
 
-// Pages dropped into content/pages/ register themselves in the menu. build.js
-// fills this before rendering anything, so every page agrees on the menu.
-// Each entry: { slug, order, label: {en, zh}, locales: {en, zh} }
+// Menu entries from content/ (the /extras/ listing, and any page with `nav:`).
+// build.js fills this before rendering anything, so every page agrees on the menu.
+// Each entry: { key, path, order, label: {en, zh}, locales: {en, zh} }
 let navPages = [];
 
 function setNavPages(pages) {
@@ -148,13 +148,13 @@ function renderMenuLinks(rows) {
 
 // Content-page menu rows for `locale`. A page with no twin in this locale still
 // appears, pointing at the language it does exist in. `exact` means the current
-// page IS this entry, so the link is inert; on a page *below* it (a collection
-// entry) it stays clickable, which is how you get back up to the listing.
+// page IS this entry, so the link is inert; on a page *below* it (anything
+// under /extras/) it stays clickable, which is how you get back up to the listing.
 function navPageRows(locale, current, exact) {
   return navPages.map((entry) => {
-    const href = localePath(entry.locales[locale] ? locale : 'en', `/${entry.slug}/`);
+    const href = localePath(entry.locales[locale] ? locale : entry.locales.en ? 'en' : 'zh', entry.path);
     let attrs = '';
-    if (entry.slug === current) {
+    if (entry.key === current) {
       attrs = ' class="is-current" aria-current="page"';
       if (exact) attrs += ' aria-disabled="true" data-disabled-nav="true"';
     }
@@ -245,8 +245,8 @@ function navbarMain(locale, site, { langToggle }) {
     .map(([href, order, label]) => ({ order, href, label }));
 
   // Only the homepage's own sections. Everything under content/ is reachable
-  // through #archive, so the collections are not repeated here; the sub-page
-  // menu (navbarDefault) carries their real links instead.
+  // through #archive, so it is not repeated here; the sub-page menu
+  // (navbarDefault) carries the real /extras/ links instead.
   const rows = builtIn.sort((a, b) => a.order - b.order);
   return navbarInner(locale, site, { menuLinks: renderMenuLinks(rows), langToggle });
 }
@@ -267,6 +267,22 @@ function footerHtml(locale, site) {
 </footer>`;
 }
 
+// The "← Back to <section>" button every sub-page opens with: project details
+// back to Projects, everything under /extras/ back to Extras. It sits just above
+// the hero, close to the title; CSS pulls in the following .page-hero's top
+// padding, which otherwise assumes it is first on the page.
+function backBar(site, locale, href, name) {
+  return `
+  <div class="section-back">
+    <div class="container">
+      <div class="game-back">
+        <a href="${href}">${site[locale].ui.backTo.replace('{name}', name)}</a>
+      </div>
+    </div>
+  </div>
+`;
+}
+
 // Language-toggle props for a page whose other-language twin lives at `alternatePath`.
 function langToggleFor(s, alternatePath) {
   return { label: s.langToggle.label, aria: s.langToggle.aria, href: alternatePath };
@@ -274,8 +290,11 @@ function langToggleFor(s, alternatePath) {
 
 // `headHtml` replaces the SEO/social block for pages that should not be
 // indexed (404); everything else gets the full canonical/hreflang/OG set.
-function page({ locale, site, title, description, canonicalPath, alternatePath, ogImage, nav, extraHead, headHtml, body, monolingual = false }) {
+// `title` is the page's bare name; every tab and social card reads
+// "<title> | <site name>", built here and nowhere else.
+function page({ locale, site, title: name, description, canonicalPath, alternatePath, ogImage, nav, extraHead, headHtml, body, monolingual = false }) {
   const s = site[locale];
+  const title = `${name} | ${s.footer.name}`;
   return `<!DOCTYPE html>
 <html lang="${s.htmlLang}">
 <head>
@@ -312,68 +331,44 @@ function linkLocaleFor(bodies, locale) {
   return bodies.zh ? 'zh' : null;
 }
 
-// The homepage archive is the index for everything under content/: collection
-// entries first (dated, newest first), then standalone pages, which have no
-// listing of their own to live in. Untranslated items still appear, pointing at
+// Everything under content/, newest first, as the homepage strip and the
+// /extras/ listing both show it. In a folder with `date: hidden` the date
+// only sorts — no view prints it. Untranslated items still appear, pointing at
 // the language they exist in, rather than being hidden from one locale.
-function contentStripItems(locale, site, content) {
-  const ui = site[locale].ui;
-  const entries = [];
-
-  for (const collection of content.collections) {
-    const kind = collection.label[locale];
-    for (const entry of collection.entries) {
-      const target = linkLocaleFor(entry.bodies, locale);
-      if (!target) continue;
-      // Title and summary come from the page being linked to, so the card never
-      // promises Chinese and then lands on English.
-      const meta = entry.metaByLocale[target] || entry.meta;
-      entries.push({
-        kind,
-        href: localePath(target, `/${collection.slug}/${entry.slug}/`),
-        title: meta.title,
-        summary: meta.summary || '',
-        date: meta.date || entry.meta.date,
-      });
-    }
-  }
-  entries.sort((a, b) => b.date.localeCompare(a.date));
-
-  const pages = [];
-  for (const entry of content.pages) {
-    const target = linkLocaleFor(entry.locales, locale);
+function extrasItems(locale, extras) {
+  const out = [];
+  for (const item of extras ? extras.items : []) {
+    const target = linkLocaleFor(item.bodies, locale);
     if (!target) continue;
-    const meta = entry.metaByLocale[target] || entry.meta;
-    pages.push({
-      kind: ui.contentPageLabel,
-      href: localePath(target, `/${entry.slug}/`),
-      title: meta.nav || meta.heading || meta.title,
-      summary: meta.description || '',
-      date: '',
+    // Title and summary come from the page being linked to, so the card never
+    // promises Chinese and then lands on English.
+    const meta = item.metaByLocale[target] || item.meta;
+    out.push({
+      kind: item.kind[locale],
+      href: localePath(target, `/extras/${item.slug}/`),
+      title: meta.title,
+      summary: meta.summary || meta.description || '',
+      date: item.showDate ? meta.date || item.meta.date : '',
     });
   }
-
-  return [...entries, ...pages];
+  return out;
 }
 
 // Horizontal, snap-scrolling strip. Native overflow scrolling, so the
 // trackpad, shift+wheel, touch and keyboard all work without extra JS.
-function contentStrip(locale, site, content) {
-  const items = contentStripItems(locale, site, content);
+// The homepage is a way in, not the index: it shows the newest few and leaves
+// the rest to /extras/. They scroll inside a framed box as wide as the other
+// sections, so more cards never make this section stick out past them.
+const STRIP_LIMIT = 8;
+
+function contentStrip(locale, site, extras) {
+  const items = extrasItems(locale, extras).slice(0, STRIP_LIMIT);
   if (!items.length) return '';
 
   const s = site[locale];
   const h = s.home;
 
-  // One way in per collection that has a listing page of its own.
-  const moreLinks = content.collections
-    .filter((collection) => collection.listing && collection.index.bodies[linkLocaleFor(collection.index.bodies, locale)])
-    .map((collection) => {
-      const target = linkLocaleFor(collection.index.bodies, locale);
-      const label = s.ui.allInCollection.replace('{collection}', collection.label[locale]);
-      return `        <a class="btn btn-outline btn-sm" href="${localePath(target, `/${collection.slug}/`)}">${label}</a>`;
-    })
-    .join('\n');
+  const moreLinks = `        <a class="btn btn-outline btn-sm" href="${extrasHref(extras, locale)}">${s.ui.allInCollection.replace('{collection}', extras.label[locale])}</a>`;
   const cards = items
     .map(
       (item) => `        <a class="strip-card" href="${item.href}">
@@ -393,17 +388,20 @@ function contentStrip(locale, site, content) {
         <div class="section-num">${h.contentEyebrow}</div>
         <h2 class="section-title">${h.contentTitle}</h2>
       </div>
-    </div>
-    <div class="strip-scroll reveal-target">
-      <div class="strip-track">
+      <div class="strip-scroll reveal-target">
+        <div class="strip-track">
 ${cards}
+        </div>
+      </div>
+      <div class="archive-more reveal-target">
+${moreLinks}
       </div>
     </div>
-${moreLinks ? `    <div class="container">\n      <div class="archive-more reveal-target">\n${moreLinks}\n      </div>\n    </div>\n` : ''}  </section>
+  </section>
 `;
 }
 
-function homePage(locale, site, projects, homeFeaturedSlugs, content) {
+function homePage(locale, site, projects, homeFeaturedSlugs, extras) {
   const s = site[locale];
   const h = s.home;
   const otherLocale = locale === 'en' ? 'zh' : 'en';
@@ -531,7 +529,7 @@ ${s.about.experiences.filter((e) => e.featured).map(experienceCard).join('\n\n')
     </div>
   </section>
 
-${contentStrip(locale, site, content)}
+${contentStrip(locale, site, extras)}
   <!-- ===== Contact ===== -->
   <section id="contact" class="section">
     <div class="container">
@@ -776,6 +774,7 @@ ${galleryDots}
     : '';
 
   const body = `
+${backBar(site, locale, localePath(locale, '/projects/'), s.menu.projects)}
   <!-- ===== Page Hero ===== -->
   <div class="page-hero">
     <div class="container">
@@ -787,10 +786,6 @@ ${galleryDots}
   <!-- ===== Detail Content ===== -->
   <section class="section">
     <div class="container">
-
-      <div class="game-back reveal-target">
-        <a href="${localePath(locale, '/projects/')}">${ui.backToProjects}</a>
-      </div>
 
       <!-- Overview -->
       <div class="game-overview reveal-target">
@@ -849,7 +844,7 @@ ${galleryDotsBlock}          <div class="gallery-caption">${ui.screenshots}</div
   return page({
     locale,
     site,
-    title: `${p.name || p.title} | ${s.footer.name}`,
+    title: p.name || p.title,
     description: p.seo,
     canonicalPath: localePath(locale, `/projects/${project.slug}/`),
     alternatePath: localePath(otherLocale, `/projects/${project.slug}/`),
@@ -895,61 +890,23 @@ ${catSvg.trimEnd()}
   });
 }
 
-// Wraps a hand-written body fragment from content/pages/ in the site chrome.
-// `entry.meta` comes from the fragment's comment header (parsed in build.js).
-function contentPage(entry, locale, site) {
-  const { meta } = entry;
-  const otherLocale = locale === 'en' ? 'zh' : 'en';
-  const selfPath = localePath(locale, `/${entry.slug}/`);
-  const hasTwin = Boolean(entry.locales[otherLocale]);
-  const alternatePath = hasTwin
-    ? localePath(otherLocale, `/${entry.slug}/`)
-    : localePath(otherLocale, '/');
-
-  return page({
-    locale,
-    site,
-    title: meta.title,
-    description: meta.description,
-    canonicalPath: selfPath,
-    alternatePath,
-    ogImage: meta.ogImage || FAVICON,
-    monolingual: !hasTwin,
-    nav: navbarDefault(locale, site, {
-      current: entry.slug,
-      exact: true,
-      langToggle: hasTwin ? langToggleFor(site[locale], alternatePath) : null,
-    }),
-    // A standalone page has no listing of its own, so the way back is the
-    // homepage archive — the same place a collection entry returns to. It sits
-    // above the fragment; CSS pulls in the following .page-hero's top padding,
-    // which otherwise assumes it is the first thing on the page.
-    body: `${
-      hasArchive && meta.back !== 'false'
-        ? `
-  <div class="section-back">
-    <div class="container">
-      <div class="game-back">
-        <a href="${localePath(locale, '/#archive')}">${site[locale].ui.backToArchive}</a>
-      </div>
-    </div>
-  </div>
-`
-        : ''
-    }\n${entry.locales[locale]}\n`,
-  });
+// The /extras/ listing in `locale`, or the language it exists in.
+function extrasHref(extras, locale) {
+  return localePath(linkLocaleFor(extras.index.bodies, locale) || 'en', '/extras/');
 }
 
-// ---- Collections (content/<name>/) ----
-//
-// A collection is a folder of entry fragments plus an index.html that is the
-// collection's own page. build.js parses them; these two render them.
+// The way back from an item: up to the /extras/ listing.
+function extrasBackBar(extras, locale, site) {
+  return backBar(site, locale, extrasHref(extras, locale), extras.label[locale]);
+}
 
-// Shared chrome for both the listing and its entries.
-function collectionPage({ locale, site, slugPath, entryMeta, indexMeta, hasTwin, body, current }) {
+// Shared chrome for every page under /extras/. Headers carry the bare name
+// (`title: Uses`), which lists show as-is; page() adds the site's name.
+function extrasPage({ locale, site, extras, slugPath, meta, bodies, current, exact, body }) {
   const otherLocale = locale === 'en' ? 'zh' : 'en';
-  const alternatePath = localePath(otherLocale, slugPath);
-  const meta = entryMeta || indexMeta;
+  const hasTwin = otherLocale in bodies;
+  const alternatePath = localePath(otherLocale, hasTwin ? slugPath : '/');
+  const indexMeta = extras.index.metaByLocale[locale] || extras.index.meta;
   return page({
     locale,
     site,
@@ -961,29 +918,25 @@ function collectionPage({ locale, site, slugPath, entryMeta, indexMeta, hasTwin,
     monolingual: !hasTwin,
     nav: navbarDefault(locale, site, {
       current,
-      exact: !entryMeta,
+      exact,
       langToggle: hasTwin ? langToggleFor(site[locale], alternatePath) : null,
     }),
     body,
   });
 }
 
-// The collection's page: its own writing from index.html, then every entry,
-// newest first.
-function collectionIndexPage(collection, locale, site) {
-  const indexMeta = collection.index.metaByLocale[locale] || collection.index.meta;
-  const intro = collection.index.bodies[locale];
-  const entries = collection.entries.filter((e) => e.bodies[locale]);
+// /extras/: content/index.html's own writing, then everything under content/,
+// newest first. Entries show their date; pages show only what they are.
+function extrasIndexPage(extras, locale, site) {
+  const indexMeta = extras.index.metaByLocale[locale];
+  const intro = extras.index.bodies[locale];
 
-  const rows = entries
-    .map((entry) => {
-      const href = localePath(locale, `/${collection.slug}/${entry.slug}/`);
-      const summary = entry.meta.summary
-        ? `\n            <p class="entry-summary">${entry.meta.summary}</p>`
-        : '';
-      return `          <a class="entry-row reveal-target" href="${href}">
-            <span class="entry-date">${entry.meta.date}</span>
-            <h3 class="entry-title">${entry.meta.title}</h3>${summary}
+  const rows = extrasItems(locale, extras)
+    .map((item) => {
+      const summary = item.summary ? `\n            <p class="entry-summary">${item.summary}</p>` : '';
+      return `          <a class="entry-row reveal-target" href="${item.href}">
+            <span class="entry-date">${item.kind}${item.date ? ` &middot; ${item.date}` : ''}</span>
+            <h3 class="entry-title">${item.title}</h3>${summary}
           </a>`;
     })
     .join('\n');
@@ -992,18 +945,20 @@ function collectionIndexPage(collection, locale, site) {
     ? `        <div class="entry-list">\n${rows}\n        </div>`
     : `        <p class="contact-intro">${site[locale].ui.collectionEmpty}</p>`;
 
-  return collectionPage({
+  return extrasPage({
     locale,
     site,
-    slugPath: `/${collection.slug}/`,
-    indexMeta,
-    hasTwin: Boolean(collection.index.bodies[locale === 'en' ? 'zh' : 'en']),
-    current: collection.slug,
+    extras,
+    slugPath: '/extras/',
+    meta: indexMeta,
+    bodies: extras.index.bodies,
+    current: 'extras',
+    exact: true,
     body: `
   <div class="page-hero">
     <div class="container">
-      <div class="page-eyebrow">${indexMeta.eyebrow || `// ${collection.slug}`}</div>
-      <h1 class="page-title">${indexMeta.heading || indexMeta.nav || collection.slug}</h1>
+      <div class="page-eyebrow">${indexMeta.eyebrow || '// Extras'}</div>
+      <h1 class="page-title">${indexMeta.heading || extras.label[locale]}</h1>
     </div>
   </div>
 
@@ -1016,41 +971,39 @@ ${intro ? `      <div class="entry-intro reveal-target">\n${intro}\n      </div>
   });
 }
 
-function collectionEntryPage(collection, entry, locale, site) {
-  const ui = site[locale].ui;
-  // Without a listing page there is nothing to go "back" to inside the
-  // collection, so point at the homepage archive strip instead.
-  const backHref = collection.listing
-    ? localePath(locale, `/${collection.slug}/`)
-    : localePath(locale, '/#archive');
-  return collectionPage({
+// Any item under content/<folder>/: back link, a hero naming the folder
+// (Thoughts, Ideas…) with the title and, unless the folder hides it, the date
+// under it — then the body as an article. `width: wide` lifts the prose width
+// limit for cards and columns. With its own `nav:` the item is its own menu
+// entry; otherwise it sits under Extras, which stays clickable as the way up.
+function extrasItemPage(extras, item, locale, site) {
+  const meta = item.metaByLocale[locale];
+  const back = meta.back !== 'false' ? extrasBackBar(extras, locale, site) : '';
+  const date = item.showDate
+    ? `\n      <time class="page-date" datetime="${meta.date}">${meta.date}</time>`
+    : '';
+  const bodyClass = meta.width === 'wide' ? 'entry-body entry-body-wide' : 'entry-body';
+  return extrasPage({
     locale,
     site,
-    slugPath: `/${collection.slug}/${entry.slug}/`,
-    entryMeta: entry.meta,
-    indexMeta: collection.index.metaByLocale[locale] || collection.index.meta,
-    hasTwin: Boolean(entry.bodies[locale === 'en' ? 'zh' : 'en']),
-    current: collection.slug,
-    body: `
+    extras,
+    slugPath: `/extras/${item.slug}/`,
+    meta,
+    bodies: item.bodies,
+    current: item.navLabel ? `extras/${item.slug}` : 'extras',
+    exact: Boolean(item.navLabel),
+    body: `${back}
   <div class="page-hero">
     <div class="container">
-      <div class="page-eyebrow">${entry.meta.date}</div>
-      <h1 class="page-title">${entry.meta.title}</h1>
+      <div class="page-eyebrow">${item.kind[locale]}</div>
+      <h1 class="page-title">${meta.title}</h1>${date}
     </div>
   </div>
 
   <section class="section">
     <div class="container">
-      <div class="game-back reveal-target">
-        <a href="${backHref}">${
-          collection.listing
-            ? ui.backToCollection.replace('{collection}', collection.label[locale])
-            : ui.backToArchive
-        }</a>
-      </div>
-
-      <article class="entry-body reveal-target">
-${entry.bodies[locale]}
+      <article class="${bodyClass} reveal-target">
+${item.bodies[locale]}
       </article>
     </div>
   </section>
@@ -1061,9 +1014,8 @@ ${entry.bodies[locale]}
 module.exports = {
   setNavPages,
   setHasArchive,
-  contentPage,
-  collectionIndexPage,
-  collectionEntryPage,
+  extrasIndexPage,
+  extrasItemPage,
   homePage,
   aboutPage,
   projectsListPage,

@@ -1,65 +1,182 @@
 # content/
 
-Everything you write by hand lives here. Drop an HTML **body fragment** in and
-`npm run build` turns it into a full page — `<head>`, navbar, menu, footer and
-sitemap entry are added for you. No need to touch `build/templates.js` or
-`build/build.js`.
+Everything you write by hand lives here, and **all of it is published under
+`/extras/`**. Drop an HTML or Markdown file in, run `npm run build`, and it
+becomes a full page: navbar, hero, back link, footer and sitemap entry are
+added for you. No need to touch `build/templates.js` or `build/build.js`.
 
-Two shapes:
+```
+content/
+  index.html                ->  /extras/               the listing page
+  index.zh.html             ->  /zh/extras/
+  pages/_folder.html        ->  (no page — the folder's settings)
+  pages/colophon.html       ->  /extras/colophon/
+  thoughts/_folder.html     ->  (no page — the folder's settings)
+  thoughts/hello-extras.html    ->  /extras/hello-extras/
+  thoughts/hello-extras.zh.html ->  /zh/extras/hello-extras/
+  thoughts/writing-in-fragments.md  ->  /extras/writing-in-fragments/
+```
 
-| | |
-| --- | --- |
-| `content/pages/` | **One-off pages** (`/uses/`, `/now/`, a standalone write-up). Listed in the homepage archive strip, since they have no listing of their own. |
-| `content/<name>/` | A **collection** — a series with entries under a shared path (`/thoughts/thought1/`), plus its own page. See *Collections* below. |
+- **Folders group items; they don't change the URL.** Every item lives at
+  `/extras/<name>/`, so a name may be used only once across all of `content/`.
+  A duplicate fails the build.
+- **No folder is special by name.** Folders only differ by what their
+  `_folder.html` says: the label on cards, and whether dates are shown.
+- **Names** must be lowercase words joined by hyphens.
 
-Everything under `content/` is indexed by the homepage archive strip. When
-`content/` holds nothing the strip is not rendered at all, and its menu entry
-disappears with it.
+`/extras/` lists every item from every folder together, newest first. The
+homepage archive strip shows the newest eight (`STRIP_LIMIT` in
+`build/templates.js`), scrolling sideways inside a framed box; its
+"All Extras →" button links to `/extras/`.
+When `content/` holds no items, the strip, its homepage menu entry and the
+Extras menu item all disappear.
+
+Only `.html` and `.md` files are read, and `README.md` is always skipped. Keep
+any other notes as `.txt` (or anything else) and the build leaves them alone.
 
 ---
 
-# content/pages
-
-## Filename is the route
-
-| File | URL |
-| --- | --- |
-| `thoughts.html` | `/thoughts/` |
-| `thoughts.zh.html` | `/zh/thoughts/` |
-| `how-i-work.html` | `/how-i-work/` |
-
-Slugs must be lowercase words joined by hyphens. Anything else fails the build.
-
 ## The comment header
 
-Every fragment starts with one HTML comment:
+Every file starts with one HTML comment carrying its settings:
 
 ```html
-<!-- title: Binxuan Yan | Thoughts
-     description: Notes on game design and gameplay programming.
-     nav: Thoughts
-     navZh: 随笔
-     order: 25
-     ogImage: /assets/images/profile.webp -->
+<!-- title: Hello, Extras
+     date: 2026-10-27 -->
+```
 
-<div class="page-hero">
-  <div class="container">
-    <div class="page-eyebrow">// Notes</div>
-    <h1 class="page-title">Thoughts</h1>
-  </div>
-</div>
+Everything after the comment is the body.
+
+---
+
+## HTML or Markdown
+
+Any file (item, `index`, `_folder`) can be `.html` or `.md`. The comment
+header is identical in both; only the body differs:
+
+- **`.md`** is converted to HTML at build time (GitHub-flavoured Markdown, via
+  `marked`). Best for prose. Raw HTML still works inside it when you need a
+  card, a button, or anything Markdown cannot express.
+- **`.html`** is inserted as-is. Best when most of the body is markup.
+
+A name exists as one or the other: `thought1.md` next to `thought1.html` fails
+the build. The two languages of a pair may differ (`thought1.md` +
+`thought1.zh.html` is fine).
+
+Markdown needs one `npm install` after cloning; CI runs `npm ci` itself. The
+published site is plain HTML either way.
+
+---
+
+## Items
+
+What you write is only the body. The build adds, top to bottom:
+
+```
+← Back to Extras        the back link
+THOUGHTS                the folder's label
+Hello, Extras           the title
+2026-10-27              the date (unless the folder hides it)
+───────────────────
+your body
+```
+
+```markdown
+<!-- title: Why puzzle bosses beat health bars
+     date: 2026-10-21
+     summary: One line shown in the listing. -->
+
+Prose goes here, as Markdown.
+
+## A heading
+
+- A list item
+
+> A pull quote.
 ```
 
 | Key | |
 | --- | --- |
-| `title` | **Required.** Goes in `<title>`, `og:title`, `twitter:title`. |
-| `description` | **Required.** Meta description + social cards. |
-| `nav` | Menu label. **Leave it out and the page stays off every menu** — reachable only by its URL or from the archive strip. Add it later to promote the page; that is the only change needed. |
-| `navZh` | Chinese menu label. Defaults to `nav`. A `.zh.html` twin with its own `nav:` wins over this. |
-| `order` | Menu position. See below. Defaults to `40`. |
+| `title` | **Required.** The page's heading and its name in lists. The browser tab shows `<title> \| Binxuan Yan` (`… \| 颜彬轩` in Chinese). Don't add the site name yourself. |
+| `date` | **Required.** `YYYY-MM-DD`. Sorts the item, newest first. Shown under the title and in lists unless the folder sets `date: hidden`. |
+| `summary` | The line shown in lists. Defaults to `description`. |
+| `description` | Meta description and social cards. Defaults to `summary`, then to the listing's description. |
+| `width` | `wide` removes the reading-width limit (44rem), for cards and columns. |
+| `nav` | Gives the item its own entry in the sub-page menu. Without it the item sits under Extras. |
+| `navZh` | Chinese menu label. Defaults to `nav`. A `.zh` twin with its own `nav:` wins over this. |
+| `order` | Menu position for `nav`, see *Menu order*. Defaults to `40`. |
 | `ogImage` | Social share image. Defaults to the site favicon. |
+| `back` | `false` removes the back link. |
 
-Everything after the comment is the page body, inserted as-is.
+### Prose, cards and buttons
+
+The body sits in an `<article class="entry-body">`. Its prose styling (heading
+sizes, blue list markers, quote bar, code boxes, framed images) reaches only
+the article's **own** content: its top-level elements, and lists nested in
+its top-level lists. Plain Markdown is styled with no classes needed.
+
+Anything you wrap in your own element keeps its own look. You can use the
+site's classes from `style.css` directly; set `width: wide` if they need
+room:
+
+```html
+<div class="projects-grid">
+  <div class="project-card">…</div>
+</div>
+<a class="btn btn-primary" href="…">A button</a>
+```
+
+The quickest class reference is a generated page: `about/index.html` for
+cards and sections, `projects/index.html` for the card grid.
+
+---
+
+## `_folder.html`: a folder's settings
+
+Optional. It builds no page, and its body is ignored.
+
+```html
+<!-- label: Ideas
+     labelZh: 想法
+     date: hidden -->
+```
+
+| Key | |
+| --- | --- |
+| `label` | The folder's name above each item's title, and on its cards and rows. Defaults to the folder name (`notes`). |
+| `labelZh` | Its Chinese name. A `_folder.zh.html` with its own `label:` wins over this. |
+| `date` | `hidden` keeps this folder's dates off its pages, cards and rows. They still sort, so every item still needs one. |
+
+An `index.html` inside a folder fails the build: folders have no page of their
+own, so the file is almost certainly meant to be `_folder.html` or
+`content/index.html`.
+
+---
+
+## `content/index.html`: the `/extras/` listing
+
+Configures the listing **and holds its content**: anything below the header
+is rendered above the list, with the same prose styling as an item.
+
+| Key | |
+| --- | --- |
+| `title` | **Required.** Just the name (`Extras`); the tab shows `Extras \| Binxuan Yan`. |
+| `description` | **Required.** |
+| `label` | The section's name: menu item, "All Extras →" button, "← Back to Extras" links. Defaults to `Extras`. |
+| `labelZh` | Its Chinese name (菜单、"全部番外 →"、"← 返回番外"). `index.zh.html` with its own `label:` wins over this. |
+| `heading` | The `<h1>`. Defaults to `label`. |
+| `eyebrow` | The small label above the heading. Defaults to `// Extras`. |
+| `order` | Menu position, see *Menu order*. Defaults to `50`. |
+
+There is no `nav` here: `/extras/` is a section like Projects and About, not
+an item you opt into the menu. It joins the sub-page menu on its own as soon
+as there is at least one item.
+
+`index.zh.html` is the Chinese listing at `/zh/extras/`. Without it, Chinese
+pages link to the English listing. Each row shows the folder's label and,
+unless hidden, the date: `Thoughts · 2026-10-21`, or just `Ideas`.
+
+---
 
 ## Menu order
 
@@ -73,140 +190,42 @@ sub-page menu          homepage menu
 30  About              30  Experience (#experience)
                        40  About      (#about)
                        50  Skills     (#skills)
+                       55  Archive    (#archive)
                        60  Contact    (#contact)
 ```
 
-The default `40` ties with About on the homepage and lands just after it,
-which is probably not what you want. Pick explicitly:
+The homepage menu lists only the homepage's own sections; `Archive` scrolls to
+the strip. Extras and any `nav:` items show up in the **sub-page** menu. Pick
+`25` to sit between Projects and About, or `70` to go last.
 
-- `25` — after Projects, before About / Experience
-- `70` — last in both menus
-
-## One language or two
-
-Ship `thoughts.html` alone and the page is English-only:
-
-- no `hreflang` alternates (pointing at a translation that does not exist is
-  worse than claiming none)
-- **no language button in the navbar** — only the hamburger. A switch that just
-  dumps the reader on another homepage is worse than no switch at all.
-- if it has a `nav:` label, the Chinese menu still lists it, pointing at the
-  English page
-
-Add `thoughts.zh.html` and the two become a normal pair: `hreflang` both ways,
-and the language button swaps between them.
-
-## Notes
-
-- **Unlisted still means indexed.** A page with no `nav:` is absent from the
-  menus but still goes into `sitemap.xml`, so search engines will find it.
-  It is hidden from site navigation, not from the web.
-- **Deleting a page takes two steps.** Remove the fragment *and* the generated
-  directory (`rm -rf thoughts/`) — the build writes files but never cleans up
-  output for pages that no longer exist.
-- **Class names** come from `style.css`. The quickest reference is a generated
-  page: `about/index.html` for cards and sections, `projects/index.html` for
-  the card grid.
-- Non-`.html` files are ignored by the build, so this README and any notes you
-  leave beside your fragments are safe.
-- Menus: the **homepage** menu lists only the homepage's own sections, with
-  `Archive` covering everything here. The **sub-page** menu lists real pages,
-  so that is where a `nav:` entry shows up. On a collection entry the menu
-  highlights its collection and stays clickable, so you can go up to the
-  listing — the same way a project detail page behaves.
+On an item without a menu entry of its own, the Extras item is highlighted
+and stays clickable as the way back up to the listing.
 
 ---
 
-# Collections (`content/<name>/`)
+## One language or two
 
-Any folder under `content/` other than `pages/` is a collection: a folder of
-entry fragments plus an `index.html` that is the collection's own page. The
-entry list on it is **generated from the entries**, so adding a post means
-adding one file — nothing to wire up by hand.
+Ship `thought1.md` alone and the page is English-only:
 
-```
-content/thought/
-  index.html           ->  /thought/            (its page + the entry list)
-  thought1.html        ->  /thought/thought1/
-  thought2.html        ->  /thought/thought2/
-  thought2.zh.html     ->  /zh/thought/thought2/
-```
+- no `hreflang` alternates (pointing at a translation that does not exist is
+  worse than claiming none)
+- **no language button in the navbar**, only the hamburger
+- it still appears in the Chinese listing and strip, linking to the English page
 
-The folder name is the URL segment, so `content/blog/` gives `/blog/blog1/`.
-You can have as many collections as you like.
+Add `thought1.zh.md` (or `.zh.html`) and the two become a normal pair:
+`hreflang` both ways, and the language button swaps between them. The same
+goes for `index` itself.
 
-## `index.html`
-
-Configures the listing page **and holds its content**. Anything you write
-below the comment header is rendered above the entry list — this is where a
-collection's own writing lives, not just a one-line blurb. It gets the same
-prose styling as an entry (`h2` `h3` `p` `ul` `ol` `blockquote` `code` `pre`
-`img`), so write plain HTML.
-
-```html
-<!-- title: Binxuan Yan | Thoughts
-     description: Short notes on game design and gameplay programming.
-     eyebrow: // Notes
-     heading: Thoughts
-     nav: Thoughts
-     order: 25
-     listing: false -->
-
-<p>Optional intro paragraph.</p>
-```
-
-| Key | |
-| --- | --- |
-| `title` | **Required.** `<title>` and social cards. |
-| `description` | **Required.** |
-| `heading` | The `<h1>`. Defaults to `nav`, then the folder name. |
-| `eyebrow` | Small red label above the heading. Defaults to `// <folder>`. |
-| `nav` / `navZh` / `order` | Omit `nav` and the collection stays off the menus while `/<name>/` keeps building — the way to have a page you reach only by link or from the archive. `navZh` is its Chinese menu label; `order` places it (see *Menu order*). |
-| `listing` | Set to `false` to skip the generated index page. Entries still build; their back-link points at the homepage archive strip instead. See below. |
-
-## Entries
-
-```html
-<!-- title: Why puzzle bosses beat health bars
-     date: 2026-10-21
-     summary: One line shown in the listing. -->
-
-<p>Prose goes here, as plain HTML.</p>
-<h2>A heading</h2>
-<ul><li>A list item</li></ul>
-<blockquote>A pull quote.</blockquote>
-```
-
-| Key | |
-| --- | --- |
-| `title` | **Required.** |
-| `date` | **Required.** `YYYY-MM-DD`. Sorts the listing, newest first, and shows as the entry's eyebrow. |
-| `summary` | One line in the listing. Also the meta description unless `description` is set. |
-| `description` | Overrides `summary` for search and social cards. |
-
-Entry bodies are wrapped in `.entry-body` and the listing's intro in
-`.entry-intro`; both style `h2` `h3` `p` `ul` `ol` `blockquote` `code` `pre`
-`img` to match the site. Write plain HTML — no classes needed.
+---
 
 ## Notes
 
-- Entries are sorted by `date` descending; same-date entries fall back to
-  filename order so builds stay reproducible.
-- A collection with no `index.html` fails the build — even with
-  `listing: false` the entries need a title, description and label from
-  somewhere, and that file is where they live.
-
-## `listing: false`
-
-Every entry still gets its own page, but `/<name>/` is not generated and the
-collection is absent from the sitemap's listing URLs. Entries link back to the
-homepage archive strip (`/#archive`) instead of a page nothing else points at.
-
-Use it while a collection is small enough that the homepage strip *is* the
-index. Drop the line once there is enough in it to want a real index page —
-nothing else needs to change.
-
-One tradeoff: `/<name>/` returns 404, so trimming an entry's URL by hand lands
-on the 404 page rather than a list.
-- Same deletion caveat as pages: remove the fragment *and* the generated
-  directory, then rebuild.
+- **Unlisted still means indexed.** Every item goes into `sitemap.xml`, menu
+  entry or not. The `/extras/` listing joins the sitemap the same way it joins
+  the menu: only once there is at least one item.
+- **Deleting takes two steps.** Remove the file *and* its generated directory
+  (`rm -rf extras/thought1/`). The build writes files but never cleans up
+  output for pages that no longer exist. (CI builds from a clean checkout, so
+  the live site is unaffected either way.)
+- `content/index.html` is required as soon as there is any item, because the
+  listing's title and description live there.

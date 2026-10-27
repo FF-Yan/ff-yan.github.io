@@ -34,12 +34,9 @@ const site = {
     // Labels shared by project cards and detail pages.
     ui: {
       details: 'Details →',
-      backToProjects: '← Back to Projects',
-      backToCollection: '← Back to {collection}',
-      backToArchive: '← Back to Archive',
+      backTo: '← Back to {name}',
       collectionEmpty: 'Nothing here yet.',
       allInCollection: 'All {collection} →',
-      contentPageLabel: 'Page',
       allProjects: '← All Projects',
       role: 'Role:',
       period: 'Period:',
@@ -56,7 +53,7 @@ const site = {
     },
 
     home: {
-      title: 'Binxuan Yan | Game Developer',
+      title: 'Game Developer',
       description: 'Binxuan Yan is a Computer Science & Game Development student at Northeastern University, building gameplay systems, level design, and tools in Unity and C#.',
       heroEyebrow: 'Game Developer &amp; CS Student',
       heroNameFirst: 'Binxuan',
@@ -106,7 +103,7 @@ const site = {
     },
 
     about: {
-      title: 'Binxuan Yan | About',
+      title: 'About',
       description: 'About Binxuan Yan — Computer Science & Game Development student at Northeastern University, with experience in gameplay programming, research, and project leadership.',
       pageEyebrow: '// Who I Am',
       pageTitle: 'About Me',
@@ -171,7 +168,7 @@ const site = {
     },
 
     projectsPage: {
-      title: 'Binxuan Yan | Projects',
+      title: 'Projects',
       description: 'Selected game development projects by Binxuan Yan, built in Unity and C# — puzzle platformers, horror-puzzle games, and narrative level design.',
       pageEyebrow: '// Portfolio',
       pageTitle: 'Projects',
@@ -180,7 +177,7 @@ const site = {
     // GitHub Pages serves a single /404.html, so only the English page exists.
     // Its language toggle intentionally reads 首页 and leads to the Chinese home.
     notFound: {
-      title: '404 | Page Not Found',
+      title: 'Page Not Found',
       code: '404',
       heading: 'Page Not Found',
       sub: 'The page you&#39;re looking for doesn&#39;t exist or has been moved.',
@@ -216,12 +213,9 @@ const site = {
 
     ui: {
       details: '深入了解 →',
-      backToProjects: '← 返回项目列表',
-      backToCollection: '← 返回{collection}',
-      backToArchive: '← 返回存档',
+      backTo: '← 返回{name}',
       collectionEmpty: '这里还没有内容。',
       allInCollection: '全部{collection} →',
-      contentPageLabel: '页面',
       allProjects: '← 全部项目',
       role: '角色：',
       period: '周期：',
@@ -238,7 +232,7 @@ const site = {
     },
 
     home: {
-      title: '颜彬轩 | 游戏开发者',
+      title: '游戏开发者',
       description: '颜彬轩，美国东北大学计算机科学与游戏开发专业学生，使用 Unity 与 C# 开发游戏系统、关卡设计与技术工具。',
       heroEyebrow: '游戏开发者 &amp; 计算机科学学生',
       heroNameFirst: '颜',
@@ -288,7 +282,7 @@ const site = {
     },
 
     about: {
-      title: '颜彬轩 | 关于我',
+      title: '关于我',
       description: '关于颜彬轩——美国东北大学计算机科学与游戏开发专业学生，拥有游戏客户端开发、科研实习与项目管理经验。',
       pageEyebrow: '// 我是谁',
       pageTitle: '关于我',
@@ -353,7 +347,7 @@ const site = {
     },
 
     projectsPage: {
-      title: '颜彬轩 | 项目经历',
+      title: '项目经历',
       description: '颜彬轩的游戏开发项目集，使用 Unity 与 C# 制作——解谜平台跳跃、恐怖解谜与叙事关卡设计。',
       pageEyebrow: '// 作品集',
       pageTitle: '项目经历',

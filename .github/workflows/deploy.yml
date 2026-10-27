@@ -28,7 +28,10 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
+
+      - name: Install build dependencies
+        run: npm ci
 
       - name: Build pages
         run: node build/build.js
@@ -45,6 +48,7 @@ jobs:
             --exclude 'content' \
             --exclude 'node_modules' \
             --exclude 'package.json' \
+            --exclude 'package-lock.json' \
             --exclude 'README.md' \
             --exclude '.gitignore' \
             --exclude '.DS_Store'

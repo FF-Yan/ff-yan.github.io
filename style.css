@@ -974,19 +974,29 @@ img { max-width: 100%; }
   padding-bottom: 0.9rem;
   border-bottom: 1px solid var(--rule-2);
 }
+/* Square blue list markers, shared by every bulleted list on the site. The
+   marker is positioned rather than a flex item: in a flex <li>, each <em>,
+   <strong> or link becomes its own column and the sentence falls apart on
+   narrow screens. `0.5lh` centres the marker on the first line whatever the
+   list's line-height; the `em` value is the fallback for older browsers. */
+:is(.skill-list, .exp-bullets, .game-section ul, :is(.entry-body, .entry-intro) > :is(ul, ol)) li {
+  position: relative;
+  padding-left: calc(6px + 0.75rem);
+}
+:is(.skill-list, .exp-bullets, .game-section ul, :is(.entry-body, .entry-intro) > :is(ul, ol)) li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.7em;
+  top: calc(0.5lh - 3px);
+  width: 6px; height: 6px;
+  background: var(--blue);
+}
+
 .skill-list { display: flex; flex-direction: column; gap: 0.55rem; }
 .skill-list li {
   font-size: 0.92rem;
   color: var(--ink-2);
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-}
-.skill-list li::before {
-  content: '';
-  width: 6px; height: 6px;
-  background: var(--blue);
-  flex-shrink: 0;
 }
 .tags-cloud { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 
@@ -1157,16 +1167,7 @@ img { max-width: 100%; }
 .exp-bullets li {
   font-size: 0.94rem;
   color: var(--ink-2);
-  display: flex;
-  gap: 0.75rem;
   line-height: 1.75;
-}
-.exp-bullets li::before {
-  content: '';
-  width: 6px; height: 6px;
-  margin-top: 0.68em;
-  background: var(--blue);
-  flex-shrink: 0;
 }
 
 .edu-degree    { font-size: 1rem; font-weight: 600; margin-bottom: 1.1rem; color: var(--ink); }
@@ -1218,6 +1219,15 @@ img { max-width: 100%; }
   line-height: 1.02;
   letter-spacing: -0.04em;
   color: var(--ink);
+}
+/* An entry's date, under its title. */
+.page-date {
+  display: block;
+  margin-top: 1.25rem;
+  font-family: var(--pixel);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  color: var(--grey);
 }
 
 /* ===========================
@@ -1273,14 +1283,19 @@ img { max-width: 100%; }
 /* ===========================
    Homepage content strip
    =========================== */
-/* Full-bleed scroller whose first card still lines up with .container's text
-   edge: the inline padding resolves to the container gutter at any width. */
+/* A framed box exactly as wide as the other sections; the cards scroll inside
+   it, so however many there are, the section never runs past its neighbours.
+   Cards are sized so the next one always peeks in at the edge: the cue that
+   there is more to scroll to. */
 .strip-scroll {
   overflow-x: auto;
   overflow-y: hidden;
   scroll-snap-type: x proximity;
-  scroll-padding-left: 1.75rem;
-  padding: 0.4rem max(1.75rem, calc((100% - var(--max-w)) / 2 + 1.75rem)) 1.5rem;
+  scroll-padding-inline: 1.25rem;
+  padding: 1.25rem 1.25rem 1rem;
+  background: var(--paper);
+  border: 1px solid var(--ink);
+  border-radius: var(--r);
   -webkit-overflow-scrolling: touch;
   scrollbar-color: var(--rule-2) transparent;
 }
@@ -1288,7 +1303,7 @@ img { max-width: 100%; }
 .strip-scroll::-webkit-scrollbar-track { background: transparent; }
 .strip-scroll::-webkit-scrollbar-thumb {
   background: var(--rule-2);
-  border: 3px solid var(--paper-alt);
+  border: 3px solid var(--paper);
   border-radius: 999px;
 }
 .strip-scroll:hover::-webkit-scrollbar-thumb { background: var(--grey); }
@@ -1300,7 +1315,7 @@ img { max-width: 100%; }
 }
 
 .strip-card {
-  flex: 0 0 clamp(248px, 72vw, 320px);
+  flex: 0 0 clamp(232px, 64vw, 300px);
   scroll-snap-align: start;
   display: flex;
   flex-direction: column;
@@ -1346,7 +1361,7 @@ img { max-width: 100%; }
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
-  margin-top: 0.5rem;
+  margin-top: 1.5rem;
 }
 
 .strip-date {
@@ -1419,7 +1434,10 @@ img { max-width: 100%; }
   line-height: 1.7;
 }
 
-/* Prose: an entry's body, and the intro written at the top of a listing. */
+/* Prose: an entry's body, and the intro written at the top of a listing.
+   Every rule reaches only the article's own flow — its direct children, and
+   lists nested in those lists — so cards, buttons and columns placed inside
+   keep their own styling. */
 .entry-body,
 .entry-intro {
   max-width: 44rem;
@@ -1427,10 +1445,10 @@ img { max-width: 100%; }
   color: var(--ink-2);
   line-height: 1.9;
 }
-.entry-body > * + *,
-.entry-intro > * + * { margin-top: 1.2rem; }
-.entry-body h2,
-.entry-intro h2 {
+/* `width: wide` in an item's header: room for cards and columns. */
+.entry-body-wide { max-width: none; }
+:is(.entry-body, .entry-intro) > * + * { margin-top: 1.2rem; }
+:is(.entry-body, .entry-intro) > h2 {
   font-family: var(--display);
   font-size: 1.5rem;
   font-weight: 700;
@@ -1438,36 +1456,23 @@ img { max-width: 100%; }
   color: var(--ink);
   margin-top: 2.5rem;
 }
-.entry-body h3,
-.entry-intro h3 {
+:is(.entry-body, .entry-intro) > h3 {
   font-family: var(--display);
   font-size: 1.2rem;
   font-weight: 700;
   color: var(--ink);
   margin-top: 2rem;
 }
-.entry-body ul,
-.entry-body ol,
-.entry-intro ul,
-.entry-intro ol { display: flex; flex-direction: column; gap: 0.6rem; }
-.entry-body li,
-.entry-intro li { display: flex; gap: 0.75rem; }
-.entry-body li::before,
-.entry-intro li::before {
-  content: '';
-  width: 6px; height: 6px;
-  margin-top: 0.75em;
-  background: var(--blue);
-  flex-shrink: 0;
-}
-.entry-body blockquote,
-.entry-intro blockquote {
+/* Markers come from the shared list rule further up. */
+:is(.entry-body, .entry-intro) > :is(ul, ol),
+:is(.entry-body, .entry-intro) > :is(ul, ol) :is(ul, ol) { display: flex; flex-direction: column; gap: 0.6rem; }
+:is(.entry-body, .entry-intro) > :is(ul, ol) :is(ul, ol) { margin-top: 0.6rem; }
+:is(.entry-body, .entry-intro) > blockquote {
   padding-left: 1.25rem;
   border-left: 4px solid var(--red);
   color: var(--ink);
 }
-.entry-body code,
-.entry-intro code {
+:is(.entry-body, .entry-intro) > :is(p, ul, ol, blockquote, h2, h3) code {
   font-family: var(--mono-font);
   font-size: 0.9em;
   background: var(--paper-3);
@@ -1475,18 +1480,16 @@ img { max-width: 100%; }
   border-radius: var(--r-sm);
   padding: 0.1em 0.35em;
 }
-.entry-body pre,
-.entry-intro pre {
+:is(.entry-body, .entry-intro) > pre {
+  font-family: var(--mono-font);
+  font-size: 0.9em;
   background: var(--paper-3);
   border: 1px solid var(--ink);
   border-radius: var(--r-sm);
   padding: 1.1rem 1.25rem;
   overflow-x: auto;
 }
-.entry-body pre code,
-.entry-intro pre code { background: none; border: 0; padding: 0; }
-.entry-body img,
-.entry-intro img {
+:is(.entry-body, .entry-intro) > :is(img, p > img) {
   display: block;
   width: 100%;
   border: 1px solid var(--ink);
@@ -1588,16 +1591,7 @@ img { max-width: 100%; }
 .game-section ul li {
   font-size: 0.94rem;
   color: var(--ink-2);
-  display: flex;
-  gap: 0.75rem;
   line-height: 1.8;
-}
-.game-section ul li::before {
-  content: '';
-  width: 6px; height: 6px;
-  margin-top: 0.7em;
-  background: var(--blue);
-  flex-shrink: 0;
 }
 
 /* ===========================

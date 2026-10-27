@@ -1,9 +1,12 @@
 {
   "name": "binxuanyan-dev",
   "private": true,
-  "description": "Build script for the bilingual (EN/ZH) static site. No runtime dependencies — the deployed site is still plain HTML/CSS/JS.",
+  "description": "Build script for the bilingual (EN/ZH) static site. marked is used at build time only — the deployed site is still plain HTML/CSS/JS.",
   "scripts": {
     "build": "node build/build.js",
     "serve": "node build/serve.js 8001"
+  },
+  "dependencies": {
+    "marked": "18.1.2"
   }
 }
