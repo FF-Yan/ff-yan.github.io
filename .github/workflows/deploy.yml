@@ -1,5 +1,5 @@
-# Builds the site from build/data/*.js and deploys it to GitHub Pages on every
-# push to main, so the live site never depends on remembering `npm run build`.
+# Builds the site into _site/ and deploys it to GitHub Pages on every push to
+# main, so the live site never depends on remembering `npm run build`.
 #
 # One-time setup: repo Settings → Pages → Build and deployment → Source:
 # "GitHub Actions". The custom domain (binxuanyan.dev) stays set on that page.
@@ -33,25 +33,10 @@ jobs:
       - name: Install build dependencies
         run: npm ci
 
-      - name: Build pages
+      # Writes the complete site into _site/: the pages plus the files listed
+      # in STATIC in build/build.js. Nothing else in the repo is published.
+      - name: Build site
         run: node build/build.js
-
-      - name: Collect publishable files
-        run: |
-          mkdir _site
-          rsync -a ./ _site/ \
-            --exclude '_site' \
-            --exclude '.git' \
-            --exclude '.github' \
-            --exclude '.claude' \
-            --exclude 'build' \
-            --exclude 'content' \
-            --exclude 'node_modules' \
-            --exclude 'package.json' \
-            --exclude 'package-lock.json' \
-            --exclude 'README.md' \
-            --exclude '.gitignore' \
-            --exclude '.DS_Store'
 
       - uses: actions/configure-pages@v5
 

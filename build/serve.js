@@ -1,5 +1,5 @@
-// Minimal zero-dependency static server for local preview.
-// Usage: node build/serve.js [port]
+// Minimal zero-dependency static server for local preview of _site/.
+// Usage: node build/serve.js [port]   (after node build/build.js)
 //
 // Paths resolve from __dirname (never process.cwd(), which sandboxed
 // launchers may block) and mirror GitHub Pages behaviour: a directory
@@ -9,8 +9,13 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-const ROOT = path.join(__dirname, '..');
+const ROOT = path.join(__dirname, '..', '_site');
 const PORT = Number(process.argv[2]) || 8000;
+
+if (!fs.existsSync(path.join(ROOT, 'index.html'))) {
+  console.error('Nothing to serve yet: run `npm run build` first, which writes _site/.');
+  process.exit(1);
+}
 
 const MIME = {
   '.html': 'text/html; charset=utf-8',

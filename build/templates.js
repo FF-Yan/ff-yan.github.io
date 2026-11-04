@@ -1,4 +1,21 @@
+const crypto = require('crypto');
+const fs = require('fs');
+const path = require('path');
 const { BASE_URL, FAVICON } = require('./data/site');
+
+// Cloudflare and browsers cache /style.css and /script.js for hours, so an
+// unchanged URL keeps serving the old file after a deploy. Each URL carries a
+// fingerprint of the file's contents instead: it changes exactly when the file
+// does, so a fix reaches readers on the next page load and nothing else is
+// ever re-downloaded.
+function assetUrl(file) {
+  const source = fs.readFileSync(path.join(__dirname, '..', file));
+  const hash = crypto.createHash('sha256').update(source).digest('hex').slice(0, 10);
+  return `/${file}?v=${hash}`;
+}
+const STYLE_URL = assetUrl('style.css');
+const SCRIPT_URL = assetUrl('script.js');
+const COPY_URL = assetUrl('course-copy.js');
 
 function localePath(locale, path) {
   // path starts with "/", e.g. "/projects/chromatic" or "/"
@@ -39,6 +56,19 @@ function head({ locale, s, title, description, canonicalPath, alternatePath, ogI
   <meta name="twitter:title" content="${title}" />
   <meta name="twitter:description" content="${description}" />
   <meta name="twitter:image" content="${image}" />`;
+}
+
+// Pages built from content/individual/ (/courses/ and the rest) are found only
+// by typing their URL. They name no canonical URL or translation, and robots
+// keeps them (and whatever they link to, like a course's PDFs) out of search
+// results. Title and description stay, so a link pasted into a chat still
+// previews; a section without a description simply has none.
+function unlistedHead({ title, description }) {
+  const describe = (tag) => (description ? `\n  ${tag.replace('{}', description)}` : '');
+  return `  <meta name="robots" content="noindex, nofollow" />${describe('<meta name="description" content="{}" />')}
+  <link rel="icon" type="image/webp" href="${FAVICON}" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="${title}" />${describe('<meta property="og:description" content="{}" />')}`;
 }
 
 // Card links: plain text links, in data order.
@@ -117,7 +147,7 @@ function experienceCard(entry) {
       </div>`;
 }
 
-// Menu entries from content/ (the /extras/ listing, and any page with `nav:`).
+// Menu entries from content/extras/ (the /extras/ listing, and any page with `nav:`).
 // build.js fills this before rendering anything, so every page agrees on the menu.
 // Each entry: { key, path, order, label: {en, zh}, locales: {en, zh} }
 let navPages = [];
@@ -126,7 +156,7 @@ function setNavPages(pages) {
   navPages = pages;
 }
 
-// Whether content/ holds anything the homepage archive can list. When it is
+// Whether content/extras/ holds anything the homepage archive can list. When it is
 // empty the section is not rendered, so its menu anchor must go too — otherwise
 // the menu points at an id that does not exist on the page.
 let hasArchive = false;
@@ -244,7 +274,7 @@ function navbarMain(locale, site, { langToggle }) {
     .filter(([href]) => href !== '#archive' || hasArchive)
     .map(([href, order, label]) => ({ order, href, label }));
 
-  // Only the homepage's own sections. Everything under content/ is reachable
+  // Only the homepage's own sections. Everything under content/extras/ is reachable
   // through #archive, so it is not repeated here; the sub-page menu
   // (navbarDefault) carries the real /extras/ links instead.
   const rows = builtIn.sort((a, b) => a.order - b.order);
@@ -289,23 +319,27 @@ function langToggleFor(s, alternatePath) {
 }
 
 // `headHtml` replaces the SEO/social block for pages that should not be
-// indexed (404); everything else gets the full canonical/hreflang/OG set.
+// indexed (404), and `unlisted` swaps it for unlistedHead (/courses/);
+// everything else gets the full canonical/hreflang/OG set.
 // `title` is the page's bare name; every tab and social card reads
 // "<title> | <site name>", built here and nowhere else.
-function page({ locale, site, title: name, description, canonicalPath, alternatePath, ogImage, nav, extraHead, headHtml, body, monolingual = false }) {
+function page({ locale, site, title: name, description, canonicalPath, alternatePath, ogImage, nav, extraHead, headHtml, body, monolingual = false, unlisted = false }) {
   const s = site[locale];
   const title = `${name} | ${s.footer.name}`;
+  const seoHead = unlisted
+    ? unlistedHead({ title, description })
+    : head({ locale, s, title, description, canonicalPath, alternatePath, ogImage, monolingual });
   return `<!DOCTYPE html>
 <html lang="${s.htmlLang}">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>${title}</title>
-${headHtml || head({ locale, s, title, description, canonicalPath, alternatePath, ogImage, monolingual })}
+${headHtml || seoHead}
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Silkscreen:wght@400;700&family=Space+Grotesk:wght@500;600;700&display=swap" />
-  <link rel="stylesheet" href="/style.css" />${extraHead ? `\n${extraHead}` : ''}
+  <link rel="stylesheet" href="${STYLE_URL}" />${extraHead ? `\n${extraHead}` : ''}
 </head>
 <body>
 
@@ -317,7 +351,7 @@ ${body}
 ${footerHtml(locale, site)}
   </div>
 
-  <script src="/script.js"></script>
+  <script src="${SCRIPT_URL}"></script>
 </body>
 </html>
 `;
@@ -331,7 +365,7 @@ function linkLocaleFor(bodies, locale) {
   return bodies.zh ? 'zh' : null;
 }
 
-// Everything under content/, newest first, as the homepage strip and the
+// Everything under content/extras/, newest first, as the homepage strip and the
 // /extras/ listing both show it. In a folder with `date: hidden` the date
 // only sorts — no view prints it. Untranslated items still appear, pointing at
 // the language they exist in, rather than being hidden from one locale.
@@ -900,6 +934,25 @@ function extrasBackBar(extras, locale, site) {
   return backBar(site, locale, extrasHref(extras, locale), extras.label[locale]);
 }
 
+// The ruled list of whole-row links on /extras/ and the /courses/ pages.
+// Each row: { href, label, title, summary }; label and summary may be empty.
+function entryList(rows) {
+  const html = rows
+    .map(({ href, label, title, summary }) => {
+      const kicker = label ? `\n            <span class="entry-date">${label}</span>` : '';
+      const line = summary ? `\n            <p class="entry-summary">${summary}</p>` : '';
+      return `          <a class="entry-row reveal-target" href="${href}">${kicker}
+            <h3 class="entry-title">${title}</h3>${line}
+          </a>`;
+    })
+    .join('\n');
+  return `        <div class="entry-list">\n${html}\n        </div>`;
+}
+
+function emptyList(site, locale) {
+  return `        <p class="contact-intro">${site[locale].ui.collectionEmpty}</p>`;
+}
+
 // Shared chrome for every page under /extras/. Headers carry the bare name
 // (`title: Uses`), which lists show as-is; page() adds the site's name.
 function extrasPage({ locale, site, extras, slugPath, meta, bodies, current, exact, body }) {
@@ -925,25 +978,21 @@ function extrasPage({ locale, site, extras, slugPath, meta, bodies, current, exa
   });
 }
 
-// /extras/: content/index.html's own writing, then everything under content/,
-// newest first. Entries show their date; pages show only what they are.
+// /extras/: content/extras/index.html's own writing, then everything under
+// content/extras/, newest first. Entries show their date; pages show only
+// what they are.
 function extrasIndexPage(extras, locale, site) {
   const indexMeta = extras.index.metaByLocale[locale];
   const intro = extras.index.bodies[locale];
 
-  const rows = extrasItems(locale, extras)
-    .map((item) => {
-      const summary = item.summary ? `\n            <p class="entry-summary">${item.summary}</p>` : '';
-      return `          <a class="entry-row reveal-target" href="${item.href}">
-            <span class="entry-date">${item.kind}${item.date ? ` &middot; ${item.date}` : ''}</span>
-            <h3 class="entry-title">${item.title}</h3>${summary}
-          </a>`;
-    })
-    .join('\n');
+  const rows = extrasItems(locale, extras).map((item) => ({
+    href: item.href,
+    label: `${item.kind}${item.date ? ` &middot; ${item.date}` : ''}`,
+    title: item.title,
+    summary: item.summary,
+  }));
 
-  const list = rows
-    ? `        <div class="entry-list">\n${rows}\n        </div>`
-    : `        <p class="contact-intro">${site[locale].ui.collectionEmpty}</p>`;
+  const list = rows.length ? entryList(rows) : emptyList(site, locale);
 
   return extrasPage({
     locale,
@@ -971,7 +1020,7 @@ ${intro ? `      <div class="entry-intro reveal-target">\n${intro}\n      </div>
   });
 }
 
-// Any item under content/<folder>/: back link, a hero naming the folder
+// Any item under content/extras/<folder>/: back link, a hero naming the folder
 // (Thoughts, Ideas…) with the title and, unless the folder hides it, the date
 // under it — then the body as an article. `width: wide` lifts the prose width
 // limit for cards and columns. With its own `nav:` the item is its own menu
@@ -1011,11 +1060,163 @@ ${item.bodies[locale]}
   });
 }
 
+// ---- content/individual/: English only, unlisted, outside the menu ----
+
+// Shared chrome for every page built from content/individual/. The
+// description is the first of `metas` to have one (its description, else its
+// summary), else `fallback`.
+function unlistedPage({ site, metas, fallback, title, extraHead, body }) {
+  const description = metas.map((m) => m.description || m.summary).find(Boolean) || fallback || '';
+  return page({
+    locale: 'en',
+    site,
+    title,
+    description,
+    unlisted: true,
+    nav: navbarDefault('en', site, { langToggle: null }),
+    extraHead,
+    body,
+  });
+}
+
+// The hero every unlisted page opens with. `sub` is the line under the title.
+function unlistedHero(eyebrow, title, sub) {
+  return `
+  <div class="page-hero">
+    <div class="container">
+      <div class="page-eyebrow">${eyebrow}</div>
+      <h1 class="page-title">${title}</h1>${sub ? `\n      <p class="page-date">${sub}</p>` : ''}
+    </div>
+  </div>
+`;
+}
+
+function unlistedIntro(body) {
+  return body ? `      <div class="entry-intro reveal-target">\n${body}\n      </div>\n\n` : '';
+}
+
+// /courses/: content/individual/courses/index's own writing, then every course.
+function coursesIndexPage(courses, site) {
+  const meta = courses.index.meta;
+  const rows = courses.list.map((course) => ({
+    href: `/${course.out}/`,
+    label: [course.name, course.meta.term].filter(Boolean).join(' &middot; '),
+    title: course.meta.title,
+    summary: course.meta.summary,
+  }));
+  return unlistedPage({
+    site,
+    metas: [meta],
+    title: meta.title,
+    body: `${unlistedHero(meta.eyebrow || '// Courses', meta.heading || courses.label)}
+  <section class="section">
+    <div class="container">
+${unlistedIntro(courses.index.body)}${rows.length ? entryList(rows) : emptyList(site, 'en')}
+    </div>
+  </section>
+`,
+  });
+}
+
+// A section's own page (/<name>/, or a course's /courses/<course>/): its intro,
+// then its pages, grouped under their `group:` headings. Pages without a group
+// come first, with no heading; then the groups its `groups:` names, in that
+// order; then any other group, in the order of its first page. A section with
+// no pages is just its intro; "Nothing here yet" only when it has neither.
+// `section` comes from readSection in build/build.js.
+function sectionPage(section, site) {
+  const declared = (section.meta.groups || '').split(',').map((g) => g.trim()).filter(Boolean);
+  const groups = new Map(['', ...declared].map((name) => [name, []]));
+  for (const item of section.pages) {
+    const name = item.meta.group || '';
+    if (!groups.has(name)) groups.set(name, []);
+    groups.get(name).push({
+      href: `/${section.out}/${item.slug}/`,
+      title: item.meta.title,
+      summary: item.meta.summary,
+    });
+  }
+  const lists = [...groups]
+    .filter(([, rows]) => rows.length)
+    .map(([name, rows]) => `${name ? `      <h2 class="course-group reveal-target">${name}</h2>\n` : ''}${entryList(rows)}`)
+    .join('\n\n');
+  const back = section.back ? backBar(site, 'en', section.back.href, section.back.name) : '';
+
+  return unlistedPage({
+    site,
+    metas: [section.meta],
+    fallback: section.fallbackDescription,
+    title: section.tabTitle,
+    body: `${back}${unlistedHero(section.eyebrow, section.meta.title, section.sub)}
+  <section class="section">
+    <div class="container">
+${unlistedIntro(section.body)}${lists || (section.body ? '' : emptyList(site, 'en'))}
+    </div>
+  </section>
+`,
+  });
+}
+
+// One page of a section: practice sets, exam reviews, notes… Back to the
+// section, its name (and the page's group) above the title, then the body as
+// an article. On a course's pages, course-copy.js adds "Copy page" above it
+// and "Copy question" above each folded answer, for pasting into Claude;
+// data-course names the course there.
+function sectionItemPage(section, item, site) {
+  const meta = item.meta;
+  const bodyClass = meta.width === 'wide' ? 'entry-body entry-body-wide' : 'entry-body';
+  const copy = section.course ? ` data-course="${section.course}"` : '';
+  return unlistedPage({
+    site,
+    metas: [meta, section.meta],
+    fallback: section.fallbackDescription,
+    title: `${meta.title} &middot; ${section.name}`,
+    extraHead: section.course ? `  <script type="module" src="${COPY_URL}"></script>` : '',
+    body: `${backBar(site, 'en', `/${section.out}/`, section.name)}${unlistedHero(
+      meta.group ? `${section.name} &middot; ${meta.group}` : section.name,
+      meta.title
+    )}
+  <section class="section">
+    <div class="container">
+      <article class="${bodyClass} reveal-target"${copy}>
+${item.body}
+      </article>
+    </div>
+  </section>
+`,
+  });
+}
+
+// A page of its own straight in content/individual/ (uses.md -> /uses/): the
+// title and the body as an article, with no list and nothing to go back to.
+function singlePage(item, site) {
+  const meta = item.meta;
+  const bodyClass = meta.width === 'wide' ? 'entry-body entry-body-wide' : 'entry-body';
+  return unlistedPage({
+    site,
+    metas: [meta],
+    title: meta.title,
+    body: `${unlistedHero(meta.eyebrow || `// ${item.slug}`, meta.title)}
+  <section class="section">
+    <div class="container">
+      <article class="${bodyClass} reveal-target">
+${item.body}
+      </article>
+    </div>
+  </section>
+`,
+  });
+}
+
 module.exports = {
   setNavPages,
   setHasArchive,
   extrasIndexPage,
   extrasItemPage,
+  coursesIndexPage,
+  sectionPage,
+  sectionItemPage,
+  singlePage,
   homePage,
   aboutPage,
   projectsListPage,

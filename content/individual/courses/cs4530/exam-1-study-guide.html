@@ -1,0 +1,737 @@
+<!-- title: Exam 1 复习指南
+     group: Review
+     toc: 目录
+     summary: 五道大题逐一对应 Module 1–13 和 IP1–IP3：概念、对比表、常见错误，最后是练习题和笔记纸清单。 -->
+
+<p>内容来自 Module 1–13 的 learning objectives、slides 和 in-class activities，以及 IP1–IP3 的作业说明。每一节先讲概念，再列容易答错的地方。第 9 节是按考试题型写的练习题，参考答案折叠在下面：先在作答框里写自己的答案，再用 <strong>Copy question</strong> 连同答案一起复制给 Claude 批改。</p>
+
+<h2 id="format">考什么</h2>
+
+<table>
+<thead><tr><th>项目</th><th>内容</th></tr></thead>
+<tbody>
+<tr><td>时长与范围</td><td>约 90 分钟，覆盖到 Module 13（Security）</td></tr>
+<tr><td>题型</td><td>以 free response 为主，每题答 1–4 句。可能有最长约 500 字的 scenario 题，问某个概念和题目里的产品、团队目标有什么关系。会给代码片段让你解释、提改进，但不会要求写代码。很少有选择题</td></tr>
+<tr><td>可带</td><td>一张 8.5″×11″ 双面手写 crib sheet</td></tr>
+<tr><td>老师建议复习</td><td>所有 lecture slides（重点是每个 module 的 learning objectives）、IP1–IP3、in-class activities（答案在 Canvas 的 Miscellaneous Notes and Links 页）</td></tr>
+</tbody>
+</table>
+
+<table>
+<thead><tr><th>大题</th><th>对应 module</th><th>看哪节</th></tr></thead>
+<tbody>
+<tr><td>1. Design patterns/principles + Software lifecycle and process</td><td>M1, M2, M4, M7, M9, M11</td><td><a href="#process">2</a>、<a href="#design">3</a></td></tr>
+<tr><td>2. Async</td><td>M8（M4 的 async repository 也相关）</td><td><a href="#async">4</a></td></tr>
+<tr><td>3. Testing</td><td>M2, M3, M10, M12</td><td><a href="#testing">5</a></td></tr>
+<tr><td>4. React</td><td>M5, M6</td><td><a href="#react">6</a></td></tr>
+<tr><td>5. Security</td><td>M13</td><td><a href="#security">7</a></td></tr>
+</tbody>
+</table>
+
+<div class="callout">
+<p class="callout-label">资料覆盖说明</p>
+<p>老师清单里的每一项都在课程资料里找到了，但下面几项讲得比较少，答题时按这里写的思路答即可：</p>
+<ul>
+  <li><strong>Scrum 角色</strong>（Product Owner、Scrum Master）slides 没讲，只讲了 Scrum 的流程和 artifacts。</li>
+  <li><strong>Vertical vs horizontal scaling、monolith</strong>：Fall 2026 的 M4 slides 没有，Spring 2026 的 M4 slides 有；microservices 的优缺点在 M11.2。</li>
+  <li><strong>Playwright</strong> 只出现在课程的 UI testing tutorial；<strong>testing async code</strong> 分散在 M8 和 Vitest tutorial；<strong>code review</strong> 在 M7、M12 各提了一点。</li>
+  <li><strong>Reconciliation</strong> 只有一张 slide，加上 list key 的例子；useEffect 依赖数组“只比较 reference”这条写在课程的 React tutorial 里。</li>
+  <li>M6、M9、M11 没有 activity 页面。</li>
+</ul>
+</div>
+
+<h2 id="process">Software lifecycle &amp; process</h2>
+
+<h3>User story 的结构</h3>
+<p>模板：<code>As a ⟨role⟩, I want ⟨capability⟩ so that I can ⟨benefit⟩.</code> 三个部分各有要求：</p>
+<table>
+<thead><tr><th>部分</th><th>要求</th><th>常见的坏例子</th></tr></thead>
+<tbody>
+<tr><td>Role（who）</td><td>真实用户的角色，比如 Canvas 里的 instructor、TA、student</td><td>“As a user”（太笼统）、“As a developer”、“As the server”</td></tr>
+<tr><td>Capability（what）</td><td>软件让这个角色能做的一件具体的事，用动词思考</td><td>写成一个产品或技术：“I want a React app with a database”</td></tr>
+<tr><td>Benefit（why）</td><td>对用户的价值；不服务这个价值的功能可能不该做</td><td>缺失，或者只是重复 capability：“so that it works”</td></tr>
+</tbody>
+</table>
+<p>好的 story 短到能写在一张卡片上，满足 <strong>INVEST+E</strong>：Independent、Negotiable、Valuable、Estimable、Small、Testable，再加 Ethical。User story 主要描述 functional requirements；performance、security、usability 这类 non-functional requirements 要另外列。</p>
+
+<h3>Conditions of satisfaction（CoS）</h3>
+<ul>
+  <li>每条 CoS 是一个<strong>从用户角度描述、可以测试</strong>的行为，在 story 内编号（1.1、1.2…），并且有优先级。</li>
+  <li>优先级：<strong>E（Essential）</strong>没有它产品就没用；<strong>D（Desirable）</strong>没有它不好用但还能用；<strong>X（Extension）</strong>可能超出这次的范围，留给下个版本。</li>
+  <li><strong>MVP</strong> = 选中的 stories 的所有 Essential CoS。一个 story 的 Essential CoS 都实现了，这个 story 就算完成。</li>
+  <li>同一个 story 可以有好几套合理的 CoS，补细节本身就是设计。否定式的 CoS 也可以有，比如“非管理员不能修改优先级（E）”。</li>
+</ul>
+
+<h3>从 CoS 到测试（M2）</h3>
+<p>CoS →（分析、和客户协商）→ testable behaviors →（设计、协商）→ executable tests →（写代码）→ working code。一条 CoS 常常拆成好几个行为，比如“添加学生”要求返回一个 ID，并且这个 ID 和已有的都不同。写测试的过程会暴露没说清楚的地方（例如用不存在的 ID 查成绩单该怎么办），这些要回去和客户协商，不能自己猜。</p>
+
+<h3>Agile vs Waterfall</h3>
+<table>
+<thead><tr><th></th><th>Waterfall</th><th>Agile</th></tr></thead>
+<tbody>
+<tr><td>Philosophy</td><td>一开始把计划做完整，按 requirements → design → implementation → test 顺序推进，不回头</td><td>一开始不可能知道所有事情，短周期迭代、小步持续发布。Agile Manifesto：individuals and interactions、working software、customer collaboration、responding to change 优先</td></tr>
+<tr><td>Risk management</td><td><strong>阻止变化</strong>来降低风险：计划固定，每个阶段内控制风险；理由是越晚发现的缺陷修起来越贵（指数增长）</td><td><strong>拥抱变化</strong>来降低风险：time-boxing，每个 sprint 结束重新评估，走错方向能很快发现</td></tr>
+<tr><td>谁负责 QA</td><td>每个阶段结束有正式的 QA 关卡，文档很重，按阶段分工</td><td><strong>所有人</strong>（collective ownership）：TDD、code review、CI/CD，持续检查 functional 和 non-functional 质量</td></tr>
+<tr><td>适合</td><td>寿命长、风险高、需要大量 QA 的项目（国防、航天）</td><td>需求不确定、要边做边学的产品</td></tr>
+</tbody>
+</table>
+
+<h3>Agile practices</h3>
+<ul>
+  <li><strong>Team sizes</strong>：two-pizza team（两张披萨能喂饱的人数），沟通负担小。<strong>Brooks’s Law</strong>：给已经延期的项目加人只会更晚，因为沟通链路随人数增长。自组织的团队比层级式管理效果好；product team 端到端负责一个功能。</li>
+  <li><strong>Sprint organization / Scrum</strong>：product backlog（stories 和 CoS，按优先级排序，持续更新）→ sprint planning（按优先级挑，拆成每个不超过一天的任务，用 T-shirt size 之类的相对大小估算）→ sprint backlog → daily scrum（不超过 15 分钟：做了什么、在做什么、卡在哪）→ increment → sprint review（看产品：demo 和交付的价值）→ retrospective（看流程：哪里可以改进）。Time-box 的意思是时间固定，范围调整。拿不准的工作先安排 “Sprint 0” 做调研和原型。</li>
+  <li><strong>Knowledge sharing</strong>：降低 bus factor（不能只有一个人懂某块代码）。Pair programming（driver + navigator）大约少 15% 缺陷，但要多花 15–100% 的工作量。Code review 除了找 bug，也在传播知识。同一件事给两个人以上讲过，就写成文档。</li>
+  <li><strong>YAGNI</strong>（You Aren’t Gonna Need It）：未来需要什么不确定，不要提前做推测性的功能。做错了要付开发和维护的成本；做对了但做早了，也会拖慢更重要的工作。YAGNI 不等于跳过设计或测试。</li>
+  <li><strong>HRT pillars</strong>：Humility（不以自己为中心，承认会犯错）、Respect（真心在乎队友和他们的工作）、Trust（相信别人能干好，放手让他们做）。Code review 时把“你写错了”改成“这段控制流我没看懂，用 X 模式会不会更清楚？”</li>
+  <li><strong>Blameless postmortem</strong>：惩罚个人会让大家隐瞒细节，根本原因永远修不好（blame spiral）。复盘时问：做了什么、看到了什么、原本预期什么、做了什么假设、时间线是怎样的；再列 went well / went wrong / got lucky，最后定 action items，每项有负责人和期限。Blameless 不等于没人负责，它针对的是系统里的原因。</li>
+</ul>
+
+<div class="callout callout-trap">
+<p class="callout-label">常见错误</p>
+<ul>
+  <li>Role 写成 “user”，capability 写成产品或技术，benefit 只是重复 capability。</li>
+  <li>CoS 不可测（“easy to use”）、写成实现细节（“uses PostgreSQL”）、或者没有编号和优先级。</li>
+  <li>以为 story 要所有 CoS 都做完才算完成：只需要 Essential 的。</li>
+  <li>说 “Waterfall 总是不好”：slides 明确给了它适合的场景。</li>
+  <li>以为 Agile 不做计划、不写文档：它只对近期工作做详细计划，文档写够用就好，对 QA 的要求反而更高。</li>
+  <li>以为加人能赶进度（Brooks’s Law），或者把 stand-up 当成向经理汇报的长会。</li>
+</ul>
+</div>
+
+<h2 id="design">Design patterns &amp; principles</h2>
+
+<h3>Web level：HTTP、REST、WebSocket</h3>
+<table>
+<thead><tr><th>方式</th><th>特点</th><th>适合</th></tr></thead>
+<tbody>
+<tr><td>HTTP</td><td>request/response 成对出现，总是由 client 发起，所以是 <strong>pull</strong></td><td>像函数调用一样的交互（RPC）</td></tr>
+<tr><td>REST</td><td>基于 HTTP 的一种 RPC 风格，<strong>stateless</strong>：server 不记得某个 client 之前做过什么</td><td>资源的增删改查；GameNite 的路由也常被叫作 REST API</td></tr>
+<tr><td>WebSocket</td><td>client 打开后一直保持的<strong>双向</strong>连接，server 可以主动 <strong>push</strong> 事件；client 之间不直接通信，都经过 server 转发</td><td>聊天、实时通知；只用 HTTP 的话只能轮询（polling），又慢又浪费</td></tr>
+</tbody>
+</table>
+
+<h3>Controller-Service-Repository</h3>
+<table>
+<thead><tr><th>层</th><th>负责</th><th>不知道</th></tr></thead>
+<tbody>
+<tr><td>Controller</td><td>和 client 通信：路由、用 Zod 校验请求、调用 service、返回响应。越薄越好</td><td>数据怎么存</td></tr>
+<tr><td>Service</td><td>业务逻辑（比如 GPA 怎么算）</td><td>client 怎么连接、数据怎么存</td></tr>
+<tr><td>Repository</td><td>唯一负责持久化的一层（Keyv、MongoDB、文件……）。很慢，所以方法返回 <code>Promise</code></td><td>业务规则</td></tr>
+</tbody>
+</table>
+<p>核心思想是 <strong>information hiding</strong>：可以换数据库而不动 service，service 可以单独测试。Async 会向上传染：调用了 async repository 的函数自己也必须是 async。</p>
+
+<h3>Scaling 与 microservices</h3>
+<ul>
+  <li><strong>Vertical scaling</strong>：换更大的机器，通常用在数据库上，迟早会碰到上限。</li>
+  <li><strong>Horizontal scaling</strong>：多跑几份 controller/service。能这样做是因为 C-S-R 让 service 不保存状态，状态都在 repository 里。</li>
+  <li><strong>Monolith</strong>（比如 GameNite）：一个程序、一个数据库，中小型系统更简单。</li>
+  <li><strong>Microservices</strong>：很多小服务，各自独立部署、扩展，可以用不同的语言和硬件（Netflix 有几百个）。代价是跨服务的数据一致性、service discovery、整体复杂度；系统足够复杂之后才划算。</li>
+</ul>
+
+<h3>Code level：style guide、cognitive load、五条原则</h3>
+<p>开发者大约 70% 的时间在读、理解代码。短期记忆只能装大约 7±2 个 “chunk”；好的命名、一致的风格和短小的函数能让读者把代码组成更大的 chunk，降低 <strong>cognitive load</strong>。Style guide 的价值在于<strong>一致</strong>，用哪一套反而不重要；让 ESLint 和自动缩进来强制执行（缩进不对会让人误以为某行在 <code>if</code> 里面）。</p>
+<p>课程的 <strong>Five Principles</strong>（不是 SOLID）：</p>
+<table>
+<thead><tr><th>原则</th><th>意思</th><th>违反的例子</th></tr></thead>
+<tbody>
+<tr><td>1. Use names and indentation wisely</td><td>名字要说明意思；返回值的函数用名词（<code>c.diameter()</code>），动作用动词（<code>addItem</code>）；相似的名字行为要一致</td><td>变量叫 <code>t</code>、<code>d</code>、<code>r</code>；有的 <code>get…</code> 会 throw，有的不会</td></tr>
+<tr><td>2. Make your data mean something</td><td>选好要表示的信息和表示方式，并用名字、类型、注释写清楚怎么解读</td><td><code>BoundingBox {x, y, width, height}</code> 不说明 (x, y) 是中心还是角、单位是什么</td></tr>
+<tr><td>3. One method, one job</td><td>一个函数（类）只做一件事，也就是 Single Responsibility</td><td>一个函数既算价格又写数据库又发邮件</td></tr>
+<tr><td>4. Don’t Repeat Yourself</td><td>多处用到的值起个名字；重复的步骤写成函数，差异变成参数（single point of control）</td><td>几乎一样但有细微差别的复制粘贴代码（near-miss clones）</td></tr>
+<tr><td>5. Identify and use good abstractions</td><td>从问题描述里找出抽象，用类型表示，并写下不变量</td><td>magic number <code>1.06</code>；一长串硬编码的 if 税率表</td></tr>
+</tbody>
+</table>
+
+<h3>Interaction level</h3>
+<ul>
+  <li><strong>Pull（demand-pull）</strong>：consumer 需要时去问 producer（<code>clock.currentTime()</code>）。简单，但大量频繁轮询会压垮 producer。</li>
+  <li><strong>Push（observer / listener / pub-sub）</strong>：producer 保存 listener 列表，数据变化时通知所有人；consumer 用 <code>addListener</code> 注册。<strong>判断规则</strong>：数据变得慢、被要得勤 → push；数据变得比需要的快 → pull。</li>
+  <li><strong>Callback / delegate</strong>：把一个函数交给 producer，让它以后调用。React 的 <code>onClick</code> 就是：浏览器是 producer，你的代码是 consumer。</li>
+  <li><strong>Dependency injection</strong>：构造函数接收一个接口（比如任何 <code>IPullingClock</code>），而不是自己 new 具体实现，方便替换和测试。</li>
+  <li><strong>Singleton</strong>：全系统只有一个实例。课程的写法：class 不 export；模块里有个初始为 <code>null</code> 的变量；export 一个 <code>instance()</code> 函数，第一次调用时创建，之后都返回同一个。代价是相当于全局状态，测试之间不够独立。</li>
+  <li><strong>First-time-through switch</strong>：“还没创建就创建”的那个判断，用于延迟、只做一次的初始化（项目里每个 repository 第一次访问时才建 Keyv store）。</li>
+</ul>
+
+<h3>Architecture level</h3>
+<table>
+<thead><tr><th>架构</th><th>核心想法</th><th>例子 / 取舍</th></tr></thead>
+<tbody>
+<tr><td>Anarchic</td><td>没有整体结构（big ball of mud）</td><td>一个人的短期项目可以；多人或要长期维护就很痛苦</td></tr>
+<tr><td>Layered / Tiered</td><td>每层一个职责，只调用下层（向上用 callback）；分在不同机器上就叫 tier</td><td>OS kernel、三层 web app、C-S-R；需要定义清楚的接口</td></tr>
+<tr><td>Pipeline</td><td>模块按处理顺序串起来，用 push、pull 或队列连接</td><td>编译器、Unix pipe、Express middleware；适合直线式处理</td></tr>
+<tr><td>Event-driven</td><td>单元有 inbox/outbox，用异步消息队列或 observer 连接，流程可以分叉</td><td>电商下单、IoT；解耦，但端到端不好追踪</td></tr>
+<tr><td>Plug-in / Microkernel</td><td>小核心加扩展点（activation events、host API、contribution points）</td><td>IDE、浏览器、游戏引擎；扩展性强</td></tr>
+<tr><td>Microservices</td><td>许多可独立替换、部署的小服务，通常用 HTTP/REST 通信</td><td>Netflix；见上面的取舍</td></tr>
+</tbody>
+</table>
+
+<div class="callout callout-trap">
+<p class="callout-label">常见错误</p>
+<ul>
+  <li>Five Principles 写成 SOLID。可以补一句 one method/one job 就是 SRP。</li>
+  <li>把 REST 和 HTTP 当成一回事；以为 WebSocket 让 client 之间直接通信。</li>
+  <li>业务逻辑写进 controller，或者 service 直接访问存储。</li>
+  <li>把 “stateless service” 理解成整个 app 没有状态：状态在 repository 里。</li>
+  <li>Vertical / horizontal 搞反；说 microservices 总是更好而不提代价；说 push 总比 pull 好。</li>
+  <li>Observer 的角色搞反：保存 listener 列表的是 producer（subject）。</li>
+  <li>把 singleton 说成“就是全局变量”，没提隐藏 class 和 accessor + first-time-through switch。</li>
+  <li>Pipeline（线性、固定顺序）和 event-driven（队列、多个 outbox、可分叉）混淆。</li>
+</ul>
+</div>
+
+<h2 id="async">Async</h2>
+
+<h3>目标：用 concurrency 掩盖 latency</h3>
+<p>CPU 大约 1 ns 执行一条指令，而网络、磁盘 IO 慢好几个数量级。与其干等，不如在等的时候做别的事，这就是 <strong>masking latency with concurrency</strong>。JS 靠两样东西做到：<strong>non-blocking IO</strong>（<code>fetch</code>、<code>setTimeout</code>、文件读写交给 Web APIs，返回 promise）和 <strong>cooperative multitasking</strong>（同一时间只跑一个任务，任务自己让出）。</p>
+
+<h3>async/await</h3>
+<ul>
+  <li><code>async</code> 函数总是返回 Promise（pending → fulfilled 或 rejected）。</li>
+  <li><code>await</code> 只暂停<strong>当前这个函数</strong>，把控制权还给调用者和 event loop，不会卡住整个程序。只能在 async 函数里用。</li>
+  <li>第一个 <code>await</code> 之前的代码是<strong>立刻同步执行</strong>的。</li>
+  <li>被 reject 的 promise 会让 <code>await</code> throw，用 <code>try/catch</code> 处理。</li>
+  <li>忘了 <code>await</code>（floating promise）拿到的是 Promise 对象本身，会打印出 <code>[object Promise]</code>；lint 会报。</li>
+</ul>
+
+<h3>Run-to-completion 与 critical section</h3>
+<p>JS 只有一个 call stack，一个任务开始了就跑到 stack 清空为止，<strong>不会被中途打断</strong>。函数只会在 <code>await</code>（或 <code>return</code>）处暂停，两个 await 之间的代码就是一个 critical section，别的代码插不进来。对比 Java 这类 preemptive threads：线程可以在任何地方被打断，还共享内存，到处都可能有 data race，需要锁。</p>
+<p>但 async 不会消除 race：一个“读 → 检查 → 写”的操作如果中间跨了 <code>await</code>，别的任务可以在那里插进来（Bank activity：两笔 $75 取款同时读到余额 $100，都通过检查，一共取走 $150）。修法是用 lock 把整个“读 → 检查 → 写”包成一个 critical section，并且在 <code>finally</code> 里释放锁。</p>
+
+<h3>Event loop：call stack、Web APIs、task queue</h3>
+<ol>
+  <li>同步代码在 call stack 上执行。</li>
+  <li>遇到 async 工作（timer、fetch）就交给 Web APIs，JS 继续往下执行。</li>
+  <li>Web API 的工作完成后，回调或 await 之后的代码进入队列。</li>
+  <li><strong>只有 call stack 空了</strong>，event loop 才从队列取下一个：先把 <strong>microtask queue</strong>（promise 的后续、await 之后的代码）清空，再取一个 <strong>macrotask</strong>（<code>setTimeout</code>、IO 回调）。</li>
+</ol>
+<p><strong><code>Promise.all</code></strong>：把 <code>Promise&lt;T&gt;[]</code> 变成 <code>Promise&lt;T[]&gt;</code>。几个互不依赖的请求一起发出去，总时间约等于最慢的那个（3 个 1 秒的请求依次 await 要约 3 秒，用 <code>Promise.all</code> 约 1 秒）。结果按<strong>传入的顺序</strong>返回，不是按完成顺序；任何一个 reject，整体就 reject。</p>
+
+<h3>例题：打印顺序</h3>
+<pre><code class="language-ts">const wait = (ms: number) =&gt; new Promise&lt;void&gt;(r =&gt; setTimeout(r, ms));
+async function load(name: string) {
+  console.log(`load start ${name}`);
+  await wait(100);
+  console.log(`load done ${name}`);
+}
+console.log('main start');
+setTimeout(() =&gt; console.log('timer 0ms'), 0);
+load('x');
+Promise.resolve().then(() =&gt; console.log('microtask'));
+console.log('main end');</code></pre>
+<p>按顺序写出打印结果，并用 call stack / Web APIs / queue 解释。</p>
+<details>
+<summary>Answer</summary>
+
+<p><code>main start</code> → <code>load start x</code> → <code>main end</code> → <code>microtask</code> → <code>timer 0ms</code> → <code>load done x</code></p>
+<p>The whole script runs to completion first: <code>load</code> runs synchronously up to its <code>await</code>, which hands a 100 ms timer to the Web APIs and suspends <code>load</code>. Once the stack is empty, the event loop drains the microtask queue (<code>microtask</code>), then takes one macrotask (the 0 ms timer). About 100 ms later the timer resolves and the rest of <code>load</code> runs as a microtask. A 0 ms timer is not “immediate”, and nothing interrupts synchronous code.</p>
+
+</details>
+
+<div class="callout callout-trap">
+<p class="callout-label">常见错误</p>
+<ul>
+  <li>说 <code>await</code> 会卡住整个程序：它只暂停当前函数。</li>
+  <li>以为 async 函数里的代码全都“晚点执行”：第一个 await 之前的部分立刻执行。</li>
+  <li>以为 <code>setTimeout(f, 0)</code> 马上执行：它要等同步代码和所有 microtask 跑完。</li>
+  <li>以为 async/await 能防止 race：它只保证两个 await 之间不被打断。</li>
+  <li>以为 <code>Promise.all</code> 按完成顺序返回结果。</li>
+  <li>把 concurrency 理解成多线程并行：JS 只有一个线程，是 IO 和计算重叠。</li>
+</ul>
+</div>
+
+<h2 id="testing">Testing</h2>
+
+<h3>TDD 与 Vitest</h3>
+<p><strong>TDD</strong>：从 CoS 写出测试，先让测试失败（red），再写刚好能通过的代码（green），然后 refactor，再加强测试，循环。测试定义了什么叫“做完”，写测试会逼你把问题想清楚，还会暴露需求里的歧义。局限：测试不可能规定所有输入和行为，大量按功能写的测试维护成本也高。</p>
+<table>
+<thead><tr><th>Vitest</th><th>要点</th></tr></thead>
+<tbody>
+<tr><td><code>describe</code> / <code>it</code> / <code>expect</code></td><td>test suite / 单个测试 / 断言</td></tr>
+<tr><td><code>toBe</code> vs <code>toEqual</code> vs <code>toStrictEqual</code></td><td>同一个对象或原始值相等 / 深比较内容 / 深比较且不放过 undefined 属性</td></tr>
+<tr><td><code>expect(() =&gt; f()).toThrowError()</code></td><td>必须把调用包在函数里，否则 throw 发生在 expect 之前</td></tr>
+<tr><td><code>beforeEach</code> / <code>afterEach</code></td><td>每个测试用新的 fixture（比如新数据库），测试之间互不影响</td></tr>
+<tr><td>AAA</td><td>Assemble（准备）、Act（执行）、Assess（断言）</td></tr>
+</tbody>
+</table>
+
+<h3>Test adequacy：测试够不够</h3>
+<ul>
+  <li>三个标准：输入够不够、执行到的代码够不够（<strong>coverage</strong>）、测试能不能抓到可能的 bug（<strong>mutation testing</strong>）。</li>
+  <li><strong>Contract 比 type 更能指导选输入</strong>：<code>number</code> 不排除 3.1、-8、NaN。Unit test 只需要满足前置条件的输入；但来自外部的输入（HTTP body）要当成 <code>unknown</code>，用 Zod 校验，并测试非法情况。</li>
+  <li>选输入：范围两端加中间，一定要试 0；同一个 equivalence class 选一个代表；搜索要试找到和找不到。</li>
+  <li><strong>Coverage</strong>：statement / line 最粗；<strong>branch</strong>（每个判断的两个结果都要走到）是业界常用标准；function 看每个函数是否被调用；path coverage（所有分支组合）实际做不到。</li>
+  <li><strong>100% coverage 不代表没有 bug</strong>：执行到不等于检查过。没有断言的测试也能贡献 coverage；某个特定分支组合才触发的 bug 也会漏掉。Coverage 的真正用处是找出你以为测了其实没测的代码。</li>
+  <li><strong>Mutation testing</strong>（Stryker）：自动生成有小改动的 mutant（比如 <code>&gt;=</code> 改成 <code>&gt;</code>）。测试没发现就是 <strong>survived</strong>，说明断言太弱，要补一个原版通过、mutant 失败的测试。有些 mutant 行为等价或只改了 contract 之外的行为（innocuous），为了杀它去断言精确的错误信息是 <strong>overspecification</strong>。</li>
+</ul>
+
+<h3>Test doubles：fake、mock、spy</h3>
+<table>
+<thead><tr><th>类型</th><th>是什么</th><th>Vitest</th></tr></thead>
+<tbody>
+<tr><td>Fake</td><td>手写的替身</td><td>不需要库，但费工、接口一改就要跟着改</td></tr>
+<tr><td>Mock</td><td>自动生成、会记录调用的替身</td><td><code>vi.fn()</code>（默认返回 undefined）、<code>mockReturnValue</code>、<code>mockResolvedValue</code>、<code>mockImplementation</code>；断言 <code>toHaveBeenCalledTimes</code>、<code>toHaveBeenCalledWith</code></td></tr>
+<tr><td>Spy</td><td>包住真实对象的方法，记录调用；除非覆盖，否则真实实现照常执行</td><td><code>vi.spyOn(obj, 'method')</code>，用 <code>mockRestore</code> 还原</td></tr>
+</tbody>
+</table>
+<p>用 test double 是为了替换不受控制的东西（网络、数据库、用户），并检查副作用（发了什么、存了什么）。<code>mockClear</code> 只清调用记录，<code>mockReset</code> 还会清掉实现，测试之间要重置，否则会出现测试顺序依赖。缺点：mock 编码的是你的假设，抓不到集成 bug；spy 让测试依赖实现细节，容易变脆。</p>
+
+<h3>测试的层级</h3>
+<table>
+<thead><tr><th>层级</th><th>问的问题</th><th>特点</th></tr></thead>
+<tbody>
+<tr><td>Unit</td><td>这个单元符合它的规格吗？</td><td>快、稳定、容易定位错误；用 test double 隔离依赖</td></tr>
+<tr><td>Integration</td><td>几个模块合起来能正常工作吗？</td><td>抓模块之间错误的假设，这是 mock 抓不到的</td></tr>
+<tr><td>E2E</td><td>真实的用户流程在真实浏览器里走得通吗？</td><td>最真实，但慢、容易 flaky、难定位；只覆盖最重要的流程</td></tr>
+<tr><td>Acceptance</td><td>客户满意吗？</td><td>黑盒、从用户角度，常写成 given/when/then</td></tr>
+</tbody>
+</table>
+<p>Google 的 <strong>test pyramid</strong>：约 80% unit、15% integration、5% E2E。反过来大部分靠手动和 GUI 测试叫 “ice-cream cone” anti-pattern。<strong>CD 不是一个测试层级</strong>，而是交付流程，在发布之后继续做 QA。</p>
+<p><strong>Flaky test</strong>（时过时不过）最常见的原因是 async wait（等某件事在超时内完成），其次是测试顺序依赖和并发。不要依赖时间和顺序，给足资源，分清是 flaky 还是真 bug。</p>
+<p><strong>Playwright</strong>：在真实浏览器里跑 UI/E2E 测试，同样是 AAA。按用户的方式找元素（<code>getByRole</code>、<code>getByLabel</code>、<code>getByText</code>），不用 CSS 选择器；操作会自动等待元素可用；用会重试的断言 <code>await expect(locator).toBeVisible()</code> 和 <code>waitForURL</code>，不要写固定的 sleep。</p>
+
+<h3>Testing async code</h3>
+<ul>
+  <li>测试函数本身写成 <code>async</code>，并且 <code>await</code> 被测的调用或断言：<code>await expect(p).resolves.toEqual(v)</code>、<code>await expect(p).rejects.toThrowError()</code>。</li>
+  <li>不 await 的话，测试可能在 promise 落定之前就结束，于是“假通过”。<code>expect.assertions(n)</code> 能确认断言真的执行了。</li>
+  <li><code>expect(() =&gt; asyncFn()).toThrow()</code> 是错的：async 函数是 reject 它的 promise，不会同步 throw。</li>
+  <li>用 <code>mockResolvedValue</code> 代替真实的异步依赖。</li>
+</ul>
+
+<h3>Code review 与 CI/CD</h3>
+<ul>
+  <li><strong>Code review</strong>：找出测试抓不到的设计、可读性和逻辑问题，同时传播知识、维持团队规范。它和自动化测试互补，不能互相替代：lint 和测试交给 CI，reviewer 专注于设计。</li>
+  <li><strong>CI</strong>：每次提交或 PR 都自动构建、跑测试，给每个开发者全局反馈。流程：develop（code review）→ build（style check、编译、unit tests）→ test（integration、load tests）→ deploy（E2E）→ monitor（KPI）。好的 CI 要快、确定性强，不能让 build 一直坏着；每次只放一个改动，出错时才能定位是谁。</li>
+  <li><strong>CD</strong>：小批量、频繁、分阶段发布（dev → test → staging/dogfood → production），配合监控和回滚。手段：canary（先给 5% 用户）、A/B test、feature flag、自动回滚。CD 不等于“马上上线”。</li>
+  <li>重 TDD 的团队维护大量测试；以 CD 为中心的团队测试少一些，靠监控和 canary 在发布后把关。Knight Capital 手动部署漏了一台服务器，45 分钟亏损约 4.4 亿美元：部署要自动化，并且要监控。</li>
+</ul>
+
+<div class="callout callout-trap">
+<p class="callout-label">常见错误</p>
+<ul>
+  <li>“100% coverage 就说明测试足够”；line coverage 和 branch coverage 混为一谈。</li>
+  <li>以为每个 survived mutant 都是 bug。</li>
+  <li>以为 <code>vi.spyOn</code> 会自动替换实现（不会，真实方法照常执行）；测试之间不重置 mock。</li>
+  <li>async 测试没写 <code>async</code>/<code>await</code>；用固定 sleep 等待 UI。</li>
+  <li>觉得 E2E 测试越多越好；把 snapshot test 当成“正确性”测试（它只检查“和上次一样”）。</li>
+  <li>CI 和 CD 混淆；把 TDD 理解成“先写完所有测试再写所有代码”。</li>
+</ul>
+</div>
+
+<h2 id="react">React</h2>
+
+<h3>Component、props、state</h3>
+<p>Component 把一个界面部件的 state、逻辑和呈现放在一起，是一个返回 JSX 的函数；整个 app 是一棵 component 树。State 变了，React 就重新 render，让页面和 state 保持一致。</p>
+<table>
+<thead><tr><th></th><th>Props</th><th>State</th></tr></thead>
+<tbody>
+<tr><td>从哪来</td><td>父组件传进来</td><td>组件自己用 <code>useState</code> 创建</td></tr>
+<tr><td>能不能改</td><td><strong>只读</strong>，子组件不能改</td><td>只能通过 setter 改</td></tr>
+<tr><td>变化时</td><td>父组件用新 props 重新创建子组件时 re-render</td><td>state 变化时 re-render；父组件 re-render 时子组件保留自己的 state</td></tr>
+</tbody>
+</table>
+<ul>
+  <li><strong>Setter 是请求，不是赋值</strong>：React 收集这些请求，统一应用后再 re-render，所以新值要到下一次 render 才看得到。同一个 handler 里调用三次 <code>setCount(count + 1)</code>，三次读到的都是同一个旧值，结果只加 1；用 <code>setCount(c =&gt; c + 1)</code> 才加 3。</li>
+  <li><strong>父子通信</strong>：往下传 props；往上是父组件把 handler 当作 prop 传下去，子组件调用它。几个子组件共享的 state 放在共同的父组件里。</li>
+  <li><strong>State 要当作不可变</strong>：改了对象再用同一个 reference 调 setter，React 认为没变，不会 re-render。新增用 <code>[...arr, x]</code>，删除用 <code>filter</code>，替换用 <code>map</code>，排序前先复制；对象用 <code>{...obj, y: 10}</code>。</li>
+  <li><strong>Controlled input</strong>：<code>value={title}</code> 加 <code>onChange={e =&gt; setTitle(e.target.value)}</code>。</li>
+</ul>
+
+<h3>Reconciliation 与 key</h3>
+<p>直接操作 DOM 很慢，所以 React 把新的 render 结果和上一次比较，只更新变了的部分，这叫 reconciliation。列表靠 <code>key</code> 认出哪个元素对应哪个子组件，所以 key 必须是<strong>稳定、唯一的 id</strong>。用数组 index 当 key 时，删掉第一项后剩下的元素 key 都变了，React 会以为删的是最后一个，把第一个组件实例（连同它的旧 state）留给了别的数据。</p>
+
+<h3>useEffect</h3>
+<p>用来让组件和<strong>外部系统</strong>保持同步：定时器、订阅（socket）、fetch、外部库。</p>
+<table>
+<thead><tr><th>依赖数组</th><th>effect 什么时候运行</th></tr></thead>
+<tbody>
+<tr><td><code>[]</code></td><td>只在第一次 render 之后（开发模式的 StrictMode 会故意多跑一遍 mount）</td></tr>
+<tr><td>不写</td><td>每次 render 之后</td></tr>
+<tr><td><code>[a, b]</code></td><td><code>a</code> 或 <code>b</code> 变了之后。比较的是 <strong>reference</strong>，对象内部的字段变了但还是同一个对象，就不算变化</td></tr>
+</tbody>
+</table>
+<p><strong>Cleanup</strong>（effect 返回的函数）在两个时候运行：<strong>同一个 effect 下一次运行之前</strong>，以及<strong>组件 unmount 时</strong>。<code>[]</code> 的 effect 只有 unmount 时才会 cleanup。用它取消订阅、清定时器、关闭 socket，否则 listener 会越积越多（内存泄漏），还会更新已经卸载的组件。</p>
+
+<h3>Custom hooks 与 rules of hooks</h3>
+<p>Custom hook 是用 <code>useState</code>、<code>useEffect</code> 组合出来的 <code>useX</code> 函数，作用是<strong>把业务逻辑和显示逻辑分开</strong>：组件只负责显示，逻辑可以复用、单独测试。Hook 的 state 属于调用它的组件，hook 里的 setter 会让那个组件 re-render。例子：<code>useClock(listener)</code> 隐藏订阅和取消订阅；<code>useToDoItemList()</code> 返回 <code>{todoList, handleAdd, handleDelete}</code>。</p>
+<p><strong>Rules of hooks</strong>：只在组件或 custom hook 的顶层调用 hook，不能放在 if、循环或嵌套函数里，因为 React 靠调用顺序区分不同的 hook。Lint 规则 <code>react-hooks/exhaustive-deps</code> 会检查 effect 里用到的变量是否都写进了依赖数组。</p>
+
+<h3>例题：停在 1 的秒表</h3>
+<pre><code class="language-tsx">function Stopwatch() {
+  const [seconds, setSeconds] = useState(0);
+  useEffect(() =&gt; {
+    const id = setInterval(() =&gt; {
+      setSeconds(seconds + 1);
+    }, 1000);
+    return () =&gt; clearInterval(id);
+  }, []);
+  return &lt;p&gt;{seconds} s&lt;/p&gt;;
+}</code></pre>
+<p>页面显示 1 之后就不动了。为什么？怎么修？</p>
+<details>
+<summary>Answer</summary>
+
+<p>With <code>[]</code> the effect runs only once, so the interval callback closes over the first render’s <code>seconds</code>, which is 0: every tick requests <code>setSeconds(0 + 1)</code>. Fix it with the updater form, <code>setSeconds(s =&gt; s + 1)</code>, which always gets the current state, so the effect can keep <code>[]</code>. Adding <code>seconds</code> to the dependency array also works but tears down and recreates the interval every second; either way the cleanup clears the interval on unmount.</p>
+
+</details>
+
+<div class="callout callout-trap">
+<p class="callout-label">常见错误</p>
+<ul>
+  <li>调用 setter 之后马上读 state，以为已经是新值；在 timer、listener 的闭包里用 <code>setX(x + 1)</code>。</li>
+  <li>直接改 state（<code>push</code>、<code>sort</code>、<code>obj.f = …</code>）再用同一个 reference 调 setter。</li>
+  <li>以为依赖数组能发现对象内部的变化；把 <code>[]</code> 和不写搞混。</li>
+  <li>以为 cleanup 只在 unmount 时运行。</li>
+  <li>子组件试图修改 props；用 index 当 key；在条件或循环里调用 hook。</li>
+</ul>
+</div>
+
+<h2 id="security">Security</h2>
+
+<h3>基本词汇</h3>
+<table>
+<thead><tr><th>术语</th><th>意思</th></tr></thead>
+<tbody>
+<tr><td>CIA</td><td>Confidentiality（不泄露给不该看的人）、Integrity（代码和数据不被篡改）、Availability（系统可用）</td></tr>
+<tr><td>Asset</td><td>安全需求要保护的、有价值的东西</td></tr>
+<tr><td>Threat</td><td>可能破坏安全需求的事件或情况</td></tr>
+<tr><td>Vulnerability</td><td>设计、实现或流程上的缺陷，被利用就会出问题</td></tr>
+<tr><td>Exploit / Attack</td><td>利用漏洞的技术 / threat 真正发生的事件</td></tr>
+<tr><td>Attack surface</td><td>系统里可能有漏洞、攻击者能接触到的部分</td></tr>
+<tr><td>Mitigation</td><td>让攻击更难、更贵或收益更低的措施</td></tr>
+<tr><td>Threat model</td><td>你假设攻击者能做什么。简单 web 模型：攻击者能用任意数据调用任意 API、发任意 websocket 消息、看到 server 发出的所有消息</td></tr>
+<tr><td>Trust boundary</td><td>用户控制的代码（前端）和我们控制的代码（后端）之间的边界</td></tr>
+</tbody>
+</table>
+<p>三条原则：<strong>缩小 attack surface</strong>（去掉不需要的 API 和依赖、认证 API 用户）；<strong>don’t roll your own</strong>（用成熟的加密和安全库）；<strong>every data flow is an attack surface</strong>（每一条数据流都是潜在漏洞）。安全不是免费的：按风险和成本选 mitigation，不同的系统需要不同的 threat model。</p>
+
+<h3>五类常见漏洞</h3>
+<table>
+<thead><tr><th>漏洞</th><th>怎么发生</th><th>怎么防</th></tr></thead>
+<tbody>
+<tr><td>代码跑在不可信的环境（client）</td><td>密码检查、隐藏成绩这类逻辑写在前端 JS 里，用户可以直接看、直接改（Gradescope 的例子）</td><td>逻辑和秘密放在后端；前端检查只算方便用户</td></tr>
+<tr><td>不可信的输入（injection）</td><td>用户数据拼进查询或命令：SQL injection、XSS、NoSQL injection（<code>username[$ne]=</code>）；Equifax</td><td>用 Zod 之类的库校验和清洗，不自己手写；不用 <code>eval()</code>；避免不安全的查询语言</td></tr>
+<tr><td>认证做得差（密码管理）</td><td>明文存密码；只做 hash 也不够：大家会重复用密码，攻击者用别处泄露的密码算 hash 对照（rainbow table）</td><td>每个用户一个随机 salt，存 hash(password + salt)；用成熟的库；2FA</td></tr>
+<tr><td>Supply chain</td><td>依赖被篡改（eslint-scope：维护者密码复用且没开 2FA，恶意版本被没用 lockfile 的项目自动安装）</td><td>lockfile、审查依赖和更新、签名、2FA、去掉不需要的依赖</td></tr>
+<tr><td>不执行安全策略（人的问题）</td><td>约一半开发者会绕过 secret-detection 工具的警告</td><td>只靠工具不够，需要管理、文化和流程</td></tr>
+</tbody>
+</table>
+
+<h3>STRIDE</h3>
+<table>
+<thead><tr><th>字母</th><th>威胁</th><th>破坏的性质</th><th>Web app 的例子</th></tr></thead>
+<tbody>
+<tr><td>S</td><td>Spoofing</td><td>Authentication</td><td>偷 session cookie（没设 httpOnly）、CSRF，冒充别的用户</td></tr>
+<tr><td>T</td><td>Tampering</td><td>Integrity</td><td>在名字或聊天消息里注入 script（XSS）；改 payload 走一步非法棋</td></tr>
+<tr><td>R</td><td>Repudiation</td><td>Non-repudiation</td><td>没有 audit log，用户删了帖子或发了骚扰消息却无法证明是谁</td></tr>
+<tr><td>I</td><td>Information disclosure</td><td>Confidentiality</td><td>API 返回了 password hash（IP1）；NoSQL injection 导出所有用户</td></tr>
+<tr><td>D</td><td>Denial of service</td><td>Availability</td><td>bot 刷爆接口；一个格式错误的 ID 就让 server 崩溃</td></tr>
+<tr><td>E</td><td>Elevation of privilege</td><td>Authorization</td><td>server 相信请求 body 里的 userId 或 role，普通用户把自己变成 admin</td></tr>
+</tbody>
+</table>
+<p><strong>把安全放进 Agile</strong>：画出数据流 → 对每条数据流问“会出什么错” → 和 stakeholders 一起从最小的功能切片开始 → 挑大约 3 个最重要的威胁修掉，再重复 → 安全需求写成 given/when/then 的 story，纳入日常 QA。STRIDE activity 的结论：永远不信任 client 发来的东西；身份和角色从 server 端已认证的 session 取；校验每个输入的类型和结构；错误处理和限流也属于安全；日志提供 accountability。</p>
+
+<div class="callout callout-trap">
+<p class="callout-label">常见错误</p>
+<ul>
+  <li>Threat、vulnerability、exploit、attack、mitigation 混用。</li>
+  <li>Authentication（你是谁，S）和 authorization（你能做什么，E）混淆。</li>
+  <li>把 repudiation 当成冒充：它是“没有可靠记录，用户能否认自己做过”。</li>
+  <li>以为 DoS 只是流量攻击：一个畸形输入让 server 崩溃也算。</li>
+  <li>以为前端校验、TypeScript 类型能保护运行时：都不能，要在 server 端用 Zod 校验。</li>
+  <li>以为只做 hash 就够安全地存密码；自己手写 sanitizer 或加密。</li>
+</ul>
+</div>
+
+<h2 id="ips">IP1–IP3 回顾</h2>
+<p>三个 IP 都在 <strong>GameNite</strong> 上做：Express + TypeScript 的 server、React + Vite 的 client，加一个放共享类型和 Zod schema 的 shared 文件夹；用 CI（Prettier、TypeScript、ESLint、测试）评分。下面只列练到的概念，不涉及具体答案。</p>
+<table>
+<thead><tr><th>IP</th><th>做了什么</th><th>练到的概念</th><th>可能考的点</th></tr></thead>
+<tbody>
+<tr><td>IP1</td><td>实现 Connect4 逻辑；给 Tic-Tac-Toe 写测试，做到 full branch coverage 并抓住 mutant；找出并修好 User API 泄露密码的问题；把认证数据从用户数据里拆出来；重构到 <code>auth.service.ts</code></td><td>TypeScript、HTTP 语义（GET 不能有副作用）、controller vs service、Zod 校验请求、Vitest、coverage 和 mutation、TDD、refactoring、information hiding</td><td>100% coverage 照样泄露密码；TypeScript 是 structural typing，多出来的字段能通过类型检查，类型在运行时也会被擦除，所以要显式构造安全的对象；好的测试要通过所有正确实现、不能过度规定</td></tr>
+<tr><td>IP2</td><td>聊天里的名字链接到用户主页；能看但不能改别人的主页；统一显示名字的方式；用 React 做 Checkers 前端；加上 king 和连吃，改动贯穿 shared types、Zod schema、server、测试和前端</td><td>Component、props 和 state、条件渲染、路由、复用组件、C-S-R、server 决定游戏规则、需求变了测试也要跟着改</td><td>什么时候拆组件；哪些该放 state、哪些从 props 算出来；前端只显示 server 算出的合法走法；对观战者禁用点击只是体验，不是安全</td></tr>
+<tr><td>IP3</td><td>用 Socket.io 推送“新游戏”通知（不准轮询）；用外部 URL 设置头像；写对应 CoS 的 Playwright E2E 测试；反思 AI 工具的使用</td><td>User story 和 CoS、push vs polling、custom hooks、effect 的订阅和 cleanup、跨页面的 session state、E2E 测试</td><td>为什么 push 比轮询好；effect 里订阅、cleanup 里取消，否则会重复注册 handler；state 放在哪一层；头像 URL 是不可信输入，要在 server 端校验</td></tr>
+</tbody>
+</table>
+
+<h2 id="practice">练习题</h2>
+<p>按考试题型写的题，参考答案是英文的 1–4 句。先在作答框里写，再点 <strong>Copy question</strong>，把题目、你的答案和参考答案一起粘贴给 Claude，请它批改并指出漏掉的点。</p>
+
+<h3>Q1 · Process：修改 user story</h3>
+<p>What is wrong with this user story, and how would you rewrite it? <em>“As a user, I want a React app with a leaderboard database so that it works.”</em></p>
+<details>
+<summary>Answer</summary>
+
+<p>“User” is a cop-out role, the capability names a product and technology rather than something a person does, and “so that it works” gives no user benefit. A better story: “As a competitive chess player, I want to compare my rating with my friends’ ratings so that I stay motivated to keep playing,” followed by numbered, prioritized CoS such as “1.1 I can see my friends ranked by rating (E).”</p>
+
+</details>
+
+<h3>Q2 · Process：Waterfall vs Agile</h3>
+<p>Compare how Waterfall and Agile manage risk, and who is responsible for quality in each.</p>
+<details>
+<summary>Answer</summary>
+
+<p>Waterfall reduces risk by preventing change: the plan is fixed up front and each phase ends with a formal, document-heavy QA gate, because defects cost exponentially more to fix in later phases. Agile reduces risk by embracing change: work is time-boxed into short sprints with small, continuous releases, so a wrong direction is caught early. In Agile, quality is everyone’s job (collective ownership) through TDD, code review and CI/CD.</p>
+
+</details>
+
+<h3>Q3 · Process：scenario</h3>
+<p>PayFast’s 12 developers all report to one manager, and only Dana understands the billing module. Two weeks before launch the team is behind, so the VP adds six contractors. On Friday, Dana’s rushed change takes billing down; at the all-hands the manager names Dana as the cause and requires sign-off on all her commits. Identify three problems and the course practices that address them.</p>
+<details>
+<summary>Answer</summary>
+
+<p>Billing has a bus factor of one; pair programming and code review would spread that knowledge. Adding contractors to a late project violates Brooks’s Law, since every new person adds communication links; small self-organizing teams and renegotiating scope would work better. Publicly blaming Dana will make engineers hide details, while a blameless postmortem (actions, observations, assumptions, timeline, action items with owners) would find the real cause, such as deploying without CI or review.</p>
+
+</details>
+
+<h3>Q4 · Process：YAGNI</h3>
+<p>A developer wants to spend this sprint building a generic plug-in system for future payment providers, although only Stripe is required. What do you advise?</p>
+<details>
+<summary>Answer</summary>
+
+<p>YAGNI: we don’t know which providers we will really need, and a speculative feature costs time to build, costs upkeep while unused, and delays higher-priority backlog items. Build the simplest design that meets the current CoS, protect it with tests, and refactor toward a plug-in system only when a second provider actually reaches the backlog.</p>
+
+</details>
+
+<h3>Q5 · Design：scenario</h3>
+<p>TutorMatch is a 4-person startup. Each Express route handler validates input, runs the matching algorithm and writes SQL directly. Students only see new messages after refreshing the page. During finals the single server is overloaded, and the CTO wants to split the app into 12 microservices right away. What do you recommend?</p>
+<details>
+<summary>Answer</summary>
+
+<p>First refactor to Controller-Service-Repository: controllers validate and translate HTTP, the service holds the matching logic, and only the repository touches the database, which hides information and makes the logic testable. Use WebSockets so the server pushes new messages instead of clients polling. Because the service then keeps no state of its own, it can be scaled horizontally by running more copies, with the database scaled vertically. Twelve microservices would add consistency, service discovery and operational complexity that a 4-person team doesn’t need yet.</p>
+
+</details>
+
+<h3>Q6 · Design：code review</h3>
+<pre><code class="language-ts">function handle(d: any) {
+  let r = 0;
+  for (const i of d.items) r += i.p * i.q;
+  r = r * 1.0625;
+  db.save(d.id, r);
+  emailUser(d.user, "Total: " + r);
+  return r;
+}</code></pre>
+<p>Which of the course’s design principles does this function violate, and how would you improve it?</p>
+<details>
+<summary>Answer</summary>
+
+<p>The names <code>handle</code>, <code>d</code>, <code>r</code>, <code>p</code>, <code>q</code> tell the reader nothing (names), and <code>any</code> with undocumented fields gives the data no stated meaning; define <code>Order</code>/<code>LineItem</code> types (meaningful data). It does four jobs — subtotal, tax, saving and emailing — so split it into separate functions, with saving in the repository (one method, one job). The magic number <code>1.0625</code> should become a named <code>SALES_TAX_RATE</code> (DRY / good abstractions).</p>
+
+</details>
+
+<h3>Q7 · Design：push vs pull</h3>
+<p>A campus shuttle tracker gets a new GPS fix every 30 seconds, and 2,000 phones want the location every second. Should the app push or pull? When would the other choice be right?</p>
+<details>
+<summary>Answer</summary>
+
+<p>Push: the data changes far more slowly than it is requested, so the tracker should keep a list of listeners and notify them on each update (Observer over WebSockets) instead of answering 2,000 polls per second. Pull is better when the data changes faster than anyone needs it, such as a sensor sampling 1,000 times a second behind a dashboard that is opened occasionally.</p>
+
+</details>
+
+<h3>Q8 · Design：architecture</h3>
+<p>Name the architecture pattern for each: (a) VS Code extensions; (b) <code>cat log | grep ERR | sort</code>; (c) an “order created” event that triggers payment, inventory and email units in parallel; (d) a weekend hackathon script.</p>
+<details>
+<summary>Answer</summary>
+
+<p>(a) Plug-in / microkernel: a small core with extension points. (b) Pipeline: stages in a fixed processing order. (c) Event-driven: units consume events from queues and emit their own, so the flow can branch. (d) Anarchic: fine for one developer on a short-lived project, painful once others join or the code must be maintained.</p>
+
+</details>
+
+<h3>Q9 · Design：singleton</h3>
+<p>How does the course implement a singleton in TypeScript, and what is one benefit and one cost?</p>
+<details>
+<summary>Answer</summary>
+
+<p>The class is not exported; an exported <code>instance()</code> function checks a module-level variable and creates the object the first time it is called (the first-time-through switch), then returns that same object every time. This guarantees one shared instance, such as one Keyv store per repository, created only when first needed. The cost is that it is effectively global state, so tests are less independent.</p>
+
+</details>
+
+<h3>Q10 · Async：太慢的 dashboard</h3>
+<p>A dashboard runs <code>const u = await getUser(); const p = await getPosts(); const f = await getFriends();</code>. Each call takes about one second and none depends on another. Why is it slow, and how would you fix it?</p>
+<details>
+<summary>Answer</summary>
+
+<p>Each <code>await</code> suspends the function until that response arrives, so the independent requests run one after another and take about 3 seconds. Start all three at once with <code>await Promise.all([getUser(), getPosts(), getFriends()])</code>: the requests overlap in the Web APIs, the total is about the slowest one (1 second), and the results come back in the listed order. This masks latency with concurrency.</p>
+
+</details>
+
+<h3>Q11 · Async：可能的输出</h3>
+<p><code>printA</code> awaits a random delay and then logs “A”. <code>printBC</code> awaits a random delay and then logs “B” and “C” with no <code>await</code> between them. Both run through <code>Promise.all</code>. Which outputs are possible, and would Java threads differ?</p>
+<details>
+<summary>Answer</summary>
+
+<p>Only ABC or BCA. B and C are in the same critical section, and JavaScript runs each task to completion without preemption, so nothing can print between them. With preemptive threads, as in Java, a thread could be interrupted between B and C, so BAC would also be possible.</p>
+
+</details>
+
+<h3>Q12 · Async：data race</h3>
+<p><code>withdraw</code> awaits a read of the balance, checks that it is large enough, then awaits a write of the new balance. Two $75 withdrawals against a $100 balance run through <code>Promise.all</code>, and both succeed. Explain and fix.</p>
+<details>
+<summary>Answer</summary>
+
+<p>Each withdrawal yields at its first <code>await</code>, so both read $100 before either writes, both pass the check, and $150 is paid out. Run-to-completion only protects code between awaits, and this read-check-write spans one. Wrap the whole read-check-write in a lock (releasing it in <code>finally</code>) so withdrawals on the same account are serialized; the second one then sees $25 and fails.</p>
+
+</details>
+
+<h3>Q13 · Async：floating promise</h3>
+<pre><code class="language-ts">async function main() {
+  const res = fakeRequest(32);
+  console.log(`returned: ${res}`);
+  console.log('done');
+}</code></pre>
+<p>What does this print, and what is wrong?</p>
+<details>
+<summary>Answer</summary>
+
+<p>It prints <code>returned: [object Promise]</code> and then <code>done</code> almost immediately; the request finishes later and its result is never used. <code>fakeRequest</code> returns a promise, and without <code>await</code> you log the promise object instead of its value. Fix: <code>const res = await fakeRequest(32);</code> — the no-floating-promises lint rule catches this.</p>
+
+</details>
+
+<h3>Q14 · Testing：coverage vs mutants</h3>
+<p>Your test suite has 100% line and branch coverage, but Stryker reports 5 surviving mutants. Your manager says testing is done. How do you respond?</p>
+<details>
+<summary>Answer</summary>
+
+<p>Coverage only shows that the code ran, not that the assertions would notice wrong behavior, so surviving mutants mean the tests are too weak. For each mutant that is a real bug, add a test the original passes and the mutant fails, such as a boundary case for a <code>&gt;=</code>-to-<code>&gt;</code> change. If a mutant is innocuous (equivalent, or only changes behavior outside the contract), document why instead of overspecifying the tests.</p>
+
+</details>
+
+<h3>Q15 · Testing：太弱的测试</h3>
+<pre><code class="language-ts">it('rejects bad auth', async () =&gt; {
+  await socketJoin(mockSocket, mockServer)({ auth: badAuth, payload: id });
+  expect(logSocketError).toHaveBeenCalled();
+});</code></pre>
+<p>What is weak about this test, and how would you strengthen it?</p>
+<details>
+<summary>Answer</summary>
+
+<p>It passes if anything logged any error, and if mocks aren’t reset between tests, a call left over from an earlier test can make it pass too. Assert the exact call with <code>toHaveBeenCalledTimes(1)</code> and <code>toHaveBeenCalledWith(...)</code>, and reset mocks in <code>afterEach</code>. Also assert that <code>mockSocket.join</code> and <code>emit</code> were never called; otherwise a mutant that joins the room before checking auth would still pass.</p>
+
+</details>
+
+<h3>Q16 · Testing：async 测试</h3>
+<pre><code class="language-ts">it('rejects bad credentials', () =&gt; {
+  expect(enforceAuth({ username: 'u1', password: 'no' })).rejects.toThrowError();
+});</code></pre>
+<p>Why can this test pass even when <code>enforceAuth</code> is broken?</p>
+<details>
+<summary>Answer</summary>
+
+<p>The test isn’t <code>async</code> and the <code>expect</code> isn’t awaited, so the test can finish before the promise settles and the assertion is never really checked. Make the test async and write <code>await expect(...).rejects.toThrowError()</code>, optionally with <code>expect.assertions(1)</code>.</p>
+
+</details>
+
+<h3>Q17 · Testing：flaky E2E</h3>
+<p>A Playwright login test fails about 1 in 10 CI runs but always passes locally. What is likely wrong, and how do you fix it?</p>
+<details>
+<summary>Answer</summary>
+
+<p>It is flaky, most likely because it acts or asserts before a redirect, data load or the server is ready, or because it shares data with other tests. Use <code>waitForURL</code> and retrying assertions such as <code>await expect(locator).toBeVisible()</code> instead of fixed sleeps, create unique test data, and avoid depending on test order. Keep E2E tests few and push logic checks down to unit and integration tests.</p>
+
+</details>
+
+<h3>Q18 · Testing：CD 没有 TDD</h3>
+<p>A startup with few automated tests wants to deploy many times a day. Is that viable, and what safeguards would you require?</p>
+<details>
+<summary>Answer</summary>
+
+<p>Yes, continuous delivery can work without heavy TDD by moving more QA after release: small changes behind feature flags, staged rollouts or canaries, monitored KPIs with alerts, and automatic rollback. Keep a fast CI gate of unit tests and lint, and automate deployment to avoid Knight Capital–style manual mistakes. The trade-off is that some bugs reach real users and are harder to localize, which is unacceptable in safety-critical systems.</p>
+
+</details>
+
+<h3>Q19 · React：setter</h3>
+<p>A click handler calls <code>setCount(count + 1)</code> three times. Starting from 0, what does one click show, and how would you make it add 3?</p>
+<details>
+<summary>Answer</summary>
+
+<p>It shows 1. A setter only requests a change; <code>count</code> stays 0 for the whole handler, so all three requests set it to 1. Use the updater form <code>setCount(c =&gt; c + 1)</code>, which React applies to the latest pending value, so three calls give 3.</p>
+
+</details>
+
+<h3>Q20 · React：useEffect 与 socket</h3>
+<pre><code class="language-tsx">useEffect(() =&gt; {
+  const s = new WebSocket(url);
+  s.onmessage = (e) =&gt; setMessages(prev =&gt; [...prev, e.data]);
+  return () =&gt; s.close();
+}, []);</code></pre>
+<p>When does each part run? What changes if the dependency array is removed, or if the cleanup is removed?</p>
+<details>
+<summary>Answer</summary>
+
+<p>The setup runs once after the first render and the cleanup runs when the component unmounts. Without the array, the effect runs after every render, so each render closes the old socket and opens a new one, which is wasteful. Without the cleanup, the socket stays open after unmount — a leak that keeps updating a dead component — and every remount adds another connection.</p>
+
+</details>
+
+<h3>Q21 · React：key</h3>
+<p>A to-do list renders <code>items.map((it, i) =&gt; &lt;Row key={i} item={it} /&gt;)</code>, and each <code>Row</code> copies <code>props.item</code> into its own state. Deleting the first item makes the wrong row disappear. Why, and how would you fix it?</p>
+<details>
+<summary>Answer</summary>
+
+<p>During reconciliation React matches old and new children by key. After deleting the first item the remaining items get keys 0..n−2, so React thinks the last row was removed and keeps the first <code>Row</code> instance, with its old state, at index 0. Use a stable unique id such as <code>key={it.id}</code> so each component instance stays attached to its own item.</p>
+
+</details>
+
+<h3>Q22 · React：custom hook</h3>
+<p>Why refactor a to-do app’s list logic into <code>useToDoItemList()</code>, and how should the entry form and list display communicate with the app?</p>
+<details>
+<summary>Answer</summary>
+
+<p>The custom hook separates business logic (the list state, add and delete) from display logic, so the component becomes a thin view and the logic can be reused and tested on its own; the hook’s state is still the component’s state, so its setters re-render the app. The app passes <code>handleAdd</code> to the form and <code>items</code> and <code>handleDelete</code> to the display as props, and the children call those handlers because props are read-only.</p>
+
+</details>
+
+<h3>Q23 · Security：头像 URL</h3>
+<p>GameNite lets users save a profile-image URL that is shown to everyone in chat. Apply STRIDE to this data flow: name two threats and their mitigations.</p>
+<details>
+<summary>Answer</summary>
+
+<p>Tampering: a malicious URL or script payload could be stored and rendered to other users, so validate it on the server with Zod (well-formed http/https only) and let React escape it. Spoofing / elevation of privilege: if the endpoint trusts a username in the request body, anyone could change someone else’s image, so take identity from the authenticated session. Denial of service from huge data URLs is mitigated by storing only a URL and limiting its length.</p>
+
+</details>
+
+<h3>Q24 · Security：IP1 的密码泄露</h3>
+<p>IP1’s user service had 100% test coverage but still returned passwords. How is that possible, and why didn’t TypeScript stop it?</p>
+<details>
+<summary>Answer</summary>
+
+<p>Coverage shows that lines and branches ran, not that the tests checked the right properties; no test asserted that the response lacked a password. TypeScript is structural, so an object with extra fields still matches the safe user type, and types are erased at runtime, so the extra field gets serialized. This is STRIDE information disclosure, fixed by explicitly building the safe object or stripping it with a schema.</p>
+
+</details>
+
+<h3>Q25 · Security：前端防作弊</h3>
+<p>The Checkers client disables clicks for watchers and only highlights legal squares. Is the game safe from cheating?</p>
+<details>
+<summary>Answer</summary>
+
+<p>No. Client code runs in an untrusted environment, and an attacker can send any request or websocket message directly. The server must validate the move’s shape with Zod, check that the sender is the current player, and check legality against its own game state; the client-side restrictions are only a convenience.</p>
+
+</details>
+
+<h3>Q26 · Security：存密码</h3>
+<p>A teammate stores <code>SHA-256(password)</code> for each user. Is that enough?</p>
+<details>
+<summary>Answer</summary>
+
+<p>No. Because people reuse passwords, attackers can hash password lists leaked from other sites and match them against your stolen hashes (rainbow tables). Use a random per-user salt and store hash(password + salt), using an established library rather than rolling your own.</p>
+
+</details>
+
+<h3>Q27 · Security：admin 接口</h3>
+<p>An admin endpoint reads <code>{userId, newRole}</code> from the request body and checks whether that <code>userId</code> belongs to an admin. What is wrong, and which STRIDE category is it?</p>
+<details>
+<summary>Answer</summary>
+
+<p>It is elevation of privilege (and spoofing): the requester chooses which identity gets checked, so any user can claim to be an admin. Authenticate through a server-side session or token, look up the logged-in user’s role, and authorize based on that; log role changes for non-repudiation.</p>
+
+</details>
+
+<h2 id="sheet">笔记纸清单</h2>
+<p>可以带一张双面手写的纸。表格类的东西抄上去，考试时省得回忆；要练熟的是用这些概念分析 scenario 和代码。建议写上：</p>
+<ul>
+  <li><strong>Process</strong>：user story 模板和三个部分的要求；CoS 的 E/D/X 和 MVP；Agile vs Waterfall 的 philosophy / risk / QA 三行对比；Scrum 流程（backlog → planning → daily scrum → review → retrospective）；HRT；blameless postmortem 的几个问题；Brooks’s Law、bus factor、YAGNI 各一句话。</li>
+  <li><strong>Design</strong>：C-S-R 每层负责什么、不知道什么；HTTP / REST / WebSocket；vertical vs horizontal；Five Principles 的名字各配一个反例；push vs pull 的判断规则；singleton 的写法；六种 architecture 各一句话加一个例子。</li>
+  <li><strong>Async</strong>：event loop 的顺序（同步代码 → microtasks → 一个 macrotask）；await 在哪里暂停；race 只会发生在跨 await 的地方；<code>Promise.all</code> 的三个性质。</li>
+  <li><strong>Testing</strong>：coverage 的种类和局限；mutation testing 的 survived / innocuous；fake / mock / spy 和常用的 Vitest API；test pyramid 比例；flaky test 的主要原因；CI pipeline 的阶段；canary、feature flag、rollback。</li>
+  <li><strong>React</strong>：props vs state；setter 是请求、用 updater；依赖数组三种写法；cleanup 的两个运行时机；key 的规则；rules of hooks。</li>
+  <li><strong>Security</strong>：词汇表；五类漏洞各一种防法；STRIDE 每个字母对应的性质和一个例子；三条安全原则。</li>
+</ul>

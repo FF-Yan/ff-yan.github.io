@@ -979,11 +979,11 @@ img { max-width: 100%; }
    <strong> or link becomes its own column and the sentence falls apart on
    narrow screens. `0.5lh` centres the marker on the first line whatever the
    list's line-height; the `em` value is the fallback for older browsers. */
-:is(.skill-list, .exp-bullets, .game-section ul, :is(.entry-body, .entry-intro) > :is(ul, ol)) li {
+:is(.skill-list, .exp-bullets, .game-section ul, :is(.entry-body, .entry-intro, .entry-body > :is(details, .callout)) > :is(ul, ol)) li {
   position: relative;
   padding-left: calc(6px + 0.75rem);
 }
-:is(.skill-list, .exp-bullets, .game-section ul, :is(.entry-body, .entry-intro) > :is(ul, ol)) li::before {
+:is(.skill-list, .exp-bullets, .game-section ul, :is(.entry-body, .entry-intro, .entry-body > :is(details, .callout)) > :is(ul, ol)) li::before {
   content: '';
   position: absolute;
   left: 0;
@@ -1435,9 +1435,10 @@ img { max-width: 100%; }
 }
 
 /* Prose: an entry's body, and the intro written at the top of a listing.
-   Every rule reaches only the article's own flow — its direct children, and
-   lists nested in those lists — so cards, buttons and columns placed inside
-   keep their own styling. */
+   Every rule reaches only the article's own flow — its direct children, the
+   inside of a folded answer (<details>) or a callout, and lists nested in
+   those lists — so cards, buttons and columns placed inside keep their own
+   styling. */
 .entry-body,
 .entry-intro {
   max-width: 44rem;
@@ -1464,15 +1465,15 @@ img { max-width: 100%; }
   margin-top: 2rem;
 }
 /* Markers come from the shared list rule further up. */
-:is(.entry-body, .entry-intro) > :is(ul, ol),
-:is(.entry-body, .entry-intro) > :is(ul, ol) :is(ul, ol) { display: flex; flex-direction: column; gap: 0.6rem; }
-:is(.entry-body, .entry-intro) > :is(ul, ol) :is(ul, ol) { margin-top: 0.6rem; }
-:is(.entry-body, .entry-intro) > blockquote {
+:is(.entry-body, .entry-intro, .entry-body > :is(details, .callout)) > :is(ul, ol),
+:is(.entry-body, .entry-intro, .entry-body > :is(details, .callout)) > :is(ul, ol) :is(ul, ol) { display: flex; flex-direction: column; gap: 0.6rem; }
+:is(.entry-body, .entry-intro, .entry-body > :is(details, .callout)) > :is(ul, ol) :is(ul, ol) { margin-top: 0.6rem; }
+:is(.entry-body, .entry-intro, .entry-body > :is(details, .callout)) > blockquote {
   padding-left: 1.25rem;
   border-left: 4px solid var(--red);
   color: var(--ink);
 }
-:is(.entry-body, .entry-intro) > :is(p, ul, ol, blockquote, h2, h3) code {
+:is(.entry-body, .entry-intro, .entry-body > :is(details, .callout)) > :is(p, ul, ol, blockquote, h2, h3) code {
   font-family: var(--mono-font);
   font-size: 0.9em;
   background: var(--paper-3);
@@ -1480,7 +1481,7 @@ img { max-width: 100%; }
   border-radius: var(--r-sm);
   padding: 0.1em 0.35em;
 }
-:is(.entry-body, .entry-intro) > pre {
+:is(.entry-body, .entry-intro, .entry-body > :is(details, .callout)) > pre {
   font-family: var(--mono-font);
   font-size: 0.9em;
   background: var(--paper-3);
@@ -1489,12 +1490,183 @@ img { max-width: 100%; }
   padding: 1.1rem 1.25rem;
   overflow-x: auto;
 }
-:is(.entry-body, .entry-intro) > :is(img, p > img) {
+:is(.entry-body, .entry-intro, .entry-body > :is(details, .callout)) > :is(img, p > img) {
   display: block;
   width: 100%;
   border: 1px solid var(--ink);
   border-radius: var(--r-sm);
 }
+/* <details><summary>Answer</summary>…</details>: an answer that stays folded
+   until the reader opens it, for practice questions. */
+:is(.entry-body, .entry-intro) > details {
+  background: var(--paper-2);
+  border: 1px solid var(--ink);
+  border-radius: var(--r-sm);
+  box-shadow: var(--raise);
+  padding: 0.8rem 1.1rem;
+}
+:is(.entry-body, .entry-intro) > details > summary {
+  cursor: pointer;
+  font-family: var(--pixel);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  color: var(--blue);
+}
+:is(.entry-body, .entry-intro) > details > * + * { margin-top: 0.9rem; }
+
+/* Study-guide pieces: a contents list, tables and callouts. In Markdown they
+   come from `toc:`, ordinary tables and `> [!NOTE]` blockquotes
+   (build/prose.js); in HTML a callout can also be written directly. */
+
+/* The contents list `toc:` adds (build/prose.js): numbered like the site's
+   sections, and every h2 after it gets the same number above its title. */
+.entry-body > .page-toc {
+  counter-reset: section;
+  background: var(--paper-2);
+  border: 1px solid var(--ink);
+  border-radius: var(--r-sm);
+  box-shadow: var(--raise);
+  padding: 1rem 1.25rem 1.1rem;
+}
+.page-toc-label,
+.callout-label {
+  font-family: var(--pixel);
+  font-size: 0.64rem;
+  letter-spacing: 0.12em;
+  line-height: 1.8;
+  text-transform: uppercase;
+  color: var(--green);
+}
+.page-toc ol {
+  list-style: none;
+  counter-reset: toc;
+  columns: 2 15rem;
+  column-gap: 2rem;
+  margin-top: 0.5rem;
+}
+.page-toc li {
+  counter-increment: toc;
+  break-inside: avoid;
+  padding: 0.15rem 0;
+}
+.page-toc li::before {
+  content: counter(toc, decimal-leading-zero);
+  margin-right: 0.6rem;
+  font-family: var(--pixel);
+  font-size: 0.6rem;
+  color: var(--red);
+}
+.page-toc a { color: var(--ink); }
+.page-toc a:hover { color: var(--blue); }
+.entry-body > .page-toc ~ h2 { counter-increment: section; }
+.entry-body > .page-toc ~ h2::before {
+  content: counter(section, decimal-leading-zero);
+  display: block;
+  margin-bottom: 0.35rem;
+  font-family: var(--pixel);
+  font-size: 0.62rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  color: var(--red);
+}
+
+/* Tables: the build wraps each one in <div class="table-wrap">
+   (build/prose.js), so a wide table scrolls sideways on a phone instead of
+   widening the page. */
+:is(.entry-body, .entry-intro) > :is(table, .table-wrap) {
+  border: 1px solid var(--ink);
+  border-radius: var(--r-sm);
+  background: var(--paper-2);
+}
+.table-wrap { overflow-x: auto; }
+:is(.entry-body, .entry-intro) table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+:is(.entry-body, .entry-intro) :is(th, td) {
+  padding: 0.55rem 0.8rem;
+  border-bottom: 1px solid var(--rule-2);
+  text-align: left;
+  vertical-align: top;
+}
+:is(.entry-body, .entry-intro) th {
+  font-family: var(--pixel);
+  font-size: 0.6rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--green);
+  background: var(--paper-3);
+}
+:is(.entry-body, .entry-intro) tr:last-child td { border-bottom: 0; }
+:is(.entry-body, .entry-intro) td code {
+  font-family: var(--mono-font);
+  font-size: 0.9em;
+  background: var(--paper-3);
+  border: 1px solid var(--rule-2);
+  border-radius: var(--r-sm);
+  padding: 0.05em 0.3em;
+}
+
+/* <div class="callout"><p class="callout-label">Key idea</p>…</div>, and
+   `callout callout-trap` for common mistakes. Its content gets the prose
+   rules above, like a folded answer's. */
+:is(.entry-body, .entry-intro) > .callout {
+  background: var(--paper-2);
+  border: 1px solid var(--rule-2);
+  border-left: 4px solid var(--green);
+  border-radius: var(--r-sm);
+  padding: 0.85rem 1.15rem;
+}
+:is(.entry-body, .entry-intro) > .callout > * + * { margin-top: 0.6rem; }
+:is(.entry-body, .entry-intro) > .callout-trap { border-left-color: var(--red); }
+.callout-trap .callout-label { color: var(--red); }
+
+/* A course page lists its pages under the headings their `group:` names. */
+.course-group {
+  font-family: var(--display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 3rem 0 1rem;
+}
+.course-group:first-child { margin-top: 0; }
+
+/* Course practice pages (course-copy.js): "Copy page" above the article, and
+   above each folded answer a "Your answer" box with its "Copy question" link.
+   Both copy the page's text, answers included, for pasting into Claude. */
+.copy-bar-page { margin-bottom: 1.5rem; }
+.answer-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+.answer-box-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.answer-input {
+  resize: vertical;
+  min-height: 110px;
+  line-height: 1.7;
+}
+.entry-body > .answer-box + details { margin-top: 0.6rem; }
+.copy-link {
+  padding: 0;
+  background: none;
+  border: 0;
+  font: inherit;
+  font-size: 0.82rem;
+  color: var(--blue);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.copy-link:hover { color: var(--ink); }
 
 /* ===========================
    Project detail page
